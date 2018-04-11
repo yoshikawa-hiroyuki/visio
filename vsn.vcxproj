@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{CF4800D2-14C5-4B8D-8021-97F4C53B7E16}</ProjectGuid>
+    <RootNamespace>vsn</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Debug\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Visio</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Visio</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Visio</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Visio</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.2/include;C:/wxWidgets-3.0.2/lib/vc_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS;_WINDOWS;wxUSE_GUI=1;NVCG_VOLREN;WIN32;_WIN32;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;UNICODE;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <OutputFile>$(OutDir)Visio.exe</OutputFile>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../nvr/lib;../rvr/lib;c:/wxWidgets-3.0.2/lib/vc_lib;../libiconv-1.9.1/lib;../libxml2-2.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WINDOWS;_WINDOWS;wxUSE_GUI=1;WIN32;_WIN32;WIN64;_WIN64;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;UNICODE;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <OutputFile>$(OutDir)Visio.exe</OutputFile>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)vsn.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>NDEBUG;WINDOWS;_WINDOWS;wxUSE_GUI=1;NVCG_VOLREN;WIN32;_WIN32;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;UNICODE;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.2/include;C:/wxWidgets-3.0.2/lib/vc_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)Visio.exe</OutputFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../nvr/lib;../rvr/lib;c:/wxWidgets-3.0.2/lib/vc_lib;../libiconv-1.9.1/lib;../libxml2-2.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_WINDOWS;WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)Visio.exe</OutputFile>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="vsnAnchor.cpp" />
+    <ClCompile Include="vsnAnimFileCtx.cpp" />
+    <ClCompile Include="vsnApp.cpp" />
+    <ClCompile Include="vsnAuxUiFrame.cpp" />
+    <ClCompile Include="vsnCMap.cpp" />
+    <ClCompile Include="vsnColorBar.cpp" />
+    <ClCompile Include="vsnData_Dfi.cpp" />
+    <ClCompile Include="vsnData_DfiSv.cpp" />
+    <ClCompile Include="vsnData_FdvStr.cpp" />
+    <ClCompile Include="vsnData_OctVol.cpp" />
+    <ClCompile Include="vsnData_P3dF.cpp" />
+    <ClCompile Include="vsnData_Scatter.cpp" />
+    <ClCompile Include="vsnData_Shape.cpp" />
+    <ClCompile Include="vsnData_ShapeLOD.cpp" />
+    <ClCompile Include="vsnData_Sph.cpp" />
+    <ClCompile Include="vsnData_SphPEX.cpp" />
+    <ClCompile Include="vsnData_Sv.cpp" />
+    <ClCompile Include="vsnDataCache.cpp" />
+    <ClCompile Include="vsnDataObj.cpp" />
+    <ClCompile Include="vsnDataParallelFiles.cpp" />
+    <ClCompile Include="vsnDataReload.cpp" />
+    <ClCompile Include="vsnDataSeqFiles.cpp" />
+    <ClCompile Include="vsnData_TriaCells.cpp" />
+    <ClCompile Include="vsnFrameBase.cpp" />
+    <ClCompile Include="vsnFrontAxis.cpp" />
+    <ClCompile Include="vsnFrontImage.cpp" />
+    <ClCompile Include="vsnFrontLabel.cpp" />
+    <ClCompile Include="vsnGfxActions.cpp" />
+    <ClCompile Include="vsnGfxBhvrProp.cpp" />
+    <ClCompile Include="vsnGfxOprProp.cpp" />
+    <ClCompile Include="vsnGfxView.cpp" />
+    <ClCompile Include="vsnGnuplotUnix.cpp" />
+    <ClCompile Include="vsnGnuplotMSW.cpp" />
+    <ClCompile Include="vsnGridUtilSv.cpp" />
+    <ClCompile Include="vsnIsosurfCellTbl.cpp" />
+    <ClCompile Include="vsnKeyFrameAnim.cpp" />
+    <ClCompile Include="vsnKeyFrameAnimEditDlg.cpp" />
+    <ClCompile Include="vsnLightAttribute.cpp" />
+    <ClCompile Include="vsnLOD.cpp" />
+    <ClCompile Include="vsnMethod_Dfi.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NDEBUG;WIN32;_WIN32;WIN64;_WIN64;_WINDOWS;WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="vsnMethod_graphPlot.cpp" />
+    <ClCompile Include="vsnMethod_histogram.cpp" />
+    <ClCompile Include="vsnMethod_info.cpp" />
+    <ClCompile Include="vsnMethod_keyFrameAnim.cpp" />
+    <ClCompile Include="vsnMethod_label.cpp" />
+    <ClCompile Include="vsnMethod_minmaxGlyph.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_graphPlot.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_histogram.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_info.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_isoCells.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_isosurf.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_leafSlice.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_minmaxGlyph.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_plotContour.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_plotScalar.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_plotVector.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_probe.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_shaderVolren.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_streamLines.cpp" />
+    <ClCompile Include="vsnMethod_OctVol_volren.cpp" />
+    <ClCompile Include="vsnMethod_plotContour.cpp" />
+    <ClCompile Include="vsnMethod_plotScalar.cpp" />
+    <ClCompile Include="vsnMethod_plotVector.cpp" />
+    <ClCompile Include="vsnMethod_probe.cpp" />
+    <ClCompile Include="vsnMethod_sampler.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_info.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_plotArrows.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_plotAsLines.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_plotPoints.cpp" />
+    <ClCompile Include="vsnMethod_Shape_info.cpp" />
+    <ClCompile Include="vsnMethod_Shape_scalarMap.cpp" />
+    <ClCompile Include="vsnMethod_Shape_trias.cpp" />
+    <ClCompile Include="vsnMethod_Shape_trias_slbExt.cpp" />
+    <ClCompile Include="vsnMethod_ShapeLOD_info.cpp" />
+    <ClCompile Include="vsnMethod_ShapeLOD_trias_lod.cpp" />
+    <ClCompile Include="vsnMethod_SphPEX_paramSpace.cpp" />
+    <ClCompile Include="vsnMethod_streamLines.cpp" />
+    <ClCompile Include="vsnMethod_Sv_bounds.cpp" />
+    <ClCompile Include="vsnMethod_Sv_crop.cpp" />
+    <ClCompile Include="vsnMethod_Sv_extractHistory.cpp" />
+    <ClCompile Include="vsnMethod_Sv_graphPlot.cpp" />
+    <ClCompile Include="vsnMethod_Sv_histogram.cpp" />
+    <ClCompile Include="vsnMethod_Sv_info.cpp" />
+    <ClCompile Include="vsnMethod_Sv_isosurf.cpp" />
+    <ClCompile Include="vsnMethod_Sv_minmaxGlyph.cpp" />
+    <ClCompile Include="vsnMethod_Sv_orthoContour.cpp" />
+    <ClCompile Include="vsnMethod_Sv_orthoProbe.cpp" />
+    <ClCompile Include="vsnMethod_Sv_orthoScalar.cpp" />
+    <ClCompile Include="vsnMethod_Sv_orthoSlicer.cpp" />
+    <ClCompile Include="vsnMethod_Sv_orthoVector.cpp" />
+    <ClCompile Include="vsnMethod_Sv_plotContour.cpp" />
+    <ClCompile Include="vsnMethod_Sv_plotScalar.cpp" />
+    <ClCompile Include="vsnMethod_Sv_plotVector.cpp" />
+    <ClCompile Include="vsnMethod_Sv_probe.cpp" />
+    <ClCompile Include="vsnMethod_Sv_setMask.cpp" />
+    <ClCompile Include="vsnMethod_Sv_setRectCoord.cpp" />
+    <ClCompile Include="vsnMethod_Sv_shaderVolren.cpp" />
+    <ClCompile Include="vsnMethod_Sv_staggeredVector.cpp" />
+    <ClCompile Include="vsnMethod_Sv_streamLines.cpp" />
+    <ClCompile Include="vsnMethod_Sv_VLD.cpp" />
+    <ClCompile Include="vsnMethod_Sv_volren.cpp" />
+    <ClCompile Include="vsnMethod_timeStep.cpp" />
+    <ClCompile Include="vsnMethod_timeStepSync.cpp" />
+    <ClCompile Include="vsnMethodEditProp.cpp" />
+    <ClCompile Include="vsnMethodObj.cpp" />
+    <ClCompile Include="vsnMethodParamCanvas.cpp" />
+    <ClCompile Include="vsnMethodTmpl.cpp" />
+    <ClCompile Include="vsnMethod_TriaCells_info.cpp" />
+    <ClCompile Include="vsnMethod_TriaCells_plotContour.cpp" />
+    <ClCompile Include="vsnMethod_TriaCells_plotScalar.cpp" />
+    <ClCompile Include="vsnMethod_TriaCells_plotVector.cpp" />
+    <ClCompile Include="vsnMethod_TriaCells_trias.cpp" />
+    <ClCompile Include="vsnNvrVolumeRender.cpp" />
+    <ClCompile Include="vsnOctTree.cpp" />
+    <ClCompile Include="vsnParaXvxSelectDlg.cpp" />
+    <ClCompile Include="vsnPropDlg.cpp" />
+    <ClCompile Include="vsnPtSet.cpp" />
+    <ClCompile Include="vsnRotScaleCenter.cpp" />
+    <ClCompile Include="vsnRsmplOctVol.cpp" />
+    <ClCompile Include="vsnRvrVolumeRender.cpp" />
+    <ClCompile Include="vsnScene.cpp" />
+    <ClCompile Include="vsnShapeExporter.cpp" />
+    <ClCompile Include="vsnTextEntryDlg.cpp" />
+    <ClCompile Include="vsnUiView.cpp" />
+    <ClCompile Include="vsnViewFrame.cpp" />
+    <ClCompile Include="vsnViewFrameWinDlg.cpp" />
+    <ClCompile Include="vsnViewPoint.cpp" />
+    <ClCompile Include="vsnXForm.cpp" />
+    <ClCompile Include="vsnXVX.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="vsnAnchor.h" />
+    <ClInclude Include="vsnAnimFileCtx.h" />
+    <ClInclude Include="vsnApp.h" />
+    <ClInclude Include="vsnAuxUiFrame.h" />
+    <ClInclude Include="vsnCMap.h" />
+    <ClInclude Include="vsnColorBar.h" />
+    <ClInclude Include="vsnData_Dfi.h" />
+    <ClInclude Include="vsnData_DfiSv.h" />
+    <ClInclude Include="vsnData_FdvStr.h" />
+    <ClInclude Include="vsnData_OctVol.h" />
+    <ClInclude Include="vsnData_P3dF.h" />
+    <ClInclude Include="vsnData_Scatter.h" />
+    <ClInclude Include="vsnData_Shape.h" />
+    <ClInclude Include="vsnData_ShapeLOD.h" />
+    <ClInclude Include="vsnData_Sph.h" />
+    <ClInclude Include="vsnData_SphPEX.h" />
+    <ClInclude Include="vsnData_Sv.h" />
+    <ClInclude Include="vsnData_TriaCells.h" />
+    <ClInclude Include="vsnData_Trias.h" />
+    <ClInclude Include="vsnDataCache.h" />
+    <ClInclude Include="vsnDataObj.h" />
+    <ClInclude Include="vsnDataParallelFiles.h" />
+    <ClInclude Include="vsnDataReload.h" />
+    <ClInclude Include="vsnDataSeqFiles.h" />
+    <ClInclude Include="vsnError.h" />
+    <ClInclude Include="vsnFrameBase.h" />
+    <ClInclude Include="vsnFrontAxis.h" />
+    <ClInclude Include="vsnFrontImage.h" />
+    <ClInclude Include="vsnFrontLabel.h" />
+    <ClInclude Include="vsnFrontObj.h" />
+    <ClInclude Include="vsnGfxActions.h" />
+    <ClInclude Include="vsnGfxBhvrProp.h" />
+    <ClInclude Include="vsnGfxOprProp.h" />
+    <ClInclude Include="vsnGfxView.h" />
+    <ClInclude Include="vsnGnuplotIF.h" />
+    <ClInclude Include="vsnGnuplotUnix.h" />
+    <ClInclude Include="vsnGnuplotMSW.h" />
+    <ClInclude Include="vsnGridUtilSv.h" />
+    <ClInclude Include="vsnIoObject.h" />
+    <ClInclude Include="vsnIsosurf.h" />
+    <ClInclude Include="vsnKeyFrameAnim.h" />
+    <ClInclude Include="vsnKeyFrameAnimEditDlg.h" />
+    <ClInclude Include="vsnLightAttribute.h" />
+    <ClInclude Include="vsnLOD.h" />
+    <ClInclude Include="vsnLut.h" />
+    <ClInclude Include="vsnMethod_Dfi.h" />
+    <ClInclude Include="vsnMethod_graphPlot.h" />
+    <ClInclude Include="vsnMethod_histogram.h" />
+    <ClInclude Include="vsnMethod_info.h" />
+    <ClInclude Include="vsnMethod_keyFrameAnim.h" />
+    <ClInclude Include="vsnMethod_label.h" />
+    <ClInclude Include="vsnMethod_minmaxGlyph.h" />
+    <ClInclude Include="vsnMethod_OctVol_graphPlot.h" />
+    <ClInclude Include="vsnMethod_OctVol_histogram.h" />
+    <ClInclude Include="vsnMethod_OctVol_info.h" />
+    <ClInclude Include="vsnMethod_OctVol_isoCells.h" />
+    <ClInclude Include="vsnMethod_OctVol_isosurf.h" />
+    <ClInclude Include="vsnMethod_OctVol_leafSlice.h" />
+    <ClInclude Include="vsnMethod_OctVol_minmaxGlyph.h" />
+    <ClInclude Include="vsnMethod_OctVol_plotContour.h" />
+    <ClInclude Include="vsnMethod_OctVol_plotScalar.h" />
+    <ClInclude Include="vsnMethod_OctVol_plotVector.h" />
+    <ClInclude Include="vsnMethod_OctVol_probe.h" />
+    <ClInclude Include="vsnMethod_OctVol_shaderVolren.h" />
+    <ClInclude Include="vsnMethod_OctVol_streamLines.h" />
+    <ClInclude Include="vsnMethod_OctVol_volren.h" />
+    <ClInclude Include="vsnMethod_plotContour.h" />
+    <ClInclude Include="vsnMethod_plotScalar.h" />
+    <ClInclude Include="vsnMethod_plotVector.h" />
+    <ClInclude Include="vsnMethod_probe.h" />
+    <ClInclude Include="vsnMethod_sampler.h" />
+    <ClInclude Include="vsnMethod_Scatter_info.h" />
+    <ClInclude Include="vsnMethod_Scatter_plotArrows.h" />
+    <ClInclude Include="vsnMethod_Scatter_plotAsLines.h" />
+    <ClInclude Include="vsnMethod_Scatter_plotPoints.h" />
+    <ClInclude Include="vsnMethod_Shape_info.h" />
+    <ClInclude Include="vsnMethod_Shape_scalarMap.h" />
+    <ClInclude Include="vsnMethod_Shape_trias.h" />
+    <ClInclude Include="vsnMethod_Shape_trias_slbExt.h" />
+    <ClInclude Include="vsnMethod_ShapeLOD_info.h" />
+    <ClInclude Include="vsnMethod_ShapeLOD_trias_lod.h" />
+    <ClInclude Include="vsnMethod_SphPEX_paramSpace.h" />
+    <ClInclude Include="vsnMethod_streamLines.h" />
+    <ClInclude Include="vsnMethod_Sv_bounds.h" />
+    <ClInclude Include="vsnMethod_Sv_crop.h" />
+    <ClInclude Include="vsnMethod_Sv_extractHistory.h" />
+    <ClInclude Include="vsnMethod_Sv_graphPlot.h" />
+    <ClInclude Include="vsnMethod_Sv_histogram.h" />
+    <ClInclude Include="vsnMethod_Sv_info.h" />
+    <ClInclude Include="vsnMethod_Sv_isosurf.h" />
+    <ClInclude Include="vsnMethod_Sv_minmaxGlyph.h" />
+    <ClInclude Include="vsnMethod_Sv_orthoContour.h" />
+    <ClInclude Include="vsnMethod_Sv_orthoProbe.h" />
+    <ClInclude Include="vsnMethod_Sv_orthoScalar.h" />
+    <ClInclude Include="vsnMethod_Sv_orthoSlicer.h" />
+    <ClInclude Include="vsnMethod_Sv_orthoVector.h" />
+    <ClInclude Include="vsnMethod_Sv_plotContour.h" />
+    <ClInclude Include="vsnMethod_Sv_plotScalar.h" />
+    <ClInclude Include="vsnMethod_Sv_plotVector.h" />
+    <ClInclude Include="vsnMethod_Sv_probe.h" />
+    <ClInclude Include="vsnMethod_Sv_setMask.h" />
+    <ClInclude Include="vsnMethod_Sv_setRectCoord.h" />
+    <ClInclude Include="vsnMethod_Sv_shaderVolren.h" />
+    <ClInclude Include="vsnMethod_Sv_staggeredVector.h" />
+    <ClInclude Include="vsnMethod_Sv_streamLines.h" />
+    <ClInclude Include="vsnMethod_Sv_VLD.h" />
+    <ClInclude Include="vsnMethod_Sv_volren.h" />
+    <ClInclude Include="vsnMethod_timeStep.h" />
+    <ClInclude Include="vsnMethod_timeStepSync.h" />
+    <ClInclude Include="vsnMethodEditProp.h" />
+    <ClInclude Include="vsnMethodObj.h" />
+    <ClInclude Include="vsnMethodParamCanvas.h" />
+    <ClInclude Include="vsnMethodTmpl.h" />
+    <ClInclude Include="vsnMethod_TriaCells_info.h" />
+    <ClInclude Include="vsnMethod_TriaCells_plotContour.h" />
+    <ClInclude Include="vsnMethod_TriaCells_plotScalar.h" />
+    <ClInclude Include="vsnMethod_TriaCells_plotVector.h" />
+    <ClInclude Include="vsnMethod_TriaCells_trias.h" />
+    <ClInclude Include="vsnNvrVolumeRender.h" />
+    <ClInclude Include="vsnObjGroup.h" />
+    <ClInclude Include="vsnOctTree.h" />
+    <ClInclude Include="vsnParaXvxSelectDlg.h" />
+    <ClInclude Include="vsnPathUtil.h" />
+    <ClInclude Include="vsnPropDlg.h" />
+    <ClInclude Include="vsnPtSet.h" />
+    <ClInclude Include="vsnRotScaleCenter.h" />
+    <ClInclude Include="vsnRsmplOctVol.h" />
+    <ClInclude Include="vsnRvrVolumeRender.h" />
+    <ClInclude Include="vsnScene.h" />
+    <ClInclude Include="vsnShapeExporter.h" />
+    <ClInclude Include="vsnSTLext.h" />
+    <ClInclude Include="vsnTextEntryDlg.h" />
+    <ClInclude Include="vsnUiView.h" />
+    <ClInclude Include="vsnViewFrame.h" />
+    <ClInclude Include="vsnViewFrameWinDlg.h" />
+    <ClInclude Include="vsnViewPoint.h" />
+    <ClInclude Include="vsnVolumeRender.h" />
+    <ClInclude Include="vsnXForm.h" />
+    <ClInclude Include="vsnXVX.h" />
+    <ClInclude Include="VLDCellFunc.h" />
+    <ClInclude Include="VLDCellIndexTable.h" />
+    <ClInclude Include="VLDContourMaker.h" />
+    <ClInclude Include="VLDIntersectPlaneMaker.h" />
+    <ClInclude Include="VLDSuggestiveContourMaker.h" />
+    <ClInclude Include="VLDTypes.h" />
+    <ClInclude Include="VLDVisibilityTester.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\vfr\dist\tmpl\vfr.ico" />
+    <None Include="icon\chk_off.xpm" />
+    <None Include="icon\chk_on.xpm" />
+    <None Include="icon\proj_ortho.xpm" />
+    <None Include="icon\proj_pers.xpm" />
+    <None Include="icon\ts_bgn.xpm" />
+    <None Include="icon\ts_end.xpm" />
+    <None Include="icon\ts_play.xpm" />
+    <None Include="icon\ts_stop.xpm" />
+    <None Include="icon\view_back.xpm" />
+    <None Include="icon\view_bottom.xpm" />
+    <None Include="icon\view_front.xpm" />
+    <None Include="icon\view_left.xpm" />
+    <None Include="icon\view_norm.xpm" />
+    <None Include="icon\view_right.xpm" />
+    <None Include="icon\view_top.xpm" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\vfr\dist\tmpl\vfr.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

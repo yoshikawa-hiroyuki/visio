@@ -1,0 +1,76 @@
+#
+# MAKEFILE for vsn
+#
+
+WXDIR = ../wxWidgets-2.9.4
+WXVER = 29
+LIBXMLDIR = ../libxml2-2.9.1
+ZLIBDIR = ../zlib-1.2.8
+VFRDIR = ../vfr/dist
+TT_DIR = ../RikenLib/libtt-cgvo-1.1
+CG_DIR = "C:/Program Files/NVIDIA Corporation/Cg"
+BOOST_DIR = ../boost_1_53_0
+
+CFLAGS = /D_WINDOWS /DWINDOWS /W3 /GR \
+ /O1 /DNDEBUG /D_WINDOWS /DWINVER=0x400 /DwxUSE_GUI=1 /FD /EHsc /MD \
+ /I$(VFRDIR)/include /I$(LIBXMLDIR)/include /I$(ZLIBDIR)/include \
+ /I$(WXDIR)/include /I$(WXDIR)/lib/vc_lib/mswu \
+ /I../nvr/include \
+ /I../Gears/include /I../VLD /I$(BOOST_DIR) \
+ /DNVCG_VOLREN /I$(TT_DIR)/include /I$(CG_DIR)/include
+
+LDLIBS = /libpath:$(VFRDIR)/lib vfr.lib vfru.lib vfrWx.lib \
+ /libpath:$(LIBXMLDIR)/lib libxml2_a.lib iconv.lib \
+ /libpath:../nvr/lib nvr.lib \
+ /libpath:$(TT_DIR)/src tt-cgvo.lib \
+ /libpath:$(WXDIR)/lib/vc_lib \
+ wxbase$(WXVER)u.lib wxbase$(WXVER)u_net.lib wxmsw$(WXVER)u_core.lib wxmsw$(WXVER)u_gl.lib \
+ wxexpat.lib wxjpeg.lib wxpng.lib wxregexu.lib wxtiff.lib wxzlib.lib \
+ /libpath:$(CG_DIR)/lib cg.lib cgGL.lib \
+ glu32.lib opengl32.lib \
+ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib \
+ advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib \
+ odbc32.lib odbccp32.lib comctl32.lib rpcrt4.lib wsock32.lib
+
+
+!include OBJS_LST.WIN
+
+PROGRAM = Visio
+RES = $(VFRDIR)/lib/vfr.res
+
+DEPEND = makedepend -Y
+MANIFEST = mt
+
+CXX = cl -nologo -c
+LINK = link
+LDFLAGS = /OPT:REF /OPT:ICF /NOLOGO /INCREMENTAL:NO \
+ /SUBSYSTEM:WINDOWS /MACHINE:X86 \
+ /NODEFAULTLIB:LIBC.lib /FORCE:MULTIPLE
+
+.SUFFIXES: .cpp .obj
+
+.cpp.obj:
+	$(CXX) $(CFLAGS) $< /Fo$@
+
+
+all : $(PROGRAM).exe
+
+$(PROGRAM).exe : $(OBJS)
+	$(LINK) $(LDFLAGS) -out:$@ $(OBJS) $(RES) $(LDLIBS)
+        $(MANIFEST) -manifest $(PROGRAM).exe.manifest -outputresource:$(PROGRAM).exe;1
+
+
+clean : 
+	-@erase *.obj
+
+distclean : clean
+	-@erase $(PROGRAM).exe *.pdb *.idb *.pch
+
+
+depend :
+	$(DEPEND) $(INC) *.cpp
+
+
+
+# DO NOT DELETE
+

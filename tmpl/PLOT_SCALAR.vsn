@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vsn_tmpl name="PLOT_SCALAR" type="Sv:Otv">
+  <method type="sampler" />
+  <method type="plotScalar" />
+  <command target="$1" name="set_divM" value="32" />
+  <command target="$1" name="set_divN" value="32" />
+  <command target="$1" name="set_point_size" value="0.0" />
+  <command target="$2" name="set_sampler" value="$1" />
+  <command target="$2" name="set_use_data" value="data0" />
+  <command target="App" name="add_param_canvas" value="$0" />
+  <command target="param_canvas;$0" name="add_method" value="$S/$D/$1" />
+  <command target="param_canvas;$0" name="add_method" value="$S/$D/$2" />
+  <command target="param_canvas;$0" name="set_geometry" value="-1,-1,600,-1" />
+</vsn_tmpl>

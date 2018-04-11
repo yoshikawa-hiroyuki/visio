@@ -238,11 +238,13 @@ vsnMethod_Sv_volren(const std::string& name)
   m_pRender = new vsnNvrVolumeRender();
   assert(m_pRender);
   m_pRender->alcMaterial();
+#if 0
   if ( ! m_pRender->getOglChkd() ) {
     ErrMsg(MsgERR, getMethodType() + string("[") + getName()
 	   + string("]: required OpenGL Extensions not supported"));
     return;
   }
+#endif
   addChild(m_pRender);
 
   setPickMode(PT_NONE);

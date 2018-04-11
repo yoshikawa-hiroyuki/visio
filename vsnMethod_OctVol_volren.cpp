@@ -245,11 +245,13 @@ vsnMethod_OctVol_volren(const std::string& name)
   m_pRender->setReduceMode(false);
 #endif
   m_pRender->alcMaterial();
+#if 0
   if ( ! m_pRender->getOglChkd() ) {
     ErrMsg(MsgERR, getMethodType() + string("[") + getName()
            + string("]: required OpenGL Extensions not supported"));
     return;
   }
+#endif
   addChild(m_pRender);
 
   setPickMode(PT_NONE);

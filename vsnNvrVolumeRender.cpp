@@ -27,11 +27,6 @@ vsnNvrVolumeRender::vsnNvrVolumeRender(const std::string& name)
     nvrOrthoSliceBrick::s_intermediate = Dim3(2,2,2);
   }
   NVR::g_useTexColorTable = true;
-
-  // check OpenGL extensions
-  nvrOrthoSliceBrickFactory brickFactory;
-  if ( m_render.CheckReqExtensions(&brickFactory) )
-    m_oglChkd = true;
 }
 
 vsnNvrVolumeRender::~vsnNvrVolumeRender() {
@@ -43,8 +38,6 @@ vsnNvrVolumeRender::~vsnNvrVolumeRender() {
 
 bool
 vsnNvrVolumeRender::Initialize(CES::Vec3<size_t>& dims, const bool needAlc) {
-  if ( ! m_oglChkd )
-    return false;
   if ( dims[0] < 2 || dims[1] < 2 || dims[2] < 2 )
     return false;
   m_status = VRen_Nodata;
@@ -179,6 +172,14 @@ bool vsnNvrVolumeRender::SetLut(const vsnLut& lut) {
 }
 
 void vsnNvrVolumeRender::DrawVolume(const CES::Mat4<float>& mvm) {
+  if ( ! m_oglChkd ) {
+    // check OpenGL extensions
+    nvrOrthoSliceBrickFactory brickFactory;
+    if ( ! m_render.CheckReqExtensions(&brickFactory) )
+      return;
+    m_oglChkd = true;
+  }
+  
   if ( (m_status & VRen_Drawable) != VRen_Drawable )
     return;
   if ( _material->getRenderMode() == RT_NONE )

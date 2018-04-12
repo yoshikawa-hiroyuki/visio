@@ -30,9 +30,6 @@ namespace VSN {
 
   // version code of the program
   static const char vsn_version[] = "0.1.0"
-#ifdef LIMITED
-    " limited edition"
-#endif // LIMITED
 #ifdef PGSQL
     " (pgsql implements)"
 #endif // PGSQL

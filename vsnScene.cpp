@@ -504,13 +504,7 @@ bool vsnScene::importDataXML(xmlNodePtr cur) {
     pdata = dynamic_cast<vsnDataObj*>(new vsnData_DfiSv());
   } // end of if(DfiSv data)
   else if ( !strcmp((const char*)xs, "OctVol") ) {
-#ifdef LIMITED
-    ErrMsg(MsgINFO, string("LIMITED EDITION : ")
-	   + string(" Import OctVol data not featured."));
-    return false;
-#else // LIMITED
     pdata = dynamic_cast<vsnDataObj*>(new vsnData_OctVol());
-#endif // LIMITED
   } // end of if(OctVol data)
   else if ( !strcmp((const char*)xs, "Scatter") ) {
     pdata = dynamic_cast<vsnDataObj*>(new vsnData_Scatter());

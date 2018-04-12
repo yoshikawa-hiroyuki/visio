@@ -46,11 +46,6 @@ ifeq ($(PGSQL), yes)
 endif
 
 
-ifeq ($(LIMITED), yes)
-  CXXFLAGS += -DLIMITED
-endif
-
-
 all : $(PROGRAM)
 
 $(PROGRAM) : $(OBJS)

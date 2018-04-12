@@ -1458,12 +1458,6 @@ bool vsnApp::parseXMLFile2(const std::string& path, const bool viewKeep,
 bool vsnApp::outputXMLFile(const std::string& path) {
   if ( path.empty() ) return false;
 
-#ifdef LIMITED
-  ErrMsg(MsgINFO, string("LIMITED EDITION : ")
-	 + string(" Save XML file not featured."));
-  return false;
-#endif // LIMITED
-
   string msgHdr = string("App: outputXMLFile: ");
   string bkupPath = m_currentFile;
   static const char* xml_doctype_str =

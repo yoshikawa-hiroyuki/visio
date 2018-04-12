@@ -1038,23 +1038,8 @@ bool vsnViewFrame::setupMenuBar() {
 		   wxT("Show version"));
   pmb->Append(helpMenu, wxT("&Help"));
 
-  // limited features
-#ifdef LIMITED
-  impMenu->Enable(ViewFrameMenu_File_Imp_OctVol, false);
-  fileMenu->Enable(ViewFrameMenu_File_Save, false);
-  fileMenu->Enable(ViewFrameMenu_File_SaveAs, false);
-#endif // LIMITED
-
   // register the menu-bar
   SetMenuBar(pmb);
-
-#if 0
-  // accelerator table (for Esc)
-  wxAcceleratorEntry accl_ent[1];
-  accl_ent[0].Set(wxACCEL_NORMAL, WXK_ESCAPE, ViewFrameMenu_File_Quit);
-  wxAcceleratorTable accel_tbl(1, accl_ent);
-  SetAcceleratorTable(accel_tbl);
-#endif
 
   return true;
 }

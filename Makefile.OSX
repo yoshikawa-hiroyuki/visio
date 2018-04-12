@@ -49,10 +49,6 @@ ifeq ($(PGSQL), yes)
   LDLIBS += -lpq
 endif
 
-ifeq ($(LIMITED), yes)
-  CXXFLAGS += -DLIMITED
-endif
-
 
 BUNDLE = $(PROGRAM).app/Contents
 COPYRIGHT = 2005-2010 RIKEN

@@ -78,38 +78,29 @@ bool vsnTreeCtrl::updateScene(vsnScene* psc, VSN::vsnTreeItemMapType& itmLst) {
   // create tree
   register size_t i, j, k;
   vsnTreeItem* pItem;
-  size_t nmtd, ndt, nog = psc->getNumObjGroup();
-  for ( i = 0; i < nog; i++ ) {
-    vsnObjGroup* pog = psc->getObjGroup(i);
-    if ( ! pog ) continue;
-    pItem = new vsnTreeItem(TI_ObjGrp, pog);
-    wxTreeItemId gid
-      = AppendItem(rootId, vsnApp::ConvSysToWx(pog->getName()), -1,-1, pItem);
-    itmLst.insert(make_pair(gid, pItem));
+  size_t nmtd, ndt;
+  ndt = psc->getNumDataObj();
+  for ( j = 0; j < ndt; j++ ) {
+    vsnDataObj* pdt = psc->getDataObj(j);
+    if ( ! pdt ) continue;
+    wxString dtName = vsnApp::ConvSysToWx(pdt->getName());
+    dtName += wxT("[") + vsnApp::ConvSysToWx(pdt->getDataType()) + wxT("]");
+    pItem = new vsnTreeItem(TI_Data, pdt);
+    wxTreeItemId did = AppendItem(rootId, dtName, -1,-1, pItem);
+    itmLst.insert(make_pair(did, pItem));
 
-    ndt = pog->getNumData();
-    for ( j = 0; j < ndt; j++ ) {
-      vsnDataObj* pdt = pog->getData(j);
-      if ( ! pdt ) continue;
-      wxString dtName = vsnApp::ConvSysToWx(pdt->getName());
-      dtName += wxT("[") + vsnApp::ConvSysToWx(pdt->getDataType()) + wxT("]");
-      pItem = new vsnTreeItem(TI_Data, pdt);
-      wxTreeItemId did = AppendItem(gid, dtName, -1,-1, pItem);
-      itmLst.insert(make_pair(did, pItem));
-
-      nmtd = pdt->getNumMethod();
-      for ( k = 0; k < nmtd; k++ ) {
-	vsnMethodObj* pmtd = pdt->getMethod(k);
-	if ( ! pmtd ) continue;
-	wxString mtdName = vsnApp::ConvSysToWx(pmtd->getName());
-	mtdName +=
-	  wxT("[") + vsnApp::ConvSysToWx(pmtd->getMethodType()) + wxT("]");
-	pItem = new vsnTreeItem(TI_Method, pmtd);
-	wxTreeItemId mid = AppendItem(did, mtdName, -1,-1, pItem);
-	itmLst.insert(make_pair(mid, pItem));
-      } // end of for(k)
-    } // end of for(j)
-  } // end of for(i)
+    nmtd = pdt->getNumMethod();
+    for ( k = 0; k < nmtd; k++ ) {
+      vsnMethodObj* pmtd = pdt->getMethod(k);
+      if ( ! pmtd ) continue;
+      wxString mtdName = vsnApp::ConvSysToWx(pmtd->getName());
+      mtdName +=
+	wxT("[") + vsnApp::ConvSysToWx(pmtd->getMethodType()) + wxT("]");
+      pItem = new vsnTreeItem(TI_Method, pmtd);
+      wxTreeItemId mid = AppendItem(did, mtdName, -1,-1, pItem);
+      itmLst.insert(make_pair(mid, pItem));
+    } // end of for(k)
+  } // end of for(j)
 
   SelectItem(GetRootItem());
   Refresh(); // need on MacOSX
@@ -122,7 +113,8 @@ void vsnTreeCtrl::OnSelChanged(wxTreeEvent& event) {
   vsnUiView* puiv = getUiView();
   if ( ! puiv ) return;
 
-  vsnTreeItem* pitem = dynamic_cast<vsnTreeItem*>(GetItemData(GetSelection()));
+  vsnTreeItem* pitem
+    = dynamic_cast<vsnTreeItem*>(GetItemData(GetSelection()));
   if ( ! pitem ) return;
   unsigned int newSelId = 0;
   vfrNode* newSelNode = pitem->getRefNode();

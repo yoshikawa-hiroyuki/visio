@@ -58,10 +58,6 @@ vsnScene::vsnScene(const std::string& name)
   : vfrGroup(name, FALSE), vsnIoObject(), m_lightAttr(this),
     m_frontObjGrp(NULL), p_lastLoadData(NULL), m_xforming(false)
 {
-  if ( ! addNewObjGroup() ) {
-    ErrMsg(MsgERR, "Scene: can't create default object-group");
-  }
-
   m_frontObjGrp = new vfrGroup("FRONT_GRP");
   assert(m_frontObjGrp);
 }
@@ -89,14 +85,32 @@ void vsnScene::reset() {
     n = getNumChildren();
   }
 
-  if ( ! addNewObjGroup() ) {
-    ErrMsg(MsgERR, "Scene: can't create default object-group");
-  }
-
   m_lightAttr.resetLight();
-
   m_frontObjGrp->remAllChildren();
   p_lastLoadData = NULL;
+}
+
+
+/* DataObj interface */
+
+size_t vsnScene::getNumDataObj() const {
+  register size_t i, ndo = 0;
+  for ( i = 0; i < nChild; i++ )
+    if ( dynamic_cast<vsnDataObj*>(_children[i]) ) ndo++;
+  return ndo;
+}
+
+vsnDataObj* vsnScene::getDataObj(const size_t n) {
+  register size_t i, ndo = 0;
+  for ( i = 0; i < nChild; i++ ) {
+    vsnDataObj* pdo = dynamic_cast<vsnDataObj*>(_children[i]);
+    if ( pdo ) {
+      if ( n == ndo ) return pdo;
+    } else {
+      ndo++;
+    }
+  }
+  return NULL;
 }
 
 
@@ -327,19 +341,22 @@ bool vsnScene::outputXML(std::ostream& os, const size_t ts) {
       ret = false;
   }
 
-  // output obj-grps
+  // output data
+  size_t ndo = getNumDataObj();
+  for ( i = 0; i < ndo; i++ ) {
+    vsnDataObj* pdo = getDataObj(i);
+    if ( ! pdo ) continue;
+    if ( ! pdo->outputXML(os, ts+2) )
+      ret = false;
+  } // end of for(i)
+  
+  // output obj-group
   size_t nog = getNumObjGroup();
   for ( i = 0; i < nog; i++ ) {
     vsnObjGroup* pog = getObjGroup(i);
     if ( ! pog ) continue;
-    size_t ndo = pog->getNumData();
-    for ( j = 0; j < ndo; j++ ) {
-      vsnDataObj* pdo = pog->getData(j);
-      if ( ! pdo ) continue;
-
-      if ( ! pdo->outputXML(os, ts+2) )
-	ret = false;
-    } // end of for(j)
+    if ( ! pog->outputXML(os, ts+2) )
+      ret = false;
   } // end of for(i)
 
   os << idts << "</scene>" << std::endl;
@@ -538,10 +555,9 @@ bool vsnScene::importDataXML(xmlNodePtr cur) {
     return false;
   }
 
-  vsnObjGroup* pog = getObjGroup(0);
-  if ( ! pog || ! pog->addData(pdata) ) {
+  if ( ! addChild(pdata) ) {
     ErrMsg(MsgERR, msgHdr
-	   + string("can't add ") + dataType + string(" data to ObjGrp"));
+	   + string("can't add ") + dataType + string(" data to Scene"));
     delete pdata;
     return false;
   }
@@ -554,7 +570,7 @@ bool vsnScene::importDataXML(xmlNodePtr cur) {
   if ( pdata->getNumMethod() < 1 )
     pdata->setBboxShowMode(TRUE);
 
-  if ( getNumObjGroup() == 1 && pog->getNumData() == 1 ) {
+  if ( getNumDataObj() == 1 ) {
     size_t i, nvf = pApp->getNumViewFrame();
     for ( i = 0; i < nvf; i++ ) {
       vsnViewFrame* pvf = pApp->getViewFrame(i);
@@ -575,8 +591,8 @@ bool vsnScene::importDataXML(xmlNodePtr cur) {
 
   // MHIR append begin
   {
-    for (int i = 0; i < pog -> getNumChildren(); ++i) {
-      vsnData_Shape* shape = dynamic_cast<vsnData_Shape*>(pog -> getChild(i));
+    for (int i = 0; i < getNumChildren(); ++i) {
+      vsnData_Shape* shape = dynamic_cast<vsnData_Shape*>(getChild(i));
       if (shape) {
 	for (int j = 0; j < shape -> getNumMethod(); ++j) {
 	  vsnMethod_Shape_scalarMap* method

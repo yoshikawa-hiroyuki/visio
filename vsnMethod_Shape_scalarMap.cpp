@@ -2988,13 +2988,9 @@ vsnMethod_Shape_scalarMap::loadSph(void)
 
   // Make Shape List
   clearSph();
-  for (size_t i = 0; i < psc -> getNumObjGroup(); ++i) {
-    vsnObjGroup* grp = psc -> getObjGroup(i);
-    if (! grp) return false;
-    for (size_t j = 0; j < grp -> getNumData(); ++j) {
-      vsnData_Sph* data = dynamic_cast<vsnData_Sph*>(grp -> getData(j));
-      if (data) addSph(data);
-    }
+  for (size_t j = 0; j < psc -> getNumDataObj(); ++j) {
+    vsnData_Sph* data = dynamic_cast<vsnData_Sph*>(psc -> getDataObj(j));
+    if (data) addSph(data);
   }
 
   return true;

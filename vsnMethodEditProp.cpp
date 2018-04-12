@@ -235,28 +235,23 @@ void vsnMethodEditPropDlg::OnResetBtn(wxCommandEvent& event) {
 void vsnMethodEditPropDlg::OnCopyBtn(wxCommandEvent& event) {
   if ( ! p_refMethod ) return;
 
-  register size_t i, j, k;
+  register size_t i, k;
   deque<vsnMethodObj*> mtdLst;
   size_t numScene = vsnApp::GetApp()->getNumScene();
   for ( i = 0; i < numScene; i++ ) {
     vsnScene* psc = vsnApp::GetApp()->getScene(i);
     if ( ! psc ) continue;
-    size_t numOG = psc->getNumObjGroup();
-    for ( j = 0; j < numOG; j++ ) {
-      vsnObjGroup* pog = psc->getObjGroup(j);
-      if ( ! pog ) continue;
-      size_t numData = pog->getNumData();
-      for ( k = 0; k < numData; k++ ) {
-        vsnDataObj* pdt = pog->getData(k);
-        if ( ! pdt ) continue;
-        vsnMethodObj* pmtd = pdt->getNextMethod(NULL);
-        while ( pmtd ) {
-          if ( pmtd != p_refMethod )
-            mtdLst.push_back(pmtd);
-          pmtd = pdt->getNextMethod(pmtd);
-        } // end of while(pmtd)
-      } // end of for(k)
-    } // end of for(j)
+    size_t numData = psc->getNumDataObj();
+    for ( k = 0; k < numData; k++ ) {
+      vsnDataObj* pdt = psc->getDataObj(k);
+      if ( ! pdt ) continue;
+      vsnMethodObj* pmtd = pdt->getNextMethod(NULL);
+      while ( pmtd ) {
+	if ( pmtd != p_refMethod )
+	  mtdLst.push_back(pmtd);
+	pmtd = pdt->getNextMethod(pmtd);
+      } // end of while(pmtd)
+    } // end of for(k)
   } // end of for(i)
 
   if ( mtdLst.size() < 1 ) {

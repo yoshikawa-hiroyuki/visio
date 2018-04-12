@@ -870,24 +870,20 @@ vsnTSDataRefer::getTimeSeriesDataList(vsnDataObj* pdata) {
   if ( ! pdata ) return retLst;
 
   // create retLst
-  register size_t i, j, k;
+  register size_t j, k;
   vsnApp* papp = vsnApp::GetApp(); if ( ! papp ) return retLst;
   size_t numScn = papp->getNumScene();
   for ( k = 0; k < numScn; k++ ) {
     vsnScene* pscn = papp->getScene(k); if ( ! pscn ) continue;
-    size_t numOG = pscn->getNumObjGroup();
-    for ( i = 0; i < numOG; i++ ) {
-      vsnObjGroup* pog = pscn->getObjGroup(i); if ( ! pog ) continue;
-      size_t numDO = pog->getNumData();
-      for ( j = 0; j < numDO; j++ ) {
-	vsnDataObj* pdo = pog->getData(j); if ( ! pdo ) continue;
-	if ( pdo == pdata ) continue;
-	vsnTimeSeriesDataIF* ptsd = dynamic_cast<vsnTimeSeriesDataIF*>(pdo);
-	if ( ptsd ) retLst.push_back(make_pair(ptsd, pscn));
-      } // end of for(j)
-    } // end of for(i)
+    size_t numDO = pscn->getNumDataObj();
+    for ( j = 0; j < numDO; j++ ) {
+      vsnDataObj* pdo = pscn->getDataObj(j); if ( ! pdo ) continue;
+      if ( pdo == pdata ) continue;
+      vsnTimeSeriesDataIF* ptsd = dynamic_cast<vsnTimeSeriesDataIF*>(pdo);
+      if ( ptsd ) retLst.push_back(make_pair(ptsd, pscn));
+    } // end of for(j)
   } // end of for(k)
-
+  
   return retLst;
 }
 
@@ -934,8 +930,9 @@ void vsnTSDataRefer::noticeDie() {
 
 /* XML util method */
 
-bool vsnTSDataRefer::exportXMLCommand(const string& myName,
-				      std::ostream& os, const size_t ts) const
+bool
+vsnTSDataRefer::exportXMLCommand(const string& myName,
+				 std::ostream& os, const size_t ts) const
 {
   if ( ! os.good() ) return false;
   string coms;
@@ -1026,7 +1023,8 @@ void vsnTimeSeriesDataIF::updateTSDataRefers() {
 //----------------------------------------------------------------
 
 vsnNumericalDataIF::vsnNumericalDataIF()
-  : m_dataLen(0), m_minVecLen012(0.f), m_maxVecLen012(0.f), m_hasMinMax(false)
+  : m_dataLen(0), m_minVecLen012(0.f), m_maxVecLen012(0.f),
+    m_hasMinMax(false)
 {
 }
 
@@ -1037,7 +1035,8 @@ bool vsnNumericalDataIF::getMinMax(const size_t n, float minmax[2]) const {
   return true;
 }
 
-bool vsnNumericalDataIF::getVectorMinLen(const CES::Vec3<int>& vidx, float& vml)
+bool
+vsnNumericalDataIF::getVectorMinLen(const CES::Vec3<int>& vidx, float& vml)
 {
   if ( ! m_hasMinMax ) return false;
   if ( (vidx.m_v[0] == 0 && vidx.m_v[1] == 1 && vidx.m_v[2] == 2) ||
@@ -1054,7 +1053,8 @@ bool vsnNumericalDataIF::getVectorMinLen(const CES::Vec3<int>& vidx, float& vml)
   return false;
 }
 
-bool vsnNumericalDataIF::getVectorMaxLen(const CES::Vec3<int>& vidx, float& vml)
+bool
+vsnNumericalDataIF::getVectorMaxLen(const CES::Vec3<int>& vidx, float& vml)
 {
   if ( ! m_hasMinMax ) return false;
   if ( (vidx.m_v[0] == 0 && vidx.m_v[1] == 1 && vidx.m_v[2] == 2) ||
@@ -1156,7 +1156,8 @@ bool vsnNumericalDataIF::parseMinMaxXml(xmlNodePtr xnp) {
   return true;
 }
 
-bool vsnNumericalDataIF::outputMinMaxXml(std::ostream& os, const size_t ts) {
+bool
+vsnNumericalDataIF::outputMinMaxXml(std::ostream& os, const size_t ts) {
   if ( ! m_hasMinMax ) return false;
 
   std::string idts;

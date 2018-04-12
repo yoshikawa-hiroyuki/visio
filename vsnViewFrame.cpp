@@ -1133,45 +1133,27 @@ bool vsnViewFrame::updateTBAnimSelector() {
   if ( ! p_scene ) return false;
   int firstKFA = -1;
   int firstTSA = -1;
-  size_t i, j, k, idx = 0;
-  size_t nog = p_scene->getNumObjGroup();
-  for ( i = 0; i < nog; i++ ) {
-    vsnObjGroup* pog = p_scene->getObjGroup(i);
-    if ( ! pog ) continue;
-    size_t nod = pog->getNumData();
-    for ( j = 0; j < nod; j++ ) {
-      vsnDataObj* pdo = pog->getData(j);
-      if ( ! pdo ) continue;
-      size_t nom = pdo->getNumMethod();
-      for ( k = 0; k < nom; k++ ) {
-	vsnMethodObj* pmo = pdo->getMethod(k);
-	if ( ! pmo ) continue;
-	if ( pmo->getMethodType() == "timeStep" ) {
-	  pTBAnimSelector->Append(vsnApp::ConvSysToWx(pmo->getName()));
-	  if ( firstTSA < 0 ) firstTSA = idx;
-	  idx ++;
-	} else if ( pmo->getMethodType() == "keyFrameAnim" ) {
-	  pTBAnimSelector->Append(vsnApp::ConvSysToWx(pmo->getName()));
-	  if ( firstKFA < 0 ) firstKFA = idx;
-	  idx ++;
-	}
-      } // end of for(k)
-    } // end of for(j)
-  } // end of for(i)
+  size_t j, k, idx = 0;
+  size_t nod = p_scene->getNumDataObj();
+  for ( j = 0; j < nod; j++ ) {
+    vsnDataObj* pdo = p_scene->getDataObj(j);
+    if ( ! pdo ) continue;
+    size_t nom = pdo->getNumMethod();
+    for ( k = 0; k < nom; k++ ) {
+      vsnMethodObj* pmo = pdo->getMethod(k);
+      if ( ! pmo ) continue;
+      if ( pmo->getMethodType() == "timeStep" ) {
+	pTBAnimSelector->Append(vsnApp::ConvSysToWx(pmo->getName()));
+	if ( firstTSA < 0 ) firstTSA = idx;
+	idx ++;
+      } else if ( pmo->getMethodType() == "keyFrameAnim" ) {
+	pTBAnimSelector->Append(vsnApp::ConvSysToWx(pmo->getName()));
+	if ( firstKFA < 0 ) firstKFA = idx;
+	idx ++;
+      }
+    } // end of for(k)
+  } // end of for(j)
 
-#if 0 // codes below keep selection
-  if ( oldsel >= 0 ) {
-    int newsel = pTBAnimSelector->FindString(oldSelName);
-    if ( newsel >= 0 )
-      pTBAnimSelector->SetSelection(newsel);
-    else if ( firstKFA >= 0 )
-      pTBAnimSelector->SetSelection(firstKFA);
-    else if ( firstTSA >= 0 )
-      pTBAnimSelector->SetSelection(firstTSA);
-    else pTBAnimSelector->SetValue(wxT(""));
-  }
-  else
-#endif
   if ( firstKFA >= 0 )
     pTBAnimSelector->SetSelection(firstKFA);
   else if ( firstTSA >= 0 )
@@ -1251,7 +1233,7 @@ void vsnViewFrame::OnMenuFile_Imp_VsnXML(wxCommandEvent& event) {
   // prepare file dialog
   wxFileDialog fileDlg(this, wxT("select vsn XML file to import"),
 		       wxT(""), wxT(""), // default Dir / File
-		       wxT("vsn files (*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
+		       wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
 			   "(*)|*"),
 		       wxFD_OPEN);
 

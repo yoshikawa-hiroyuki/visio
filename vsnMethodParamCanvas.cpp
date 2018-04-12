@@ -231,7 +231,7 @@ void vsnMethodParamCanvas::OnAddMethodBtn(wxCommandEvent& event) {
   vsnApp* pApp = vsnApp::GetApp();
   if ( ! pApp ) return;
 
-  register size_t i, j, k, l, nmtd;
+  register size_t i, k, l, nmtd;
   map<string, vsnMethodObj*> wholeMtdLst;
   map<string, vsnMethodObj*>::iterator mit;
 
@@ -239,30 +239,25 @@ void vsnMethodParamCanvas::OnAddMethodBtn(wxCommandEvent& event) {
   for ( i = 0; i < nScene; i++ ) {
     vsnScene* pScene = pApp->getScene(i);
     if ( ! pScene ) continue;
-    size_t nObjGrp = pScene->getNumObjGroup();
-    for ( j = 0; j < nObjGrp; j++ ) {
-      vsnObjGroup* pObjGrp = pScene->getObjGroup(j);
-      if ( ! pObjGrp ) continue;
-      size_t nData = pObjGrp->getNumData();
-      for ( k = 0; k < nData; k++ ) {
-	vsnDataObj* pData = pObjGrp->getData(k);
-	if ( ! pData ) continue;
-	size_t nMethod = pData->getNumMethod();
-	for ( l = 0; l < nMethod; l++ ) {
-	  vsnMethodObj* pMethod = pData->getMethod(l);
-	  if ( ! pMethod ) continue;
-	  deque<vsnMethodObj*>::iterator it;
-	  for ( it = m_mtdLst.begin(); it != m_mtdLst.end(); it++ )
-	    if ( *it == pMethod ) break;
-	  if ( it != m_mtdLst.end() ) continue; // already registered
+    size_t nData = pScene->getNumDataObj();
+    for ( k = 0; k < nData; k++ ) {
+      vsnDataObj* pData = pScene->getDataObj(k);
+      if ( ! pData ) continue;
+      size_t nMethod = pData->getNumMethod();
+      for ( l = 0; l < nMethod; l++ ) {
+	vsnMethodObj* pMethod = pData->getMethod(l);
+	if ( ! pMethod ) continue;
+	deque<vsnMethodObj*>::iterator it;
+	for ( it = m_mtdLst.begin(); it != m_mtdLst.end(); it++ )
+	  if ( *it == pMethod ) break;
+	if ( it != m_mtdLst.end() ) continue; // already registered
 
-	  string entryStr = pScene->getName() + string("/");
-	  entryStr += pData->getName() + string("/");
-	  entryStr += pMethod->getName() +"[" + pMethod->getMethodType() +"]";
-	  wholeMtdLst.insert(make_pair(entryStr, pMethod));
-	} // end of for(l)
-      } // end of for(k)
-    } // end of for(j)
+	string entryStr = pScene->getName() + string("/");
+	entryStr += pData->getName() + string("/");
+	entryStr += pMethod->getName() +"[" + pMethod->getMethodType() +"]";
+	wholeMtdLst.insert(make_pair(entryStr, pMethod));
+      } // end of for(l)
+    } // end of for(k)
   } // end of for(i)
 
   nmtd = wholeMtdLst.size();

@@ -6,6 +6,7 @@
 
 #include "vfrGroup.h"
 #include "vsnIoObject.h"
+#include "vsnDataObj.h"
 #include "vsnObjGroup.h"
 #include "vsnFrontObj.h"
 #include "vsnLightAttribute.h"
@@ -22,6 +23,10 @@ public:
 
   void reset();
 
+  // Data interface
+  size_t getNumDataObj() const;
+  vsnDataObj* getDataObj(const size_t n);
+  
   // ObjGroup interface
   bool addNewObjGroup(const std::string& name =std::string(VFR_NONAME));
   bool addObjGroup(vsnObjGroup* pGrp) {return addChild(pGrp) ? true : false;}

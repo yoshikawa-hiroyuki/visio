@@ -105,9 +105,10 @@ vsnDataObj* vsnScene::getDataObj(const size_t n) {
   for ( i = 0; i < nChild; i++ ) {
     vsnDataObj* pdo = dynamic_cast<vsnDataObj*>(_children[i]);
     if ( pdo ) {
-      if ( n == ndo ) return pdo;
-    } else {
-      ndo++;
+      if ( n == ndo )
+	return pdo;
+      else
+	ndo++;
     }
   }
   return NULL;

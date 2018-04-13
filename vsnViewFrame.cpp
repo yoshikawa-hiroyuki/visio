@@ -1204,8 +1204,7 @@ void vsnViewFrame::OnMenuFile_Open(wxCommandEvent& event) {
   // prepare file dialog
   wxFileDialog fileDlg(this, wxT("select vsn XML file to open"),
 		       wxT(""), wxT(""), // default Dir / File
-		       wxT("vsn files (*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
-			   "(*)|*"),
+		       wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|(*)|*"),
 		       wxFD_OPEN);
 
   // set default params
@@ -1233,8 +1232,7 @@ void vsnViewFrame::OnMenuFile_Imp_VsnXML(wxCommandEvent& event) {
   // prepare file dialog
   wxFileDialog fileDlg(this, wxT("select vsn XML file to import"),
 		       wxT(""), wxT(""), // default Dir / File
-		       wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
-			   "(*)|*"),
+		       wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|(*)|*"),
 		       wxFD_OPEN);
 
   // set default params
@@ -2121,8 +2119,7 @@ void vsnViewFrame::OnMenuFile_Save(wxCommandEvent& event) {
   if ( outPath.empty() ) {
     wxFileDialog fileDlg(this, wxT("select vsn XML file to save"),
 			 wxT(""), wxT(""), // default Dir / File
-			 wxT("vsn files (*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
-			     "(*)|*"),
+			 wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|(*)|*"),
 			 wxFD_SAVE);
     // set default dir
     string appCurDir = p_app->getCwd();
@@ -2155,8 +2152,7 @@ void vsnViewFrame::OnMenuFile_SaveAs(wxCommandEvent& event) {
 
   wxFileDialog fileDlg(this, wxT("select vsn XML file to save"),
 		       wxT(""), wxT(""), // default Dir / File
-		       wxT("vsn files (*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|"
-			   "(*)|*"),
+		       wxT("vsn files(*.xml;*.vfv;*.vsn)|*.xml;*.vfv;*.vsn|(*)|*"),
 		       wxFD_SAVE);
   // set default dir
   string targDir;

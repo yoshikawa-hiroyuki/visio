@@ -397,15 +397,12 @@ void vsnGfxAct_KeyIn::execute(vfrEvent& e) {
     if ( ! puiv ) return;
     puiv->selectObj((vfrNode*)NULL);
     return;
-  }
-#ifdef MacOSX
-  // need for MacOSX, SPACE acceleration not work...
+  } // end of ESCAPE key
   else if ( kc == VFRKC_SPACE ) {
     vsnViewFrame* pvf = dynamic_cast<vsnViewFrame*>
       (p_gfxView->getDrawArea()->getCanvas()->GetParent());
     pvf->normalizeViewport(e.withShiftKey());
-  }
-#endif // MacOSX
+  } // end of SPACE key
   else if ( kc == VFRKC_C || kc == VFRKC_c ) {
     vfrScreen* screen = (vfrScreen*)e.getScreen();
     if ( ! screen ) return;

@@ -114,6 +114,9 @@ public:
   void setLut(const vsnLut& lut);
   VSN::RGBAcnlType getRGBAChannel() const {return m_rgbaCnl;}
   void setRGBAChannel(const VSN::RGBAcnlType cnl);
+  void MakeCurrent() const {
+    if ( m_context ) wxGLCanvas::SetCurrent(*m_context);
+  }
 
   // event handler
   void OnPaint(wxPaintEvent& event);
@@ -126,6 +129,7 @@ private:
   VSN::RGBAcnlType  m_rgbaCnl;
   mutable long      m_lastX;
 
+  wxGLContext*      m_context;
   vsnExtLutRefer*   p_extRefer;
 
   DECLARE_EVENT_TABLE()

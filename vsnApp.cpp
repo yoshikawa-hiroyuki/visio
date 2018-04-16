@@ -1314,7 +1314,7 @@ bool vsnApp::parseXMLFile2(const std::string& path, const bool viewKeep,
   vsnViewFrame* pvf = getViewFrame(0);
   vsnGfxView* pgv = pvf->getGfxView();
   vfrDrawAreaWx* pda = pgv->getDrawArea();
-  pda->getCanvas()->SetCurrent();
+  pda->getCanvas()->MakeCurrent();
   vsnFrontImage* pfi = NULL;
   vsnFrontImage* pfi2 = NULL;
   if ( fadeSec >= 0.001f ) {

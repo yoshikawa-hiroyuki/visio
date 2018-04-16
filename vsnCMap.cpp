@@ -40,7 +40,7 @@ END_EVENT_TABLE()
 
 vsnCMapBar::vsnCMapBar(wxWindow* parent,
 		       const wxPoint& pos, const wxSize& size)
-  : wxWindow(parent, -1, pos, size, wxNO_FULL_REPAINT_ON_RESIZE),
+: wxWindow(parent, -1, pos, size, wxNO_FULL_REPAINT_ON_RESIZE),
   m_lut(), m_useLut(true), m_showLutFlg(CMBshowRGBA)
   /* style must include wxNO_FULL_REPAINT_ON_RESIZE
      and must NOT include wxRETAINED in Windows env */
@@ -163,15 +163,19 @@ vsnCMapCanvas::vsnCMapCanvas(wxWindow* parent, vsnExtLutRefer* pExtRef,
 			     const wxWindowID id,
 			     const wxPoint& pos, const wxSize& size,
 			     long style, const wxString& name)
-  : wxGLCanvas(parent, id, pos, size, style, name),
-    p_extRefer(pExtRef), m_rgbaCnl(cnlRED), m_lastX(-1)
+: wxGLCanvas(parent, id, pos, size, style, name),
+  p_extRefer(pExtRef), m_rgbaCnl(cnlRED), m_lastX(-1), m_context(NULL)
 {
 #if CMAP_DLG_INITIAL_ALPHA
   m_rgbaCnl = cnlALPHA;
 #endif
+  m_context = new wxGLContext(this);
 }
 
 vsnCMapCanvas::~vsnCMapCanvas() {
+  if ( m_context ) {
+    delete m_context;
+  }
 }
 
 
@@ -195,9 +199,6 @@ void vsnCMapCanvas::OnPaint(wxPaintEvent& event) {
   /* must always be here */
   wxPaintDC dc(this);
 
-#ifndef __WXMOTIF__
-  if (!GetContext()) return;
-#endif
   if ( ! IsShown() ) return;
 #if defined(MACOSX)
   wxWindow* pw = GetParent();
@@ -208,7 +209,7 @@ void vsnCMapCanvas::OnPaint(wxPaintEvent& event) {
     pw->Show(true);
   }
 #endif // MACOSX
-  SetCurrent();
+  MakeCurrent();
 
   /* draw */
   glClearColor(0.858, 0.858, 0.439, 0.0);
@@ -270,22 +271,17 @@ void vsnCMapCanvas::OnSize(wxSizeEvent& event) {
   // set GL viewport (not called by wxGLCanvas::OnSize on all platforms...)
   int w, h;
   GetClientSize(&w, &h);
-#ifndef __WXMOTIF__
-  if (GetContext())
-#endif
-    {
 #if defined(MACOSX)
-      wxWindow* pw = GetParent();
-      if ( pw ) {
-	//pw->Iconize(false);
-	pw->SetFocus();
-	pw->Raise();
-	pw->Show(true);
-      }
+  wxWindow* pw = GetParent();
+  if ( pw ) {
+    //pw->Iconize(false);
+    pw->SetFocus();
+    pw->Raise();
+    pw->Show(true);
+  }
 #endif // MACOSX
-      SetCurrent();
-      glViewport(0, 0, (GLint)w, (GLint)h);
-    }
+  MakeCurrent();
+  glViewport(0, 0, (GLint)w, (GLint)h);
 }
 
 void vsnCMapCanvas::OnEraseBackground(wxEraseEvent& event) {

@@ -81,8 +81,7 @@ $(BUNDLE)/PkgInfo:
 $(BUNDLE)/MacOS/$(PROGRAM): $(PROGRAM)
 	@$(INSTALL) -d `dirname $@`
 	cp $< $@
-	cp $(GLEW_DIR)/lib/libGLEW.dylib $(BUNDLE)/MacOS/
-	install_name_tool -change `otool -L $@ | grep GLEW | awk '{print $$1}'` @executable_path/libGLEW.dylib $@
+	./inst_local_dylib.sh $@
 
 $(BUNDLE)/Resources/$(PROGRAM).rsrc: $(TMPLDIR)/tmpl.rsrc
 	@$(INSTALL) -d `dirname $@`

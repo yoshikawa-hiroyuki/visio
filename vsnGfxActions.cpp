@@ -404,6 +404,19 @@ void vsnGfxAct_KeyIn::execute(vfrEvent& e) {
     pvf->normalizeViewport(e.withShiftKey());
   } // end of SPACE key
   else if ( kc == VFRKC_C || kc == VFRKC_c ) {
+    if ( e.withControlKey() ) {
+      vsnViewFrame* pvf = dynamic_cast<vsnViewFrame*>
+	(p_gfxView->getDrawArea()->getCanvas()->GetParent());
+      if ( e.withShiftKey() ) {
+	if ( pvf->isSetCenterMode() )
+	  pvf->enterSetCenterMode();
+	else
+	  pvf->escapeSetCenterMode();
+      } else {
+	pvf->setShowCenter(! pvf->getShowCenter() );
+      }
+      return;
+    }
     vfrScreen* screen = (vfrScreen*)e.getScreen();
     if ( ! screen ) return;
     GLint vp[4]; screen->getPort(vp);

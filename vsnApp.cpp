@@ -15,6 +15,7 @@
 #include "wx/image.h"
 #include "wx/dir.h"
 #include "wx/config.h"
+#include "wx/stdpaths.h"
 
 #include <sstream>
 #include <fstream>
@@ -53,6 +54,7 @@ END_EVENT_TABLE()
 
 /* static members */
 vsnApp* vsnApp::s_pApp = NULL;
+string vsnApp::s_appDir;
 
 
 /* constructors, destructor */
@@ -101,6 +103,10 @@ bool vsnApp::OnInit(void) {
   bool servMode = false;
   unsigned short servPort = APP_SOCK_PORT;
   int argIdx;
+
+  // appDir
+  wxFileName f(wxStandardPaths::Get().GetExecutablePath());
+  s_appDir = ConvWxToSys(f.GetPath());
 
   // parse args
   for ( argIdx = 1; argIdx < argc; argIdx++ ) {

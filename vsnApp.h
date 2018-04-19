@@ -23,7 +23,7 @@
 
 namespace VSN {
   // app name
-  static const char vsn_app_name[] = "V-IsioN";
+  static const char vsn_app_name[] = "VIsioN";
 
   // program name
   static const char vsn_progname[] = "Vision";
@@ -123,6 +123,7 @@ public:
 
   // static method
   static vsnApp* GetApp();
+  static std::string GetAppDir();
   static double GetTime();
 
   // from wxApp
@@ -183,6 +184,7 @@ private:
 
   // the app
   static vsnApp* s_pApp;
+  static std::string s_appDir;
 
   // XML utils
   void adjustSceneNameXML(xmlNodePtr xnp);
@@ -197,6 +199,10 @@ private:
 
 inline vsnApp* vsnApp::GetApp() {
   return s_pApp;
+}
+
+inline std::string vsnApp::GetAppDir() {
+  return s_appDir;
 }
 
 inline double vsnApp::GetTime() {

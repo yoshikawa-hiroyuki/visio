@@ -66,6 +66,7 @@ namespace VSN {
 	ViewFrameMenu_Scene_Rename,
 	ViewFrameMenu_Scene_Anchor,
 	ViewFrameMenu_Scene_LightAttr,
+	ViewFrameMenu_Help_Manual,
 	ViewFrameMenu_Help_About,
 	ViewFrameTooBar_NormView,
 	ViewFrameTooBar_ProjPers,
@@ -284,6 +285,7 @@ private:
   void OnMenuScene_Rename(wxCommandEvent& event);
   void OnMenuScene_Anchor(wxCommandEvent& event);
   void OnMenuScene_LightAttr(wxCommandEvent& event);
+  void OnMenuHelp_Manual(wxCommandEvent& event);
   void OnMenuHelp_About(wxCommandEvent& event);
   void OnUpdateMenuScene_Anchor(wxUpdateUIEvent& event);
   void OnToolBar_Normalize(wxCommandEvent& event);

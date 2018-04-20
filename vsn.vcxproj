@@ -266,6 +266,7 @@
     <ClCompile Include="vsnMethod_Scatter_info.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotArrows.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotAsLines.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_plotAsLineStrip.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotPoints.cpp" />
     <ClCompile Include="vsnMethod_Shape_info.cpp" />
     <ClCompile Include="vsnMethod_Shape_scalarMap.cpp" />
@@ -403,6 +404,7 @@
     <ClInclude Include="vsnMethod_Scatter_info.h" />
     <ClInclude Include="vsnMethod_Scatter_plotArrows.h" />
     <ClInclude Include="vsnMethod_Scatter_plotAsLines.h" />
+    <ClInclude Include="vsnMethod_Scatter_plotAsLineStrip.h" />
     <ClInclude Include="vsnMethod_Scatter_plotPoints.h" />
     <ClInclude Include="vsnMethod_Shape_info.h" />
     <ClInclude Include="vsnMethod_Shape_scalarMap.h" />

@@ -22,6 +22,7 @@
 #include "vsnMethod_Scatter_info.h"
 #include "vsnMethod_Scatter_plotArrows.h"
 #include "vsnMethod_Scatter_plotAsLines.h"
+#include "vsnMethod_Scatter_plotAsLineStrip.h"
 #include "vsnMethod_Scatter_plotPoints.h"
 #include "vsnMethod_keyFrameAnim.h"
 #include "vsnMethod_label.h"
@@ -63,6 +64,7 @@ deque<string> vsnData_Scatter::getSupportMethodList() const {
   retStrs.push_back(string("plotArrows"));
   retStrs.push_back(string("plotAsLines"));
   retStrs.push_back(string("plotAsLines2"));
+  retStrs.push_back(string("plotAsLineStrip"));
   retStrs.push_back(string("plotPoints"));
   retStrs.push_back(string("timeStep"));
   retStrs.push_back(string("timeStepSync"));
@@ -101,6 +103,10 @@ vsnMethodObj* vsnData_Scatter::addNewMethod(const std::string& mtype,
     pMethod
       = dynamic_cast<vsnMethodObj*>(new vsnMethod_Scatter_plotAsLines2());
   } // end of plotAsLines2
+  else if ( modType == string("plotAsLineStrip") ) {
+    pMethod
+      = dynamic_cast<vsnMethodObj*>(new vsnMethod_Scatter_plotAsLineStrip());
+  } // end of plotAsLineStrip
   else if ( modType == string("plotPoints") ) {
     pMethod
       = dynamic_cast<vsnMethodObj*>(new vsnMethod_Scatter_plotPoints());

@@ -81,6 +81,7 @@ OBJS =	vsnApp.o \
 	vsnMethod_Scatter_info.o \
 	vsnMethod_Scatter_plotArrows.o \
 	vsnMethod_Scatter_plotAsLines.o \
+	vsnMethod_Scatter_plotAsLineStrip.o \
 	vsnMethod_Scatter_plotPoints.o \
 	vsnData_TriaCells.o \
 	vsnMethod_TriaCells_info.o \

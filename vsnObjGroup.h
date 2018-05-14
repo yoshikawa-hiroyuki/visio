@@ -25,13 +25,8 @@ public:
     }
   }
 
-
-  bool addData(vsnDataObj* pData) {
-    if ( addChild(pData) ) return true; else return false;
-  }
-  bool delData(vsnDataObj* pData) {
-    if ( remChild(pData) ) return true; else return false;
-  }
+  bool addData(vsnDataObj* pData);
+  bool delData(vsnDataObj* pData);
 
   size_t getNumData() const {return (size_t)getNumChildren();}
   vsnDataObj* getData(const size_t n) {

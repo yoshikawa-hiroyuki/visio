@@ -1,12 +1,9 @@
 //
 // vsnOctTree
 //
-// MHIR append begin
 #include <map>
 #include <iostream>
 #include <stdexcept>
-#include "vsnXVX.h"
-// MHIR append end
 
 #include "vsnOctTree.h"
 #include "vfrDefs.h"
@@ -244,26 +241,6 @@ void vsnOctTree::Clear() {
 
 bool vsnOctTree::ImportFile(const char* fname) {
   if ( ! fname ) return false;
-
-  // MHIR append begin
-  {
-    // ファイル名が *.XVX であれば XVX の読み込みを行う
-    //
-    size_t fnlen = strlen(fname);
-    if (fnlen > 4 &&
-	(!strcmp(&fname[fnlen-3], "xvx") || !strcmp(&fname[fnlen-3], "XVX"))) {
-      try {
-	vsnXVX xvx;
-	xvx.ImportFile(fname);
-	xvx.Convert(this);
-      } catch (std::runtime_error& e) {
-	std::cout << e.what() << std::endl;
-	return false;
-      }
-      return true;
-    }
-  }
-  // MHIR append end
 
   FILE* ifp = fopen(fname, "rb");
   if ( ! ifp ) return false;

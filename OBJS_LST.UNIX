@@ -43,7 +43,6 @@ OBJS =	vsnApp.o \
 	vsnMethod_timeStep.o \
 	vsnMethod_timeStepSync.o \
 	vsnNvrVolumeRender.o \
-	vsnParaXvxSelectDlg.o \
 	vsnPropDlg.o \
 	vsnPtSet.o \
 	vsnRotScaleCenter.o \
@@ -76,7 +75,6 @@ OBJS =	vsnApp.o \
 	vsnMethod_OctVol_volren.o \
 	vsnOctTree.o \
 	vsnRsmplOctVol.o \
-	vsnXVX.o \
 	vsnData_Scatter.o \
 	vsnMethod_Scatter_info.o \
 	vsnMethod_Scatter_plotArrows.o \

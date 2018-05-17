@@ -160,9 +160,6 @@ BEGIN_EVENT_TABLE(vsnViewFrame, wxFrame)
   EVT_CLOSE(vsnViewFrame::OnClose)
   EVT_MENU(wxID_EXIT,
 	   vsnViewFrame::OnMenuFile_Quit)
-  // MHIR append begin
-  EVT_MENU(ViewFrameMenu_File_Imp_ParaXVX, vsnViewFrame::OnMenuFile_Imp_ParaXVX)
-  // MHIR append end
 END_EVENT_TABLE()
 
 
@@ -905,13 +902,8 @@ bool vsnViewFrame::setupMenuBar() {
 		  wxT("Import Shape data files as LOD data"));
   impMenu->AppendSeparator();
   impMenu->Append(ViewFrameMenu_File_Imp_OctVol,
-		  wxT("Otv/XVX data files..."),
-		  wxT("Import Otv/XVX data files"));
-  // MHIR append bgin
-  impMenu -> Append(ViewFrameMenu_File_Imp_ParaXVX,
-		    wxT("Parallel XVX Files ..."),
-		    wxT("Import Parallel XVX data files"));
-  // MHIR append end
+		  wxT("Otv data files..."),
+		  wxT("Import Otv data files"));
 #ifdef PGSQL
   impMenu->AppendSeparator();
   impMenu->Append(ViewFrameMenu_File_Imp_SvSQL,
@@ -1492,11 +1484,7 @@ void vsnViewFrame::OnMenuFile_Imp_OctVol(wxCommandEvent& event) {
   // prepare file dialog
   wxFileDialog fileDlg(this, wxT("select Otv file(s) to import"),
 		       wxT(""), wxT(""), // default Dir / File
-		       // MHIR modify begin
-		       // wxT("Otv files (*.otv;*.oct)|*.otv;*.oct|(*)|*"),
-		       wxT("Otv files (*.otv;*.oct;*.xvx)|")
-			   wxT("*.otv;*.oct;*.xvx|(*)|*"),
-		       // MHIR modify end
+		       wxT("Otv files (*.otv;*.oct)|*.otv;*.oct|(*)|*"),
 		       wxFD_OPEN | wxFD_MULTIPLE);
   
   // set default params
@@ -3428,83 +3416,3 @@ void vsnViewFrame::UpdateAllLightAttrDlg() {
   } // end of for(i)
 }
 
-
-// MHIR append begin
-#include <stdexcept>
-#include <algorithm>
-#include "vsnParaXvxSelectDlg.h"
-
-/**
- * 複数の並列計算結果を選択するダイアログ
- */
-void 
-vsnViewFrame::OnMenuFile_Imp_ParaXVX(wxCommandEvent& event)
-{
-  if ( ! p_app ) return;
-  if ( ! p_scene ) return;
-  string targScn = p_scene->getName();
-  if ( targScn.empty() || targScn == VFR_NONAME ) {
-    ErrMsg(MsgERR, string("Import OctVol data: can't import data\n")
-	   + string(" to the scene with no name"));
-    return;
-  }
-
-  wxFileDialog fileDlg(this, wxT("select Para XVX Index file to open"),
-		       wxT(""), wxT(""), // default Dir / File
-		       wxT("Para XVX Index File (*.pxvxidx)|*.pxvxidx|(*)|*"),
-		       wxFD_OPEN);
-  if (fileDlg.ShowModal() != wxID_OK) return;
-
-  std::string baseDir
-    = vsnPath_normalize(vsnApp::ConvWxToSys(fileDlg.GetDirectory()));
-  std::string filePath
-    = vsnPath_normalize(vsnApp::ConvWxToSys(fileDlg.GetPath()));
-
-  vsnParaXvxSelectDlg dlg(this);
-  // インデックスファイルの読み込み
-  //
-  try {
-    dlg.LoadIndexFile(filePath);
-  } catch (std::runtime_error& e) {
-    wxMessageDialog dlg(this, vsnApp::ConvSysToWx(e.what()),
-			wxT("Index File Read Error"),
-			wxOK | wxICON_INFORMATION);
-    dlg.ShowModal();
-    return;
-  }
-
-  if (dlg.ShowModal() != wxID_OK) return;
-
-  std::vector<std::string> allNames = dlg.GetAllNames();
-  std::vector<std::string> selectedNames = dlg.GetSelectedNames();
-
-  if (selectedNames.empty()) return;
-
-  string cmd = string("<command target=\"") + targScn
-    + string("\" name=\"import_data\">\n");
-
-  cmd += string("<data type=\"OctVol\" file=\"")
-    + vsn_parallelFiles +string("\" ");
-  if ( ! baseDir.empty() ) {
-    cmd += string("base_dir=\"") + baseDir + string("\"");
-  }
-  cmd += string(">\n");
-
-  for (size_t i = 0; i < allNames.size(); ++i) {
-    string mode("data");
-    if (std::find(selectedNames.begin(), selectedNames.end(), allNames[i])
-	== selectedNames.end()) mode = string("skel");
-
-    cmd += string("<parallel file=\"") + allNames[i] + string("\" ")
-      + string("mode=\"") + mode + string("\" />\n");
-  }
-
-  cmd += string("</data>\n");
-  cmd += string("</command>");
-
-  if ( p_app->parseXMLCommand(cmd) ) {
-    vsnDataObj* pld = p_scene->getLastLoadedData();
-    if ( pld && m_pUiView ) m_pUiView->selectObj(pld);
-  }
-}
-// MHIR append end

@@ -31,9 +31,6 @@ namespace VSN {
 	ViewFrameMenu_File_Imp_Shape,
 	ViewFrameMenu_File_Imp_ShapeTS,
 	ViewFrameMenu_File_Imp_ShapeLOD,
-	// MHIR append begin
-	ViewFrameMenu_File_Imp_ParaXVX,
-	// MHIR append end
 	ViewFrameMenu_File_Imp_SvSQL,
 	ViewFrameMenu_File_Save,
 	ViewFrameMenu_File_SaveAs,
@@ -293,9 +290,6 @@ private:
   void OnToolBar_ViewDirs(wxCommandEvent& event);
   void OnToolBar_AnimControl(wxCommandEvent& event);
   void OnClose(wxCloseEvent& event);
-  // MHIR append begin
-  void OnMenuFile_Imp_ParaXVX(wxCommandEvent& event);
-  // MHIR append end
 
   DECLARE_EVENT_TABLE()
 };

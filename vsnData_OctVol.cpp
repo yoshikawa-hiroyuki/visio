@@ -165,15 +165,6 @@ std::deque<std::string> vsnData_OctVol::getSeqFilePathes() const {
 
 // MHIR append begin
 #include <wx/regex.h>
-
-static bool
-isXVX(const std::string& path)
-{
-  wxRegEx pat(wxString(wxT(".*\\.[x|X][v|V][x|X]$")));
-  return (pat.Matches(vsnApp::ConvSysToWx(path))) ? true : false;
-}
-
-#include "vsnXVX.h"
 #include <stdexcept>
 
 bool 
@@ -226,9 +217,6 @@ vsnData_OctVol::init(const std::vector<VSN::ParallelFileInfo>& para_path_lst)
 
     m_otv_stamp = wxGetLocalTime();
     m_otv.Clear();
-    vsnXVX xvx;
-    xvx.ImportFiles(para_path_lst);
-    xvx.Convert(&m_otv);
 
     // update all TimeSeriesMethods
     bool ret = true;
@@ -304,60 +292,13 @@ bool vsnData_OctVol::init(const std::deque<std::string>& path_lst) {
            + badLst);
   }
 
-  // MHIR append begin
-  // VXV の時の処理
-  if (isXVX(pathLst[0])) {
-    try {
-      m_seqPathes.push_back(pathLst[0]);
-      m_numStps = m_seqPathes.size();
+  m_seqPathes = pathLst;
+  m_numStps = m_seqPathes.size();
 
-      if (! vsnTimeSeriesDataIF::setCurrentStepIdx(0))
-	throw std::runtime_error("vsnTimeSeriesDataIF::setCurrentStepIdx failed");
-
-      m_otv_stamp = wxGetLocalTime();
-      m_otv.Clear();
-      vsnXVX xvx;
-      xvx.ImportFiles(pathLst);
-      xvx.Convert(&m_otv);
-
-      // update all TimeSeriesMethods
-      bool ret = true;
-      size_t numMtds = getNumMethod();
-      register size_t i;
-      for ( i = 0; i < numMtds; i++ ) {
-	vsnTimeSeriesMethodIF* pMtdTS
-	  = dynamic_cast<vsnTimeSeriesMethodIF*>(getMethod(i));
-	if ( ! pMtdTS ) continue;
-	if ( ! pMtdTS->updateStep(m_currentStepIdx, /* force */ false) )
-	  ret = false;
-      } // end of for(i)
-
-      float minmax[2] = {0.f, 0.f};
-      m_minVals.resize(m_otv.m_dataLen);
-      m_maxVals.resize(m_otv.m_dataLen);
-      for (int k = 0; k < m_otv.m_dataLen; k++ ) {
-	if ( m_otv.GetMinMax(k, minmax) ) {
-	  m_minVals[k] = minmax[0];
-	  m_maxVals[k] = minmax[1];
-	}
-      }
-      if ( m_otv.m_dataLen >= 3 )
-	getVectorMaxLen(CES::Vec3<int>(0, 1, 2), m_maxVecLen012);
-    } catch (std::runtime_error& e) {
-      m_otv.Clear();
-      std::cout << e.what() << std::endl;
-      return false;
-    }
-  } else {
-    m_seqPathes = pathLst;
-    m_numStps = m_seqPathes.size();
-
-    // set min/max
-    vsnApp* pApp = vsnApp::GetApp();
-    if ( ! checkMinMax(true, pApp->isChkProgress()) )
-      return false;
-  }
-  // MHIR append end
+  // set min/max
+  vsnApp* pApp = vsnApp::GetApp();
+  if ( ! checkMinMax(true, pApp->isChkProgress()) )
+    return false;
 
   // set bbox
   if ( ! updateBbox() )

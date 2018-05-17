@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -313,7 +313,6 @@
     <ClCompile Include="vsnMethod_TriaCells_trias.cpp" />
     <ClCompile Include="vsnNvrVolumeRender.cpp" />
     <ClCompile Include="vsnOctTree.cpp" />
-    <ClCompile Include="vsnParaXvxSelectDlg.cpp" />
     <ClCompile Include="vsnPropDlg.cpp" />
     <ClCompile Include="vsnPtSet.cpp" />
     <ClCompile Include="vsnRotScaleCenter.cpp" />
@@ -327,7 +326,6 @@
     <ClCompile Include="vsnViewFrameWinDlg.cpp" />
     <ClCompile Include="vsnViewPoint.cpp" />
     <ClCompile Include="vsnXForm.cpp" />
-    <ClCompile Include="vsnXVX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vsnAnchor.h" />
@@ -452,7 +450,6 @@
     <ClInclude Include="vsnNvrVolumeRender.h" />
     <ClInclude Include="vsnObjGroup.h" />
     <ClInclude Include="vsnOctTree.h" />
-    <ClInclude Include="vsnParaXvxSelectDlg.h" />
     <ClInclude Include="vsnPathUtil.h" />
     <ClInclude Include="vsnPropDlg.h" />
     <ClInclude Include="vsnPtSet.h" />
@@ -469,7 +466,6 @@
     <ClInclude Include="vsnViewPoint.h" />
     <ClInclude Include="vsnVolumeRender.h" />
     <ClInclude Include="vsnXForm.h" />
-    <ClInclude Include="vsnXVX.h" />
     <ClInclude Include="VLDCellFunc.h" />
     <ClInclude Include="VLDCellIndexTable.h" />
     <ClInclude Include="VLDContourMaker.h" />

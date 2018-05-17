@@ -246,7 +246,7 @@ vsnData_OctVol.o: vsnData_Sv.h vsnPtSet.h vsnGridUtilSv.h
 vsnData_OctVol.o: vsnMethod_OctVol_volren.h vsnNvrVolumeRender.h
 vsnData_OctVol.o: vsnMethod_keyFrameAnim.h vsnKeyFrameAnim.h vsnAnimFileCtx.h
 vsnData_OctVol.o: vsnMethod_label.h vsnMethod_timeStep.h vsnFrontLabel.h
-vsnData_OctVol.o: vsnMethod_timeStepSync.h vsnXVX.h
+vsnData_OctVol.o: vsnMethod_timeStepSync.h
 vsnData_P3dF.o: vsnData_P3dF.h vsnData_Sv.h vsnDataObj.h vsnXForm.h
 vsnData_P3dF.o: vsnDataSeqFiles.h vsnIoObject.h vsnMethodObj.h vsnLut.h
 vsnData_P3dF.o: vsnAnchor.h vsnDataCache.h vsnError.h vsnApp.h vsnViewFrame.h
@@ -1241,15 +1241,7 @@ vsnMethod_timeStepSync.o: vsnUiView.h vsnCMap.h vsnMethodEditProp.h
 vsnMethod_timeStepSync.o: vsnRotScaleCenter.h vsnMethodParamCanvas.h
 vsnMethod_timeStepSync.o: vsnMethodTmpl.h vsnPathUtil.h
 vsnNvrVolumeRender.o: vsnNvrVolumeRender.h vsnVolumeRender.h vsnLut.h
-vsnOctTree.o: vsnXVX.h vsnDataParallelFiles.h vsnIoObject.h vsnOctTree.h
-vsnParaXvxSelectDlg.o: vsnApp.h vsnViewFrame.h vsnFrameBase.h vsnGfxView.h
-vsnParaXvxSelectDlg.o: vsnScene.h vsnIoObject.h vsnDataObj.h vsnXForm.h
-vsnParaXvxSelectDlg.o: vsnDataSeqFiles.h vsnMethodObj.h vsnLut.h vsnAnchor.h
-vsnParaXvxSelectDlg.o: vsnObjGroup.h vsnFrontObj.h vsnLightAttribute.h
-vsnParaXvxSelectDlg.o: vsnGfxActions.h vsnViewPoint.h vsnFrontAxis.h
-vsnParaXvxSelectDlg.o: vsnUiView.h vsnCMap.h vsnMethodEditProp.h
-vsnParaXvxSelectDlg.o: vsnRotScaleCenter.h vsnMethodParamCanvas.h
-vsnParaXvxSelectDlg.o: vsnMethodTmpl.h vsnPathUtil.h vsnParaXvxSelectDlg.h
+vsnOctTree.o: vsnOctTree.h
 vsnPropDlg.o: vsnPropDlg.h vsnGfxOprProp.h vsnGfxBhvrProp.h vsnError.h
 vsnPropDlg.o: vsnApp.h vsnViewFrame.h vsnFrameBase.h vsnGfxView.h vsnScene.h
 vsnPropDlg.o: vsnIoObject.h vsnDataObj.h vsnXForm.h vsnDataSeqFiles.h
@@ -1321,7 +1313,7 @@ vsnViewFrame.o: vsnFrontLabel.h icon/proj_pers.xpm icon/proj_ortho.xpm
 vsnViewFrame.o: icon/view_norm.xpm icon/view_front.xpm icon/view_back.xpm
 vsnViewFrame.o: icon/view_left.xpm icon/view_right.xpm icon/view_top.xpm
 vsnViewFrame.o: icon/view_bottom.xpm icon/ts_bgn.xpm icon/ts_stop.xpm
-vsnViewFrame.o: icon/ts_play.xpm icon/ts_end.xpm vsnParaXvxSelectDlg.h
+vsnViewFrame.o: icon/ts_play.xpm icon/ts_end.xpm
 vsnViewFrameWinDlg.o: vsnViewFrameWinDlg.h vsnViewFrame.h vsnFrameBase.h
 vsnViewFrameWinDlg.o: vsnGfxView.h vsnScene.h vsnIoObject.h vsnDataObj.h
 vsnViewFrameWinDlg.o: vsnXForm.h vsnDataSeqFiles.h vsnMethodObj.h vsnLut.h
@@ -1346,4 +1338,3 @@ vsnXForm.o: vsnMethodObj.h vsnLut.h vsnAnchor.h vsnObjGroup.h vsnFrontObj.h
 vsnXForm.o: vsnLightAttribute.h vsnGfxActions.h vsnViewPoint.h vsnFrontAxis.h
 vsnXForm.o: vsnUiView.h vsnCMap.h vsnMethodEditProp.h vsnRotScaleCenter.h
 vsnXForm.o: vsnMethodParamCanvas.h vsnMethodTmpl.h vsnPathUtil.h
-vsnXVX.o: vsnXVX.h vsnDataParallelFiles.h vsnIoObject.h vsnOctTree.h

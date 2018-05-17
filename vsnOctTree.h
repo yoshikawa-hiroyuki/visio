@@ -134,17 +134,6 @@ public:
                      m_pRootLst;
   std::set<Node*>    m_pLeafLst;
 
-  // MHIR append begin
-  /**
-   * XVX 形式のファイルを読み込み、OTV の形式に変換する
-   * @brief XVX 形式のファイルを読み込む
-   * @param fname ファイルのパス
-   * @retval true 読み込みに成功
-   * @retval false 読み込みに失敗
-   * @author MHIR
-   */
-  bool ImportXVX(const char* fname);
-
   /**
    * ペディグリーからノードを取得する
    * @param pedig ペディグリー
@@ -152,7 +141,6 @@ public:
    * @author MHIR
    */
   const Node* GetNode(VSN::PedigType  pedig) const;
-  // MHIR append end
 
 private:
   inline size_t RIDX(const size_t i, const size_t j, const size_t k) const {

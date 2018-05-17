@@ -74,6 +74,7 @@ OBJS =	vsnApp.o \
 	vsnMethod_OctVol_streamLines.o \
 	vsnMethod_OctVol_volren.o \
 	vsnOctTree.o \
+	vsnObjGroup.o \
 	vsnRsmplOctVol.o \
 	vsnData_Scatter.o \
 	vsnMethod_Scatter_info.o \

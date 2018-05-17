@@ -109,6 +109,7 @@ OBJS =	vsnApp.obj \
 	vsnMethod_timeStepSync.obj \
 	vsnNvrVolumeRender.obj \
 	vsnOctTree.obj \
+	vsnObjGroup.obj \
 	vsnPropDlg.obj \
 	vsnPtSet.obj \
 	vsnRotScaleCenter.obj \

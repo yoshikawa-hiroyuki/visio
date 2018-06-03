@@ -62,6 +62,7 @@ namespace VSN {
 	ViewFrameMenu_Scene_Del,
 	ViewFrameMenu_Scene_Rename,
 	ViewFrameMenu_Scene_Anchor,
+	ViewFrameMenu_Scene_AddObjGrp,
 	ViewFrameMenu_Scene_LightAttr,
 	ViewFrameMenu_Help_Manual,
 	ViewFrameMenu_Help_About,
@@ -281,6 +282,7 @@ private:
   void OnMenuScene_Del(wxCommandEvent& event);
   void OnMenuScene_Rename(wxCommandEvent& event);
   void OnMenuScene_Anchor(wxCommandEvent& event);
+  void OnMenuScene_AddObjGrp(wxCommandEvent& event);
   void OnMenuScene_LightAttr(wxCommandEvent& event);
   void OnMenuHelp_Manual(wxCommandEvent& event);
   void OnMenuHelp_About(wxCommandEvent& event);

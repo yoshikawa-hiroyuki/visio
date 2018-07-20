@@ -23,13 +23,13 @@
 
 namespace VSN {
   // app name
-  static const char vsn_app_name[] = "VIsioN";
+  static const char vsn_app_name[] = "V-Isio";
 
   // program name
-  static const char vsn_progname[] = "Vision";
+  static const char vsn_progname[] = "Visio";
 
   // version code of the program
-  static const char vsn_version[] = "0.1.0"
+  static const char vsn_version[] = "2.4.7"
 #ifdef PGSQL
     " (pgsql implements)"
 #endif // PGSQL

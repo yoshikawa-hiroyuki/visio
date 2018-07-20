@@ -1,19 +1,19 @@
 #!/bin/sh
 
-if [ -f Vision ]; then
-  cp Vision Vision.`arch`
+if [ -f Visio ]; then
+  cp Visio Visio.`arch`
 fi
 
-if [ -f Vision.ppc -a -f Vision.i386 ]; then
-  lipo -create Vision.i386 Vision.ppc -output Vision.univ
+if [ -f Visio.ppc -a -f Visio.i386 ]; then
+  lipo -create Visio.i386 Visio.ppc -output Visio.univ
 else
-  echo no Vision.i386 nor Vision.ppc
+  echo no Visio.i386 nor Visio.ppc
   exit 1
 fi
 
-if [ -f Vision.univ ]; then
-  cp Vision.univ Vision.app/Contents/MacOS/Vision
+if [ -f Visio.univ ]; then
+  cp Visio.univ Visio.app/Contents/MacOS/Visio
 fi
 
-rm -f Vision.`arch`
+rm -f Visio.`arch`
 

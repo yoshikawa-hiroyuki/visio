@@ -1,6 +1,6 @@
-VisioN
+V-Isio
 ------
-a new V-Tools visualizer based on V-Isio version 2.4.7b
+a V-Tools visualizer
 
 see issue list on Trello: https://trello.com/b/Qms1EIca/vision
 

@@ -638,6 +638,7 @@ bool vsnUiView::updateData(vsnDataObj* pdo) {
     if ( itdm->empty() ) continue;
     m_pMethodCombo->Append(vsnApp::ConvSysToWx(*itdm));
   } // end of for(itdm)
+  m_pMethodCombo->Append(wxT(""));
 
   // bbox
   if ( ! m_pDataShowBbox ) return false;
@@ -955,7 +956,7 @@ void vsnUiView::OnDataAddMethodBtn(wxCommandEvent& event) {
     ErrMsg(MsgERR, string("UiView: add_method: no method selected"));
     return;
   }
-  m_pMethodCombo->SetSelection(-1);
+  m_pMethodCombo->SetSelection(wxNOT_FOUND);
   m_pMethodCombo->SetValue(wxT(""));
 
   vsnDataObj* pCurData = getCurrentData();

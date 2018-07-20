@@ -2600,7 +2600,7 @@ void vsnViewFrame::OnMenuHelp_Manual(wxCommandEvent& event) {
 #else
   return;
 #endif
-  wxString pathPDF(wxT("/../doc/Vision_UG.pdf"));
+  wxString pathPDF(wxT("/../doc/Visio_UG.pdf"));
   pathPDF = vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF;
 
   wxString command = commPDF + pathPDF;

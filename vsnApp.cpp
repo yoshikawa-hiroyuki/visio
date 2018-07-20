@@ -16,6 +16,7 @@
 #include "wx/dir.h"
 #include "wx/config.h"
 #include "wx/stdpaths.h"
+#include "wx/filename.h"
 
 #include <sstream>
 #include <fstream>

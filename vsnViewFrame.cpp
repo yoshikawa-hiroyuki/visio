@@ -17,6 +17,7 @@
 #include "wx/toolbar.h"
 #include "wx/statbmp.h"
 #include "wx/filename.h"
+#include "wx/mimetype.h"
 #include "wx/utils.h"
 
 #include "vsnViewFrame.h"

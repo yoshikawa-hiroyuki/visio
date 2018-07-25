@@ -142,8 +142,8 @@ BEGIN_EVENT_TABLE(vsnViewFrame, wxFrame)
 	   vsnViewFrame::OnMenuScene_Rename)
   EVT_MENU(ViewFrameMenu_Scene_Anchor,
 	   vsnViewFrame::OnMenuScene_Anchor)
-  EVT_MENU(ViewFrameMenu_Scene_AddObjGrp,
-	   vsnViewFrame::OnMenuScene_AddObjGrp)
+  //EVT_MENU(ViewFrameMenu_Scene_AddObjGrp,
+  //	   vsnViewFrame::OnMenuScene_AddObjGrp)
   EVT_MENU(ViewFrameMenu_Scene_LightAttr,
 	   vsnViewFrame::OnMenuScene_LightAttr)
   EVT_MENU(ViewFrameMenu_Help_Manual,
@@ -1022,8 +1022,8 @@ bool vsnViewFrame::setupMenuBar() {
   sceneMenu->AppendSeparator();
   sceneMenu->Append(ViewFrameMenu_Scene_Anchor, wxT("Edit Anchor ..."),
 		    wxT("Edit action of anchor"));
-  sceneMenu->Append(ViewFrameMenu_Scene_AddObjGrp, wxT("Add ObjGrp ..."),
-		    wxT("Add new ObjGrp"));
+  //sceneMenu->Append(ViewFrameMenu_Scene_AddObjGrp, wxT("Add ObjGrp ..."),
+  //		    wxT("Add new ObjGrp"));
   sceneMenu->AppendSeparator();
   sceneMenu->Append(ViewFrameMenu_Scene_LightAttr,
 		    wxT("Light Attribute ..."),
@@ -2569,11 +2569,12 @@ void vsnViewFrame::OnUpdateMenuScene_Anchor(wxUpdateUIEvent& event) {
   event.Enable(true);
 }
 
+#if 0
 void vsnViewFrame::OnMenuScene_AddObjGrp(wxCommandEvent& event) {
   if ( ! p_scene || ! p_app ) return;
-
   return;
 }
+#endif
 
 void vsnViewFrame::OnMenuScene_LightAttr(wxCommandEvent& event) {
   if ( ! m_pGfxView || ! p_app ) return;

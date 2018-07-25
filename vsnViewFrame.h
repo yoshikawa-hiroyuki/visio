@@ -282,7 +282,7 @@ private:
   void OnMenuScene_Del(wxCommandEvent& event);
   void OnMenuScene_Rename(wxCommandEvent& event);
   void OnMenuScene_Anchor(wxCommandEvent& event);
-  void OnMenuScene_AddObjGrp(wxCommandEvent& event);
+  //void OnMenuScene_AddObjGrp(wxCommandEvent& event);
   void OnMenuScene_LightAttr(wxCommandEvent& event);
   void OnMenuHelp_Manual(wxCommandEvent& event);
   void OnMenuHelp_About(wxCommandEvent& event);

@@ -845,7 +845,7 @@ bool vsnApp::outputXML(std::ostream& os, const size_t ts) {
   deque<vsnMethodParamCanvas*>::const_iterator mpc_it;
 
   // ----- output -----
-  os << idts << "<vsn>" << endl;
+  os << idts << "<vfv>" << endl;
   m_extOutStr = "";
 
   // output scene(s)
@@ -871,7 +871,7 @@ bool vsnApp::outputXML(std::ostream& os, const size_t ts) {
     m_extOutStr = "";
   }
 
-  os << idts << "</vsn>" << endl;
+  os << idts << "</vfv>" << endl;
 
   return true;
 }
@@ -1468,7 +1468,7 @@ bool vsnApp::outputXMLFile(const std::string& path) {
   string msgHdr = string("App: outputXMLFile: ");
   string bkupPath = m_currentFile;
   static const char* xml_doctype_str =
-    "<!DOCTYPE vsn SYSTEM \"vsn.dtd\" [\n"
+    "<!DOCTYPE vsn SYSTEM \"vfv.dtd\" [\n"
     "  <!ENTITY lt   \"&#38;#60;\">\n"
     "  <!ENTITY gt   \"&#62;\">\n"
     "  <!ENTITY amp  \"&#38;#38;\">\n"

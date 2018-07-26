@@ -62,6 +62,7 @@ all : bundle
 bundle: $(BUNDLE)/MacOS/$(PROGRAM) \
 	$(BUNDLE)/Info.plist \
 	$(BUNDLE)/PkgInfo \
+	$(BUNDLE)/doc/Visio_UG.pdf \
 	$(BUNDLE)/Resources/$(PROGRAM).rsrc \
 	$(BUNDLE)/Resources/$(PROGRAM).icns
 
@@ -77,6 +78,10 @@ $(BUNDLE)/Info.plist: $(TMPLDIR)/Info.plist.in
 $(BUNDLE)/PkgInfo:
 	@$(INSTALL) -d `dirname $@`
 	echo -n "APPLvsns" > $@
+
+$(BUNDLE)/doc/Visio_UG.pdf:
+	@$(INSTALL) -d `dirname $@`
+	cp ../doc/Visio_user_guide.pdf $@
 
 $(BUNDLE)/MacOS/$(PROGRAM): $(PROGRAM)
 	@$(INSTALL) -d `dirname $@`

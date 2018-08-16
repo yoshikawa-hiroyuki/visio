@@ -39,6 +39,70 @@ vsnMethod_Sv_graphPlot::~vsnMethod_Sv_graphPlot() {
 }
 
 
+/* from vsnMethod_graphPlot */
+
+bool vsnMethod_Sv_graphPlot::exportCsv(const std::string& path) {
+  if ( path.empty() ) return false;
+  if ( m_updatedStp < 0 ) return false;
+  if ( ! _values ) return false;
+
+  // check 1D/2D data
+  register int i, j;
+  size_t validDims = 3;
+  for ( j = 0, i = 0; i < 3; i++ ) if ( _gus.m_dims[i] == 1 ) j++;
+  switch ( j ) {
+  case 1: validDims = 2; break;
+  case 2: case 3: validDims = 1; break;
+  default: break;
+  } // end of switch(j)
+  
+  // check sampler
+  Point2 sampleSize, dim2Idx;
+  register size_t sampleSz;
+  const vector3* samplePts;
+  if ( validDims == 1 ) { // 1D
+    for ( i = 0; i < 3; i++ ) if ( _gus.m_dims[i] != 1 ) break;
+    switch ( i ) {
+    case 0:  sampleSize.x = _gus.m_dims[0]; break; // MxN is Xx1
+    case 1:  sampleSize.x = _gus.m_dims[1]; break; // MxN is Yx1
+    default: sampleSize.x = _gus.m_dims[2]; break; // MxN is Zx1
+    } // end of switch(i)
+    sampleSize.y = 1; sampleSz = sampleSize.x;
+    samplePts = (const vector3*)_gus.p_grid;
+  } // end of if(1D)
+  else if ( validDims == 2 ) { // 2D
+    for ( i = 0; i < 3; i++ ) if ( _gus.m_dims[i] == 1 ) break;
+    switch ( i ) {
+    case 0:  dim2Idx.x = 1; dim2Idx.y = 2; break; // MxN is YxZ
+    case 1:  dim2Idx.x = 0; dim2Idx.y = 2; break; // MxN is XxZ
+    default: dim2Idx.x = 0; dim2Idx.y = 1; break; // MxN is XxY
+    } // end of switch(i)
+    sampleSize.x = _gus.m_dims[dim2Idx.x];
+    sampleSize.y = _gus.m_dims[dim2Idx.y];
+    sampleSz = sampleSize.x * sampleSize.y;
+    samplePts = (const vector3*)_gus.p_grid;
+  } // end of if(2D)
+  else { // 3D
+    if ( ! p_splr ) return true;
+    sampleSize = p_splr->getSampleNumber();
+    sampleSz = sampleSize.x * sampleSize.y;
+    if ( sampleSz < 1 ) return true;
+    samplePts = p_splr->getSamplePoints();
+    if ( ! samplePts ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	     + string("]: can't get sampling points data"));
+      return false;
+    }
+  } // end of if(3D)
+
+  if ( ! ExportCsv(path, sampleSize, samplePts, _values) )
+    return false;
+
+  // ok
+  return true;
+}
+
+
 /* vsnMethodObj methods */
 
 bool vsnMethod_Sv_graphPlot::update(const bool force) {

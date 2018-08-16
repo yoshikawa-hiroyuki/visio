@@ -19,6 +19,9 @@ public:
   vsnMethod_Sv_graphPlot(const std::string& nm=std::string(VFR_NONAME));
   virtual ~vsnMethod_Sv_graphPlot();
 
+  // from vsnMethod_graphPlot
+  virtual bool exportCsv(const std::string& path);
+  
   // from vsnMethodObj
   SV_GETDATATYPES_DEFINITION;
   virtual bool update(const bool force =true);

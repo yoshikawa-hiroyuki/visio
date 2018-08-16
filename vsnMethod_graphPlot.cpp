@@ -20,6 +20,7 @@
 #include "vsnData_OctVol.h"
 #include "vsnUiView.h"
 #include "vsnError.h"
+#include "vsnShapeExporter.h"
 #include <fstream>
 #include <sstream>
 
@@ -50,6 +51,10 @@ BEGIN_EVENT_TABLE(vsnMPP_graphPlot, wxPanel)
                vsnMPP_graphPlot::OnShowTitleChk)
   EVT_CHECKBOX(MPP_graphPlot_ShowLegendChk,
                vsnMPP_graphPlot::OnShowLegendChk)
+  EVT_BUTTON(MPP_graphPlot_ExportBtn,
+             vsnMPP_graphPlot::OnExportBtn)
+  EVT_CHECKBOX(MPP_graphPlot_AutoExportChk,
+               vsnMPP_graphPlot::OnAutoExportChk)
 END_EVENT_TABLE()
 
 
@@ -98,6 +103,12 @@ vsnMPP_graphPlot::vsnMPP_graphPlot(wxPanel* parent, vsnMethodObj* pm)
   m_pShowLegendChk = new wxCheckBox(this, MPP_graphPlot_ShowLegendChk,
                                    wxT("show legend"));
   assert(m_pShowLegendChk);
+
+  m_pExportBtn = new wxButton(this, MPP_graphPlot_ExportBtn, wxT("export"));
+  assert(m_pExportBtn);
+  m_pAutoExportChk = new wxCheckBox(this, MPP_graphPlot_AutoExportChk,
+                                    wxT("auto export"));
+  assert(m_pAutoExportChk);
 
   // prepare sizers
   wxBoxSizer* topsizer = new wxBoxSizer(wxVERTICAL); assert(topsizer);
@@ -151,6 +162,12 @@ vsnMPP_graphPlot::vsnMPP_graphPlot(wxPanel* parent, vsnMethodObj* pm)
   sizerH->Add(5, 5);
   sizerH->Add(m_pShowLegendChk, 0, wxALL, 3);
 
+  // export button
+  sizerH = new wxBoxSizer(wxHORIZONTAL);
+  topsizer->Add(sizerH, 0, wxEXPAND|wxALL, 0);
+  sizerH->Add(m_pExportBtn, 0, wxALL, 3);
+  sizerH->Add(m_pAutoExportChk, 0, wxALL, 3);
+  
   // post process
   SetSizer(topsizer);
   addTo(parent);
@@ -246,6 +263,9 @@ bool vsnMPP_graphPlot::update() {
   m_pShowTitleChk->SetValue(pm->getShowTitle());
   m_pShowLegendChk->SetValue(pm->getShowLegend());
 
+  // auto export
+  m_pAutoExportChk->SetValue(pm->getAutoExport());
+  
   return true;
 }
 
@@ -389,6 +409,66 @@ void vsnMPP_graphPlot::OnShowLegendChk(wxCommandEvent& event) {
     update();
 }
 
+void vsnMPP_graphPlot::OnExportBtn(wxCommandEvent& event) {
+  vsnMethod_graphPlot* pm = dynamic_cast<vsnMethod_graphPlot*>(p_method);
+  if ( ! pm ) return;
+  vsnApp* pApp = vsnApp::GetApp();
+
+  wxFileDialog fileDlg(this, wxT("streamLines: specify file to export"),
+                       wxT(""), wxT(""), // default Dir / File
+                       wxT("CSV (*.csv)|*.csv")
+                       wxT("|(*)|*"),
+                       wxFD_SAVE);
+  // set default params
+  string targDir = pApp->getImportDir();
+  if ( targDir.empty() ) {
+    string appCurFile = pApp->getCurrentFilename();
+    if ( ! appCurFile.empty() )
+      targDir = DirName(appCurFile, vsnPath_getDelimChar());
+  }
+  if ( targDir.empty() )
+    targDir = pApp->getCwd();
+  if ( ! targDir.empty() )
+    fileDlg.SetDirectory(vsnApp::ConvSysToWx(targDir));
+
+  // get output path
+  if ( fileDlg.ShowModal() != wxID_OK ) return;
+  string outPath
+    = vsnPath_normalize(vsnApp::ConvWxToSys(fileDlg.GetPath()));
+  if ( outPath.empty() ) return;
+
+  // override check
+  FILE* ofp = fopen(outPath.c_str(), "r");
+  if ( ofp ) {
+    fclose(ofp);
+    wxString msg = wxT("The specified file has already existed\n  ");
+    msg += wxString::FromUTF8(outPath.c_str());
+    msg += wxT("\n\nAre you sure to override ?\n");
+    wxMessageDialog dlg(NULL, msg, wxT("graphPlot: export"),
+                        vsn_wxOK_CANCEL|wxICON_QUESTION);
+    if ( dlg.ShowModal() != vsn_wxIDOK ) return;
+    }
+
+  // export
+  if ( ! pm->exportCsv(outPath) ) {
+    ErrMsg(MsgERR, string("graphPlot: export failed.\n  File: ") + outPath);
+    return;
+  }
+
+  return;
+}
+
+void vsnMPP_graphPlot::OnAutoExportChk(wxCommandEvent& event) {
+  if ( ! m_pAutoExportChk ) return;
+  bool val = m_pAutoExportChk->GetValue();
+
+  vsnMethod_graphPlot* pm = dynamic_cast<vsnMethod_graphPlot*>(p_method);
+  if ( ! pm ) return;
+
+  if ( pm->setAutoExport(val) )
+    pm->chkNotice();
+}
+
 
 //----------------------------------------------------------------
 // class vsnMethod_graphPlot
@@ -399,7 +479,7 @@ void vsnMPP_graphPlot::OnShowLegendChk(wxCommandEvent& event) {
 vsnMethod_graphPlot::vsnMethod_graphPlot(const string& name)
   : vsnMethodObj(name), m_pGnuPlotIF(NULL),
     m_selectedData(DATA_None), m_vecDataIdx(0,1,2),
-    m_showTitle(true), m_showLegend(true)
+    m_showTitle(true), m_showLegend(true), m_autoExport(false)
 {
   m_pGnuPlotIF = VSN::GetGnuplotIF();
   assert(m_pGnuPlotIF);
@@ -613,6 +693,57 @@ bool vsnMethod_graphPlot::DoPlot(const Point2& sampleSize,
   return true;
 }
 
+bool vsnMethod_graphPlot::ExportCsv(const std::string& path,
+				    const Point2& sampleSize,
+				    const vector3* samplePos,
+				    const float* values) {
+  // check args
+  if ( path.empty() ) return false;
+  if ( sampleSize.x < 1 || sampleSize.y < 1 || ! samplePos || ! values )
+    return false;
+
+  // open output file
+  ofstream fout(path.c_str());
+  if ( ! fout ) {
+    ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	   + string("]: can't open file: ") + path);
+    return false;
+  }
+
+  // write to file (in NxM order)
+  register int i, j, idx;
+  Vec3<float> pos, val;
+  pos = samplePos[0];
+  for ( i = 0; i < sampleSize.x; i++ ) {
+    // write coord
+    float distance = (Vec3<float>(samplePos[i]) - pos).Length();
+    fout << distance;
+
+    // write values
+    for ( j = 0; j < sampleSize.y; j++ ) {
+      idx = sampleSize.x * j + i;
+      fout << ", " << values[idx];
+    } // end of for(j)
+
+    fout << endl;
+  } // end of for(i)
+  fout.close();
+
+  m_exportPath = path;
+  return true;
+}
+
+bool vsnMethod_graphPlot::setAutoExport(const bool aem) {
+  if ( m_autoExport == aem ) return true;
+  m_autoExport = aem;
+  if ( m_autoExport ) {
+    if ( ! update(true) )
+      return false;
+  }
+  updateUI();
+  return true;
+}
+
 
 /* from vsnMethodObj */
 
@@ -733,6 +864,19 @@ bool vsnMethod_graphPlot::parseXML(xmlNodePtr xnp) {
           goto _NEXT_XML_NODE;
         }
       } // end of "show_legend"
+      else if ( xsN == string("auto_export") ) {
+        bool aem;
+        if ( xsV == string("yes") ) aem = true;
+        else if ( xsV == string("no") ) aem = false;
+        else {
+          ErrMsg(MsgERR, msgHdr + string("invalid value in param auto_export"));
+          goto _NEXT_XML_NODE;
+        }
+        if ( ! setAutoExport(aem) ) {
+          ErrMsg(MsgERR, msgHdr + string("can't set auto_export"));
+          goto _NEXT_XML_NODE;
+        }
+      } // end of "auto_export
     } // end of param
 
   _NEXT_XML_NODE:
@@ -818,6 +962,11 @@ bool vsnMethod_graphPlot::outputXML(std::ostream& os, const size_t ts) {
     os << idts_2 << "<param name=\"show_legend\" value=\"no\" />" << endl;
   }
 
+  // auto export
+  if ( m_autoExport ) {
+    os << idts_2 << "<param name=\"auto_export\" value=\"yes\" />" << endl;
+  }
+  
   os << idts << "</method>" << endl;
   return true;
 }
@@ -941,6 +1090,27 @@ bool vsnMethod_graphPlot::commandXML(xmlNodePtr xnp) {
       return false;
     }
   } // end of "set_show_legend"
+  else if ( nameStr == "export" ) {
+    if ( ! exportCsv(valueStr) ) {
+      ErrMsg(MsgERR, msgHdr +
+             string("command export: failed to export to file: ") + valueStr);
+      return false;
+    }
+  } // end of "export"
+  else if ( nameStr == "set_auto_export" ) {
+    bool aem;
+    if ( valueStr == string("yes") ) aem = true;
+    else if ( valueStr == string("no") ) aem = false;
+    else {
+      ErrMsg(MsgERR, msgHdr + string("command set_auto_export: invalid value"));
+      return false;
+    }
+    if ( ! setAutoExport(aem) ) {
+      ErrMsg(MsgERR, msgHdr +
+             string("command set_auto_export: set failed: ") + valueStr);
+      return false;
+    }
+  } // end of "set_auto_export"
   else {
     // not my command
     ErrMsg(MsgERR, msgHdr + string("unknown command: ") + nameStr);

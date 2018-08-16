@@ -43,6 +43,32 @@ vsnMethod_OctVol_graphPlot::~vsnMethod_OctVol_graphPlot() {
 }
 
 
+/* vsnMethod_graphPlot methods */
+
+bool vsnMethod_OctVol_graphPlot::exportCsv(const std::string& path) {
+  if ( path.empty() ) return false;
+  if ( m_updatedStp < 0 ) return false;
+  if ( ! m_sampleData ) return false;
+
+  // check sampler
+  if ( ! p_splr ) return true;
+  Point2 sampleSize = p_splr->getSampleNumber();
+  size_t sampleSz = sampleSize.x * sampleSize.y;
+  if ( sampleSz < 1 ) return true;
+  const vector3* const samplePts = p_splr->getSamplePoints();
+  if ( ! samplePts ) {
+    ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+           + string("]: can't get sampling points data"));
+    return false;
+  }
+
+  if ( ! ExportCsv(path, sampleSize, samplePts, m_sampleData) )
+    return false;
+
+  // ok
+  return true;
+}
+
 /* vsnMethodObj methods */
 
 bool vsnMethod_OctVol_graphPlot::update(const bool force) {

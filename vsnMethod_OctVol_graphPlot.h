@@ -18,6 +18,9 @@ public:
   vsnMethod_OctVol_graphPlot(const std::string& nm=std::string(VFR_NONAME));
   virtual ~vsnMethod_OctVol_graphPlot();
 
+  // from vsnMethod_graphPlot
+  virtual bool exportCsv(const std::string& path);
+
   // from vsnMethodObj
   virtual std::deque<std::string> getDataTypes() const {
     std::deque<std::string> r; r.push_back(std::string("OctVol")); return r;

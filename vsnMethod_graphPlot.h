@@ -28,7 +28,9 @@ namespace VSN {
 	MPP_graphPlot_SelDataLst,
 	MPP_graphPlot_VecDataChkLst,
 	MPP_graphPlot_ShowTitleChk,
-	MPP_graphPlot_ShowLegendChk
+	MPP_graphPlot_ShowLegendChk,
+	MPP_graphPlot_ExportBtn,
+        MPP_graphPlot_AutoExportChk
   };
 };
 
@@ -55,7 +57,9 @@ public:
   void OnVecDataChkLst(wxCommandEvent& event);
   void OnShowTitleChk(wxCommandEvent& event);
   void OnShowLegendChk(wxCommandEvent& event);
-
+  void OnExportBtn(wxCommandEvent& event);
+  void OnAutoExportChk(wxCommandEvent& event);
+  
 private:
   wxTextCtrl*     m_pProgramTxt;
   wxButton*       m_pProgBrwsBtn;
@@ -67,7 +71,9 @@ private:
   wxCheckListBox* m_pVecDataChkLst;
   wxCheckBox*     m_pShowTitleChk;
   wxCheckBox*     m_pShowLegendChk;
-
+  wxButton*       m_pExportBtn;
+  wxCheckBox*     m_pAutoExportChk;
+  
   DECLARE_EVENT_TABLE()
 };
 
@@ -101,6 +107,12 @@ public:
   bool setShowLegend(const bool slm);
   bool getShowLegend() const {return m_showLegend;}
 
+  // export interface
+  virtual bool exportCsv(const std::string& path) {return false;}
+  std::string getExportedPath() const {return m_exportPath;}
+  bool setAutoExport(const bool aem);
+  bool getAutoExport() const {return m_autoExport;}
+  
   // from vsnMethodObj
   //   need to implement getDataTypes() in derived class
   //   need to implement update() in derived class
@@ -130,9 +142,14 @@ protected:
   bool           m_showLegend;
   std::string    m_tmpPath;
 
+  std::string    m_exportPath;
+  bool           m_autoExport;
+  
   bool DoPlot(const Point2& sampleSize,
 	      const vector3* samplePos, const float* values,
 	      const float range[2], const std::string& titleStr) const;
+  bool ExportCsv(const std::string& path, const Point2& sampleSize,
+		 const vector3* samplePos, const float* values);
 };
 
 #endif // _VSN_METHOD_GRAPHPLOT_H_

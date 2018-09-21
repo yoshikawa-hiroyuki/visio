@@ -146,8 +146,10 @@ BEGIN_EVENT_TABLE(vsnViewFrame, wxFrame)
   //	   vsnViewFrame::OnMenuScene_AddObjGrp)
   EVT_MENU(ViewFrameMenu_Scene_LightAttr,
 	   vsnViewFrame::OnMenuScene_LightAttr)
-  EVT_MENU(ViewFrameMenu_Help_Manual,
-	   vsnViewFrame::OnMenuHelp_Manual)
+  EVT_MENU(ViewFrameMenu_Help_UserGuide,
+	   vsnViewFrame::OnMenuHelp_UserGuide)
+  EVT_MENU(ViewFrameMenu_Help_FileFmt,
+	   vsnViewFrame::OnMenuHelp_FileFmt)
   EVT_MENU(ViewFrameMenu_Help_About,
 	   vsnViewFrame::OnMenuHelp_About)
   EVT_UPDATE_UI(ViewFrameMenu_Scene_Anchor,
@@ -1033,8 +1035,10 @@ bool vsnViewFrame::setupMenuBar() {
   // 'Help' menu
   wxMenu* helpMenu = new wxMenu;
   if ( ! helpMenu ) return false;
-  helpMenu->Append(ViewFrameMenu_Help_Manual, wxT("User Guide ..."),
+  helpMenu->Append(ViewFrameMenu_Help_UserGuide, wxT("User Guide ..."),
 		   wxT("Open User Guide PDF"));
+  helpMenu->Append(ViewFrameMenu_Help_FileFmt, wxT("File Format ..."),
+		   wxT("Open File Format PDF"));
   string xmsg = string("About ") + vsn_app_name + string(" ...");
   helpMenu->Append(ViewFrameMenu_Help_About, vsnApp::ConvSysToWx(xmsg),
 		   wxT("Show version"));
@@ -2592,7 +2596,7 @@ void vsnViewFrame::OnMenuScene_LightAttr(wxCommandEvent& event) {
 }
 
 
-void vsnViewFrame::OnMenuHelp_Manual(wxCommandEvent& event) {
+void vsnViewFrame::OnMenuHelp_UserGuide(wxCommandEvent& event) {
 #if defined(LINUX)
   wxString commPDF(wxT("xdg-open "));
 #elif defined(WINDOWS)
@@ -2603,6 +2607,29 @@ void vsnViewFrame::OnMenuHelp_Manual(wxCommandEvent& event) {
   return;
 #endif
   wxString pathPDF(wxT("/../doc/Visio_UG.pdf"));
+  pathPDF = vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF;
+
+  wxString command = commPDF + pathPDF;
+#if defined(WINDOWS)
+  wxFileType* fileType
+    = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
+  command = fileType->GetOpenCommand(pathPDF);
+#endif
+
+  wxExecute(command);
+}
+
+void vsnViewFrame::OnMenuHelp_FileFmt(wxCommandEvent& event) {
+#if defined(LINUX)
+  wxString commPDF(wxT("xdg-open "));
+#elif defined(WINDOWS)
+  wxString commPDF(wxT("start ")); // may not be used
+#elif defined(MACOSX)
+  wxString commPDF(wxT("open "));
+#else
+  return;
+#endif
+  wxString pathPDF(wxT("/../doc/DFF_V-Tools.pdf"));
   pathPDF = vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF;
 
   wxString command = commPDF + pathPDF;

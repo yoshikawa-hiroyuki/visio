@@ -10,7 +10,8 @@ TMPLDIR = $(VFRDIR)/tmpl
 NVR_DIR = ../nvr
 RVR_DIR = ../rvr
 BOOST_DIR = ../boost_1_50_0
-GLEW_DIR = /usr/local/glew-1.9.0
+GLEW_DIR = /usr/local
+GLE_DIR = /opt/GLE
 
 INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
@@ -19,12 +20,14 @@ CXXFLAGS = $(CFLAGS) -DNDEBUG \
 	`xml2-config --cflags` \
 	-I/Library/Frameworks/Cg.framework/Headers \
 	-I$(TP_DIR)/include \
-	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include
+	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
+	-I$(GLE_DIR)/include
 LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
 	`xml2-config --libs` \
-	-lTP -lNVR -lRVR -lglew -lz -liconv
+	-lTP -lNVR -lRVR -lglew -lz -liconv -lgle
 LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
-	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib 
+	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \
+	-L$(GLE_DIR)/lib
 
 INSTALL = /usr/bin/install -c
 

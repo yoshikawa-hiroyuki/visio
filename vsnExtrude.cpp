@@ -4,11 +4,7 @@
 #include "vsnExtrude.h"
 
 /* GLE Tubing and Extrusion */
-#ifdef __APPLE__
-#include <OpenGL/gle.h>
-#else // __APPLE__
 #include <GL/gle.h>
-#endif // __APPLE__
 
 
 //----------------------------------------------------------------

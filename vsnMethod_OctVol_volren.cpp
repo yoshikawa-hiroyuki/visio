@@ -53,7 +53,6 @@ vsnMPP_OctVol_volren::vsnMPP_OctVol_volren(wxPanel* parent, vsnMethodObj* pm)
   assert(dynamic_cast<vsnMethod_OctVol_volren*>(pm));
 
   wxBoxSizer* topsizer = new wxBoxSizer(wxVERTICAL);
-  wxBoxSizer* sizerH;
 
   // data selector
   topsizer->Add(new wxStaticText(this, -1, wxT("select scalar data")),

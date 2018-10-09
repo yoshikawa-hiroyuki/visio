@@ -539,7 +539,7 @@ bool vsnMethod_Scatter_plotAsLines::updateStep(const int stp, const bool force,
   // set colors
   vector4* cl = m_shape->getColors();
   Vec3<float> vv;
-  register float a, b, dval;
+  register float dval;
   register int c;
   if ( m_selectedData == DATA_Veclen ) {
     for ( i = 0; i < sampleSz; i++ ) {
@@ -973,7 +973,6 @@ vsnMPP_Scatter_plotAsLines2::~vsnMPP_Scatter_plotAsLines2() {
 /* interface */
 
 bool vsnMPP_Scatter_plotAsLines2::update() {
-  register size_t i;
   char txt[64];
 
   vsnMethod_Scatter_plotAsLines2* pm

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -172,12 +172,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_WINDOWS;WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;WIN64;NDEBUG;_WINDOWS;WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;OPENGL_10=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;../GLE/ms-visual-c/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)Visio.exe</OutputFile>
@@ -188,8 +188,8 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;../GLE/ms-visual-c/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;gle.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
@@ -219,6 +219,7 @@
     <ClCompile Include="vsnDataReload.cpp" />
     <ClCompile Include="vsnDataSeqFiles.cpp" />
     <ClCompile Include="vsnData_TriaCells.cpp" />
+    <ClCompile Include="vsnExtrude.cpp" />
     <ClCompile Include="vsnFrameBase.cpp" />
     <ClCompile Include="vsnFrontAxis.cpp" />
     <ClCompile Include="vsnFrontImage.cpp" />
@@ -267,6 +268,7 @@
     <ClCompile Include="vsnMethod_Scatter_plotArrows.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotAsLines.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotAsLineStrip.cpp" />
+    <ClCompile Include="vsnMethod_Scatter_plotAsTubeStrip.cpp" />
     <ClCompile Include="vsnMethod_Scatter_plotPoints.cpp" />
     <ClCompile Include="vsnMethod_Shape_info.cpp" />
     <ClCompile Include="vsnMethod_Shape_scalarMap.cpp" />
@@ -353,6 +355,7 @@
     <ClInclude Include="vsnDataReload.h" />
     <ClInclude Include="vsnDataSeqFiles.h" />
     <ClInclude Include="vsnError.h" />
+    <ClInclude Include="vsnExtrude.h" />
     <ClInclude Include="vsnFrameBase.h" />
     <ClInclude Include="vsnFrontAxis.h" />
     <ClInclude Include="vsnFrontImage.h" />
@@ -403,6 +406,7 @@
     <ClInclude Include="vsnMethod_Scatter_plotArrows.h" />
     <ClInclude Include="vsnMethod_Scatter_plotAsLines.h" />
     <ClInclude Include="vsnMethod_Scatter_plotAsLineStrip.h" />
+    <ClInclude Include="vsnMethod_Scatter_plotAsTubeStrip.h" />
     <ClInclude Include="vsnMethod_Scatter_plotPoints.h" />
     <ClInclude Include="vsnMethod_Shape_info.h" />
     <ClInclude Include="vsnMethod_Shape_scalarMap.h" />

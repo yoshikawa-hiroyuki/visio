@@ -577,7 +577,6 @@ bool vsnMethod_Scatter_plotArrows::updateStep(const int stp, const bool force,
     m_vectors->setColorMode(AT_PER_VERTEX);
   }
   else if ( m_selectedData > 0 && m_selectedData <= dlen ) {
-    float dval;
     for ( i = 0; i < sampleSz; i++ ) {
       vv[0] = pd[dlen*i + m_vecDataIdx[0]];
       vv[1] = pd[dlen*i + m_vecDataIdx[1]];

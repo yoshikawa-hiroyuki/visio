@@ -479,7 +479,7 @@ bool vsnMethod_Scatter_plotAsTubeStrip::updateStep(const int stp,
   // set colors
   vector4* cl = m_shape->getColors();
   Vec3<float> vv;
-  register float a, b, dval;
+  register float dval;
   register int c;
   if ( m_selectedData == DATA_Veclen ) {
     for ( i = 0; i < sampleSz; i++ ) {

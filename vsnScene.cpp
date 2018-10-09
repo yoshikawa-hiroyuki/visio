@@ -323,7 +323,7 @@ bool vsnScene::parseXML(xmlNodePtr xnp) {
 
 bool vsnScene::outputXML(std::ostream& os, const size_t ts) {
   std::string idts;
-  register size_t i, j;
+  register size_t i;
   for ( i = 0; i < ts; i++ ) idts.push_back(' ');
   string outName = getName();
   if ( outName == VFR_NONAME ) outName = "";

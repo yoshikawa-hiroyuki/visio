@@ -76,7 +76,7 @@ bool vsnTreeCtrl::updateScene(vsnScene* psc, VSN::vsnTreeItemMapType& itmLst) {
   if ( ! psc ) return false;
 
   // create tree
-  register size_t i, j, k;
+  register size_t j, k;
   vsnTreeItem* pItem;
   size_t nmtd, ndt;
   ndt = psc->getNumDataObj();

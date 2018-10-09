@@ -25,7 +25,7 @@ VSN::SaveWfo(vfrTriangles* pTria, const std::string& path, const bool outNorm)
   ofstream os(path.c_str());
   if ( ! os ) return false;
 
-  register int j, vc, nc, nV, nN, nF, nobj;
+  register int j, vc, nc, nV, nN, nF;
 
   nV = pTria->getNumVerts();
   nF = nV / 3; nV = nF * 3;

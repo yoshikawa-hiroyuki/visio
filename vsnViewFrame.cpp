@@ -1039,6 +1039,7 @@ bool vsnViewFrame::setupMenuBar() {
 		   wxT("Open User Guide PDF"));
   helpMenu->Append(ViewFrameMenu_Help_FileFmt, wxT("File Format ..."),
 		   wxT("Open File Format PDF"));
+  helpMenu->AppendSeparator();
   string xmsg = string("About ") + vsn_app_name + string(" ...");
   helpMenu->Append(ViewFrameMenu_Help_About, vsnApp::ConvSysToWx(xmsg),
 		   wxT("Show version"));

@@ -18,6 +18,7 @@
 #include "vsnData_Scatter.h"
 #include "vsnDataSeqFiles.h"
 #include "vsnError.h"
+#include "utilString.h"
 
 #include "vsnMethod_Scatter_info.h"
 #include "vsnMethod_Scatter_plotArrows.h"
@@ -239,6 +240,16 @@ bool vsnData_Scatter::init(const std::deque<std::string>& path_lst) {
   return true;
 }
 
+std::deque<int> vsnData_Scatter::getNvList(const size_t stpIdx) const {
+  if ( m_numStps < 1 || m_stpList.empty() ) {
+    return deque<int>();
+  }
+  if ( stpIdx >= m_numStps ) {
+    return m_nvList[m_numStps -1];
+  }
+  return m_nvList[stpIdx];
+}
+
 std::deque<std::string>
 vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
   deque<std::string> pathLst;
@@ -247,10 +258,12 @@ vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
   if ( numPath < 1 ) return pathLst;
 
   m_stpList.resize(numPath);
+  m_nvList.resize(numPath);
   register size_t i, idx = 0;
   for ( i = 0; i < numPath; i++ ) {
     m_stpList[idx].step = idx;
     m_stpList[idx].time = (float)idx;
+    m_nvList[idx].clear();
 
     string buff, path_body;
     ScatterType sType = checkType(path_lst[i], path_body);
@@ -260,19 +273,25 @@ vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
       continue;
     }
 
-    // PWN|SCAT: check '#TS'
+    // PWN|SCAT: check '#TS' and '#NV'
     ifstream sf(path_body.c_str());
     if ( ! sf ) continue;
     while ( ! sf.eof() ) {
       VFR::GetLine(sf, buff);
       if ( buff.size() < 1 ) continue;
       if ( buff[0] != '#' ) break;
-      if ( buff.size() < 4 || buff.substr(0, 3) != "#TS" ) continue;
-      int st; float tm;
-      if ( sscanf(buff.substr(3).c_str(), "%d %f", &st, &tm) != 2 ) continue;
-      m_stpList[idx].step = st;
-      m_stpList[idx].time = tm;
-      break;
+      if ( buff.size() >= 4 && buff.substr(0, 3) == "#TS" ) {
+	int st; float tm;
+	if ( sscanf(buff.substr(3).c_str(), "%d %f", &st, &tm) != 2 ) continue;
+	m_stpList[idx].step = st;
+	m_stpList[idx].time = tm;
+	continue;
+      } else if (buff.size() >= 4 && buff.substr(0, 3) == "#NV" ) {
+	vector<string> toks = SplitString(TrimString(buff.substr(3)));
+	vector<string>::iterator tit;
+	for ( tit = toks.begin(); tit != toks.end(); tit++ )
+	  m_nvList[idx].push_back(atoi(tit->c_str()));
+      }
     } // end of while
     sf.close();
 

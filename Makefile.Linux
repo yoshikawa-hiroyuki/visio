@@ -9,6 +9,7 @@ NVR_DIR = ../nvr
 RVR_DIR = ../rvr
 BOOST_DIR = ../boost_1_50_0
 GLEW_DIR = /usr
+GLE_DIR = /usr
 
 INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DLinux -DLINUX $(G) $(OPT)
@@ -16,12 +17,13 @@ CXXFLAGS = $(CFLAGS) -DNDEBUG \
 	`$(VFRDIR)/config/vfr-config --Wx --cflags` \
 	`pkg-config --cflags libxml-2.0` \
 	-I$(TP_DIR)/include -I$(NVR_DIR)/include -I$(RVR_DIR)/include \
-	-I$(GLEW_DIR)/include -DGL_GLEXT_PROTOTYPES
+	-I$(GLEW_DIR)/include -I$(GLE_DIR)/include -DGL_GLEXT_PROTOTYPES
 LDLIBS = `$(VFRDIR)/config/vfr-config --Wx --libs` \
 	`pkg-config --libs libxml-2.0` \
-	-lTP -lNVR -lRVR -lGLEW -lz -lGL -lGLU
+	-lTP -lNVR -lRVR -lGLEW -lz -lGL -lGLU -lgle
 LDFLAGS = `$(VFRDIR)/config/vfr-config --Wx --ldflags` \
 	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \
+	-L$(GLE_DIR)/lib \
 	-Wl,-rpath,/usr/local/Vtools/bin
 
 DEPEND = makedepend -Y
@@ -61,8 +63,6 @@ distclean : clean
 
 depend :
 	$(DEPEND) -I. *.cpp
-
-
 
 # DO NOT DELETE
 
@@ -224,6 +224,8 @@ vsnData_Scatter.o: vsnMethod_Scatter_info.h vsnMethod_info.h
 vsnData_Scatter.o: vsnMethod_Scatter_plotArrows.h
 vsnData_Scatter.o: vsnMethod_Scatter_plotAsLines.h vsnPtSet.h
 vsnData_Scatter.o: vsnMethod_Scatter_plotAsLineStrip.h
+vsnData_Scatter.o: vsnMethod_Scatter_plotAsTubeStrip.h vsnExtrude.h
+vsnData_Scatter.o: vsnGridUtilSv.h vsnData_Sv.h
 vsnData_Scatter.o: vsnMethod_Scatter_plotPoints.h vsnMethod_keyFrameAnim.h
 vsnData_Scatter.o: vsnKeyFrameAnim.h vsnAnimFileCtx.h vsnMethod_label.h
 vsnData_Scatter.o: vsnMethod_timeStep.h vsnFrontLabel.h
@@ -313,6 +315,9 @@ vsnData_TriaCells.o: vsnMethod_plotVector.h vsnMethod_TriaCells_trias.h
 vsnData_TriaCells.o: vsnMethod_keyFrameAnim.h vsnKeyFrameAnim.h
 vsnData_TriaCells.o: vsnAnimFileCtx.h vsnMethod_label.h vsnMethod_timeStep.h
 vsnData_TriaCells.o: vsnFrontLabel.h vsnMethod_timeStepSync.h
+vsnExtrude.o: vsnExtrude.h vsnGridUtilSv.h vsnData_Sv.h vsnDataObj.h
+vsnExtrude.o: vsnXForm.h vsnDataSeqFiles.h vsnIoObject.h vsnMethodObj.h
+vsnExtrude.o: vsnLut.h vsnAnchor.h
 vsnFrameBase.o: vsnFrameBase.h
 vsnFrontAxis.o: vsnFrontAxis.h vsnFrontObj.h
 vsnFrontImage.o: vsnFrontImage.h vsnFrontObj.h
@@ -657,6 +662,20 @@ vsnMethod_Scatter_plotAsLines.o: vsnLightAttribute.h vsnGfxActions.h
 vsnMethod_Scatter_plotAsLines.o: vsnViewPoint.h vsnFrontAxis.h
 vsnMethod_Scatter_plotAsLines.o: vsnRotScaleCenter.h vsnMethodParamCanvas.h
 vsnMethod_Scatter_plotAsLines.o: vsnMethodTmpl.h vsnPathUtil.h vsnOctTree.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnMethod_Scatter_plotAsTubeStrip.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnMethodObj.h vsnLut.h vsnIoObject.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnAnchor.h vsnData_Scatter.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnDataObj.h vsnXForm.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnDataSeqFiles.h vsnExtrude.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnGridUtilSv.h vsnData_Sv.h vsnUiView.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnCMap.h vsnMethodEditProp.h vsnError.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnApp.h vsnViewFrame.h vsnFrameBase.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnGfxView.h vsnScene.h vsnObjGroup.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnFrontObj.h vsnLightAttribute.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnGfxActions.h vsnViewPoint.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnFrontAxis.h vsnRotScaleCenter.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnMethodParamCanvas.h vsnMethodTmpl.h
+vsnMethod_Scatter_plotAsTubeStrip.o: vsnPathUtil.h vsnOctTree.h
 vsnMethod_Scatter_plotPoints.o: vsnMethod_Scatter_plotPoints.h vsnMethodObj.h
 vsnMethod_Scatter_plotPoints.o: vsnLut.h vsnIoObject.h vsnAnchor.h
 vsnMethod_Scatter_plotPoints.o: vsnData_Scatter.h vsnDataObj.h vsnXForm.h
@@ -1072,6 +1091,7 @@ vsnMethod_graphPlot.o: vsnFrameBase.h vsnGfxView.h vsnScene.h vsnObjGroup.h
 vsnMethod_graphPlot.o: vsnFrontObj.h vsnLightAttribute.h vsnViewPoint.h
 vsnMethod_graphPlot.o: vsnFrontAxis.h vsnRotScaleCenter.h
 vsnMethod_graphPlot.o: vsnMethodParamCanvas.h vsnMethodTmpl.h vsnPathUtil.h
+vsnMethod_graphPlot.o: vsnShapeExporter.h vsnPtSet.h
 vsnMethod_histogram.o: vsnMethod_histogram.h vsnMethodObj.h vsnLut.h
 vsnMethod_histogram.o: vsnIoObject.h vsnAnchor.h vsnDataObj.h vsnXForm.h
 vsnMethod_histogram.o: vsnDataSeqFiles.h vsnGnuplotIF.h vsnData_OctVol.h
@@ -1198,6 +1218,8 @@ vsnMethod_timeStepSync.o: vsnUiView.h vsnCMap.h vsnMethodEditProp.h
 vsnMethod_timeStepSync.o: vsnRotScaleCenter.h vsnMethodParamCanvas.h
 vsnMethod_timeStepSync.o: vsnMethodTmpl.h vsnPathUtil.h
 vsnNvrVolumeRender.o: vsnNvrVolumeRender.h vsnVolumeRender.h vsnLut.h
+vsnObjGroup.o: vsnObjGroup.h vsnIoObject.h vsnDataObj.h vsnXForm.h
+vsnObjGroup.o: vsnDataSeqFiles.h vsnMethodObj.h vsnLut.h vsnAnchor.h
 vsnOctTree.o: vsnOctTree.h
 vsnPropDlg.o: vsnPropDlg.h vsnGfxOprProp.h vsnGfxBhvrProp.h vsnError.h
 vsnPropDlg.o: vsnApp.h vsnViewFrame.h vsnFrameBase.h vsnGfxView.h vsnScene.h

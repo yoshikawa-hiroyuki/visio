@@ -25,6 +25,7 @@ public:
   std::deque<std::string> getSeqFilePathes() const;
   bool init(const std::deque<std::string>& path_lst);
   size_t getMaxNumPts() const {return m_maxNumPts;}
+  std::deque<int> getNvList(const size_t stpIdx) const;
 
   // from vsnTimeSeriesDataIF
   virtual size_t getNumSteps() const {return m_numStps;}
@@ -60,6 +61,9 @@ private:
   ScatterType         m_scatterType;
   size_t              m_maxNumPts;
   float*              m_pData;
+
+  std::deque< std::deque<int> >
+                      m_nvList;    // stores #NV=nv1[,nv2,...] information
 
   size_t              m_numStps;
   std::deque<std::string>

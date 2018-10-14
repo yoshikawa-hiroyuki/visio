@@ -18,6 +18,7 @@
 #include "vsnUiView.h"
 #include "vsnError.h"
 #include "vsnOctTree.h" // for decomp vecIdx
+#include "vfrLineStrip.h"
 
 using namespace std;
 using namespace CES;
@@ -40,6 +41,8 @@ BEGIN_EVENT_TABLE(vsnMPP_Scatter_plotAsLineStrip, wxPanel)
                  vsnMPP_Scatter_plotAsLineStrip::OnLineWidthTxt)
   EVT_CHECKBOX(MPP_Scatter_plotAsLineStrip_AntiAliasChk,
                vsnMPP_Scatter_plotAsLineStrip::OnAntiAliasChk)
+  EVT_CHECKBOX(MPP_Scatter_plotAsLineStrip_SplitWithNVChk,
+               vsnMPP_Scatter_plotAsLineStrip::OnSplitWithNVChk)
 END_EVENT_TABLE()
 
 
@@ -88,6 +91,11 @@ vsnMPP_Scatter_plotAsLineStrip(wxPanel* parent, vsnMethodObj* pm)
 		     wxT("anti-alias line"));
   assert(m_pAntiAliasChk);
 
+  m_pSplitWithNVChk
+    = new wxCheckBox(this, MPP_Scatter_plotAsLineStrip_SplitWithNVChk,
+		     wxT("split with NV points"));
+  assert(m_pSplitWithNVChk);
+
   // prepare sizers
   wxBoxSizer* topsizer = new wxBoxSizer(wxVERTICAL); assert(topsizer);
   wxBoxSizer* sizerH;
@@ -118,6 +126,9 @@ vsnMPP_Scatter_plotAsLineStrip(wxPanel* parent, vsnMethodObj* pm)
 
   // anti-alias
   topsizer->Add(m_pAntiAliasChk, 0, wxALL, 3);
+
+  // split with NV
+  topsizer->Add(m_pSplitWithNVChk, 0, wxALL, 3);
 
   // post process
   SetSizer(topsizer);
@@ -194,6 +205,9 @@ bool vsnMPP_Scatter_plotAsLineStrip::update() {
 
   // anti-alias
   m_pAntiAliasChk->SetValue(pm->getAntiAliasMode());
+
+  // split with NV
+  m_pSplitWithNVChk->SetValue(pm->getSplitWithNV());
 
   return true;
 }
@@ -300,6 +314,18 @@ void vsnMPP_Scatter_plotAsLineStrip::OnAntiAliasChk(wxCommandEvent& event) {
     pm->chkNotice();
 }
 
+void vsnMPP_Scatter_plotAsLineStrip::OnSplitWithNVChk(wxCommandEvent& event)
+{
+  if ( ! m_pSplitWithNVChk ) return;
+  vsnMethod_Scatter_plotAsLineStrip* pm
+    = dynamic_cast<vsnMethod_Scatter_plotAsLineStrip*>(p_method);
+  if ( ! pm ) return;
+
+  bool val = m_pSplitWithNVChk->GetValue();
+  if ( pm->setSplitWithNV(val) )
+    pm->chkNotice();
+}
+
 
 //----------------------------------------------------------------
 // class vsnMethod_Scatter_plotAsLineStrip
@@ -311,14 +337,17 @@ vsnMethod_Scatter_plotAsLineStrip::
 vsnMethod_Scatter_plotAsLineStrip(const string& name)
 : vsnMethodObj(name),
   m_lineType(VFR::ST_SOLID), m_selectedData(DATA_None), m_vecDataIdx(0,1,2),
-  m_updateMinMax(true), m_lineWidth(1.f), m_shape(NULL)
+  m_updateMinMax(true), m_lineWidth(1.f), m_splitWithNV(true), m_shape(NULL)
 {
   m_showType = RT_WIRE;
 }
 
 vsnMethod_Scatter_plotAsLineStrip::~vsnMethod_Scatter_plotAsLineStrip() {
-  if ( m_shape )
+  if ( m_shape ) {
+    m_shape->remAllChildren();
     delete m_shape;
+    m_shape = NULL;
+  }
 }
 
 
@@ -379,6 +408,16 @@ bool vsnMethod_Scatter_plotAsLineStrip::setLineWidth(const float lw) {
   m_lineWidth = lw;
   if ( m_shape )
     m_shape->getPrivateMaterial()->setLineWidth(m_lineWidth);
+  updateUI();
+  return true;
+}
+
+bool vsnMethod_Scatter_plotAsLineStrip::setSplitWithNV(const bool split) {
+  if ( m_splitWithNV == split ) return true;
+  m_splitWithNV = split;
+  if ( m_shape ) {
+    if ( ! update() ) return false;
+  }
   updateUI();
   return true;
 }
@@ -500,7 +539,7 @@ bool vsnMethod_Scatter_plotAsLineStrip::updateStep(const int stp,
 
   // shape
   if ( ! m_shape ) {
-    m_shape = new vfrLineStrip();
+    m_shape = new vfrGroup();
     if ( ! m_shape ) {
       ErrMsg(MsgERR, getMethodType() + string("[") + getName()
              + string("]: memory allocation failed"));
@@ -511,6 +550,7 @@ bool vsnMethod_Scatter_plotAsLineStrip::updateStep(const int stp,
     addChild(m_shape);
   }
   m_shape->getPrivateMaterial()->setRenderMode(RT_NONE);
+  m_shape->remAllChildren();
   if ( ! m_show ) {
     return true;
   }
@@ -519,68 +559,107 @@ bool vsnMethod_Scatter_plotAsLineStrip::updateStep(const int stp,
   size_t dlen = pData->getDataLen();
   if ( m_selectedData == DATA_Veclen && ! isValidVecData() ) return true;
 
-  // alloc line datas
-  int sampleSz = pData->getNumVerts();
-  if ( sampleSz < 2 ) return true;
-  if ( ! m_shape->alcVerts(sampleSz) ) {
-    ErrMsg(MsgERR, getMethodType() + string("[") + getName()
-           + string("]: memory allocation for vertex failed"));
-    return false;
-  }
-  if ( m_selectedData == DATA_Veclen ||
-       (m_selectedData > 0 && m_selectedData <= dlen) ) {
-    if ( ! m_shape->alcColors(sampleSz) ) {
-      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
-             + string("]: memory allocation for colors failed"));
-      return false;
-    }
-  }
-
-  // set verts of linestrip
-  register size_t i;
-  vector3* vl = m_shape->getVerts();
+  // get point data
+  int numVtx = pData->getNumVerts();
+  if ( numVtx < 2 ) return true;
   vector3* pv = pData->getVerts();
   float* pd = pData->getData();
-  for ( i = 0; i < sampleSz; i++ ) {
-    memcpy(vl[i], pv[i], sizeof(vector3));
-  } // end of for(i)
-  m_shape->generateBbox();
 
-  // set colors
-  vector4* cl = m_shape->getColors();
-  Vec3<float> vv;
-  register float dval;
-  register int c;
-  if ( m_selectedData == DATA_Veclen ) {
-    for ( i = 0; i < sampleSz; i++ ) {
-      vv[0] = pd[dlen*i + m_vecDataIdx[0]];
-      vv[1] = pd[dlen*i + m_vecDataIdx[1]];
-      vv[2] = pd[dlen*i + m_vecDataIdx[2]];
-      dval = vv.Length();
-      c = m_lut.getValIdx(dval);
-      cl[i][0] = m_lut.lutEntry[c*4  ];
-      cl[i][1] = m_lut.lutEntry[c*4+1];
-      cl[i][2] = m_lut.lutEntry[c*4+2];
-      cl[i][3] = 1.f;
+  // adjust split NV list
+  deque<int> nv_list;
+  if ( getSplitWithNV() ) {
+    nv_list = pData->getNvList(m_requestedStp);
+    int totalNv = 0;
+    deque<int>::iterator nvit = nv_list.begin();
+    for ( ; nvit != nv_list.end(); nvit++ ) totalNv += *nvit;
+    if ( numVtx < totalNv ) {
+      while ( nv_list.size() > 0 ) {
+	int lastNv = nv_list.back();
+	nv_list.pop_back();
+	totalNv -= lastNv;
+	if ( numVtx >= totalNv ) break;
+      }
+    }
+    if ( numVtx > totalNv ) {
+      int lastNv = numVtx - totalNv;
+      nv_list.push_back(lastNv);
+    }
+  } else {
+    nv_list.push_back(numVtx);
+  }
+  size_t numStrip = nv_list.size();
+  
+  // alloc lineStrip set
+  size_t idxOfst = 0;
+  for ( int idxL = 0; idxL < numStrip; idxL++ ) {
+    if ( nv_list[idxL] < 2 ) continue;
+    vfrLineStrip* pls = new vfrLineStrip();
+    if ( ! pls ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+           + string("]: memory allocation for LineStrip failed"));
+      return false;
+    }
+    if ( ! pls->alcVerts(nv_list[idxL]) ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	     + string("]: memory allocation for vertex failed"));
+      return false;
+    }
+    if ( m_selectedData == DATA_Veclen ||
+	 (m_selectedData > 0 && m_selectedData <= dlen) ) {
+      if ( ! pls->alcColors(nv_list[idxL]) ) {
+	ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	       + string("]: memory allocation for colors failed"));
+	return false;
+      }
+    }
+
+    // set verts of linestrip
+    register size_t i;
+    vector3* vl = pls->getVerts();
+    for ( i = 0; i < nv_list[idxL]; i++ ) {
+      memcpy(vl[i], pv[i+idxOfst], sizeof(vector3));
     } // end of for(i)
-    m_shape->setColorMode(AT_PER_VERTEX);
-  }
-  else if ( m_selectedData > 0 && m_selectedData <= dlen ) {
-    for ( i = 0; i < sampleSz; i++ ) {
-      dval = pd[dlen*i + m_selectedData -1];
-      c = m_lut.getValIdx(dval);
-      cl[i][0] = m_lut.lutEntry[c*4  ];
-      cl[i][1] = m_lut.lutEntry[c*4+1];
-      cl[i][2] = m_lut.lutEntry[c*4+2];
-      cl[i][3] = 1.f;
-    } // end of for(i)
-    m_shape->setColorMode(AT_PER_VERTEX);
-  }
-  else { // not ref
-    cl[0][0] = m_colour[0]; cl[0][1] = m_colour[1];
-    cl[0][2] = m_colour[2]; cl[0][3] = 1.f;
-    m_shape->setColorMode(AT_WHOLE);
-  }
+    //pls->generateBbox();
+
+    // set colors
+    vector4* cl = pls->getColors();
+    Vec3<float> vv;
+    register float dval;
+    register int c;
+    if ( m_selectedData == DATA_Veclen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	vv[0] = pd[dlen*(i+idxOfst) + m_vecDataIdx[0]];
+	vv[1] = pd[dlen*(i+idxOfst) + m_vecDataIdx[1]];
+	vv[2] = pd[dlen*(i+idxOfst) + m_vecDataIdx[2]];
+	dval = vv.Length();
+	c = m_lut.getValIdx(dval);
+	cl[i][0] = m_lut.lutEntry[c*4  ];
+	cl[i][1] = m_lut.lutEntry[c*4+1];
+	cl[i][2] = m_lut.lutEntry[c*4+2];
+	cl[i][3] = 1.f;
+      } // end of for(i)
+      pls->setColorMode(AT_PER_VERTEX);
+    }
+    else if ( m_selectedData > 0 && m_selectedData <= dlen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	dval = pd[dlen*(i+idxOfst) + m_selectedData -1];
+	c = m_lut.getValIdx(dval);
+	cl[i][0] = m_lut.lutEntry[c*4  ];
+	cl[i][1] = m_lut.lutEntry[c*4+1];
+	cl[i][2] = m_lut.lutEntry[c*4+2];
+	cl[i][3] = 1.f;
+      } // end of for(i)
+      pls->setColorMode(AT_PER_VERTEX);
+    }
+    else { // not ref
+      cl[0][0] = m_colour[0]; cl[0][1] = m_colour[1];
+      cl[0][2] = m_colour[2]; cl[0][3] = 1.f;
+      pls->setColorMode(AT_WHOLE);
+    }
+
+    m_shape->addChild(pls);
+    idxOfst += nv_list[idxL];
+  } // end of for(idxL)  
 
   // ok
   m_shape->getPrivateMaterial()->setRenderMode(m_showType);
@@ -699,6 +778,20 @@ bool vsnMethod_Scatter_plotAsLineStrip::parseXML(xmlNodePtr xnp) {
           goto _NEXT_XML_NODE;
         }
       } // end of "antialias"
+      else if ( xsN == string("split_with_NV") ) {
+        bool aam;
+        if ( xsV == string("yes") ) aam = true;
+        else if ( xsV == string("no") ) aam = false;
+        else {
+          ErrMsg(MsgERR, msgHdr
+		 + string("invalid value in param split_with_NV"));
+          goto _NEXT_XML_NODE;
+        }
+        if ( ! setSplitWithNV(aam) ) {
+          ErrMsg(MsgERR, msgHdr + string("can't set split_with_NV"));
+          goto _NEXT_XML_NODE;
+        }
+      } // end of "split_with_NV"
     } // end of param
 
   _NEXT_XML_NODE:
@@ -774,6 +867,11 @@ bool vsnMethod_Scatter_plotAsLineStrip::outputXML(std::ostream& os,
   // antialias
   if ( m_antiAlias ) {
     os << idts_2 << "<param name=\"antialias\" value=\"yes\" />" << endl;
+  }
+
+  // split with NV
+  if ( m_splitWithNV != true ) {
+    os << idts_2 << "<param name=\"split_with_NV\" value=\"no\" />" << endl;
   }
 
   os << idts << "</method>" << endl;
@@ -901,6 +999,21 @@ bool vsnMethod_Scatter_plotAsLineStrip::commandXML(xmlNodePtr xnp) {
       return false;
     }
   } // end of "set_antialias"
+  else if ( nameStr == "set_split_with_NV" ) {
+    bool split;
+    if ( valueStr == string("yes") ) split = true;
+    else if ( valueStr == string("no") ) split = false;
+    else {
+      ErrMsg(MsgERR, msgHdr +
+             string("invalid command: set_split_with_NV: invalid value"));
+      return false;
+    }
+    if ( ! setSplitWithNV(split) ) {
+      ErrMsg(MsgERR, msgHdr +
+             string("command set_split_with_NV: set failed: ") + valueStr);
+      return false;
+    }
+  } // end of "set_split_with_NV"
   else {
     // not my command
     ErrMsg(MsgERR, msgHdr + string("unknown command: ") + nameStr);

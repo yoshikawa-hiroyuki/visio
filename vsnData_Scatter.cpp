@@ -245,7 +245,7 @@ std::deque<int> vsnData_Scatter::getNvList(const size_t stpIdx) const {
     return deque<int>();
   }
   if ( stpIdx >= m_numStps ) {
-    return m_nvList[m_numStps -1];
+    return deque<int>(); //m_nvList[m_numStps -1];
   }
   return m_nvList[stpIdx];
 }
@@ -289,8 +289,11 @@ vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
       } else if (buff.size() >= 4 && buff.substr(0, 3) == "#NV" ) {
 	vector<string> toks = SplitString(TrimString(buff.substr(3)));
 	vector<string>::iterator tit;
-	for ( tit = toks.begin(); tit != toks.end(); tit++ )
-	  m_nvList[idx].push_back(atoi(tit->c_str()));
+	for ( tit = toks.begin(); tit != toks.end(); tit++ ) {
+	  int nv = atoi(tit->c_str());
+	  if ( nv > 0 )
+	    m_nvList[idx].push_back(nv);
+	} // end of for(tit)
       }
     } // end of while
     sf.close();

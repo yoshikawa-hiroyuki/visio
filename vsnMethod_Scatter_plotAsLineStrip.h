@@ -15,8 +15,6 @@
 #include "vsnMethodObj.h"
 #include "vsnData_Scatter.h"
 
-#include "vfrLineStrip.h"
-
 namespace VSN {
   // control ids
   enum {MPP_Scatter_plotAsLineStrip_LineTypeRadio = 3750,
@@ -25,6 +23,7 @@ namespace VSN {
 	MPP_Scatter_plotAsLineStrip_UpdMinMaxChk,
 	MPP_Scatter_plotAsLineStrip_LineWidthTxt,
 	MPP_Scatter_plotAsLineStrip_AntiAliasChk,
+	MPP_Scatter_plotAsLineStrip_SplitWithNVChk,
   };
 };
 
@@ -48,6 +47,7 @@ public:
   void OnUpdMinMaxChk(wxCommandEvent& event);
   void OnLineWidthTxt(wxCommandEvent& event);
   void OnAntiAliasChk(wxCommandEvent& event);
+  void OnSplitWithNVChk(wxCommandEvent& event);
 
 private:
   wxRadioBox*     m_pLineTypeRadio;
@@ -56,6 +56,7 @@ private:
   wxCheckBox*     m_pUpdMinMaxChk;
   wxTextCtrl*     m_pLineWidthTxt;
   wxCheckBox*     m_pAntiAliasChk;
+  wxCheckBox*     m_pSplitWithNVChk;
 
   DECLARE_EVENT_TABLE()
 };
@@ -90,6 +91,9 @@ public:
   float getLineWidth() const {return m_lineWidth;}
   bool setLineWidth(const float lw);
 
+  bool getSplitWithNV() const {return m_splitWithNV;}
+  bool setSplitWithNV(const bool split);
+
   // from vsnTimeSeriesMethodIF
   virtual bool updateStep(const int stp,
                           const bool force =true, const bool cascade =true);
@@ -116,7 +120,8 @@ protected:
   VSN::WhichDataType m_selectedData;
   CES::Vec3<int>     m_vecDataIdx;
   bool               m_updateMinMax;
-  vfrLineStrip*      m_shape;
+  bool               m_splitWithNV;
+  vfrGroup*          m_shape;
 
   void adjustRange();
 };

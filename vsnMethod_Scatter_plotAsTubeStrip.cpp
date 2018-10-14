@@ -18,6 +18,7 @@
 #include "vsnUiView.h"
 #include "vsnError.h"
 #include "vsnOctTree.h" // for decomp vecIdx
+#include "vsnExtrude.h"
 
 using namespace std;
 using namespace CES;
@@ -28,14 +29,18 @@ using namespace VSN;
 // class vsnMPP_Scatter_plotAsTubeStrip
 //----------------------------------------------------------------
 BEGIN_EVENT_TABLE(vsnMPP_Scatter_plotAsTubeStrip, wxPanel)
-  EVT_COMBOBOX(MPP_Scatter_plotAsTubeStrip_SelDataLst,
-               vsnMPP_Scatter_plotAsTubeStrip::OnSelDataLst)
+  EVT_TEXT_ENTER(MPP_Scatter_plotAsTubeStrip_RadiusBiasTxt,
+                 vsnMPP_Scatter_plotAsTubeStrip::OnRadiusBiasTxt)
+  EVT_COMBOBOX(MPP_Scatter_plotAsTubeStrip_SelColDataLst,
+               vsnMPP_Scatter_plotAsTubeStrip::OnSelColDataLst)
+  EVT_COMBOBOX(MPP_Scatter_plotAsTubeStrip_SelRadDataLst,
+               vsnMPP_Scatter_plotAsTubeStrip::OnSelRadDataLst)
   EVT_CHECKLISTBOX(MPP_Scatter_plotAsTubeStrip_VecDataChkLst,
                    vsnMPP_Scatter_plotAsTubeStrip::OnVecDataChkLst)
   EVT_CHECKBOX(MPP_Scatter_plotAsTubeStrip_UpdMinMaxChk,
                vsnMPP_Scatter_plotAsTubeStrip::OnUpdMinMaxChk)
-  EVT_TEXT_ENTER(MPP_Scatter_plotAsTubeStrip_RadiusTxt,
-                 vsnMPP_Scatter_plotAsTubeStrip::OnRadiusTxt)
+  EVT_CHECKBOX(MPP_Scatter_plotAsTubeStrip_SplitWithNVChk,
+               vsnMPP_Scatter_plotAsTubeStrip::OnSplitWithNVChk)
 END_EVENT_TABLE()
 
 
@@ -49,14 +54,23 @@ vsnMPP_Scatter_plotAsTubeStrip(wxPanel* parent, vsnMethodObj* pm)
   assert(dynamic_cast<vsnMethod_Scatter_plotAsTubeStrip*>(pm));
 
   // create widgets
-  wxString ritems[] = {wxString(wxT("regular")), wxString(wxT("dot")),
-		       wxString(wxT("dash")), wxString(wxT("dot-dash 1")),
-		       wxString(wxT("dot-dash 2"))};
-  m_pSelDataLst
-    = new wxComboBox(this, MPP_Scatter_plotAsTubeStrip_SelDataLst,
+  m_pRadiusBiasTxt
+    = new wxTextCtrl(this, MPP_Scatter_plotAsTubeStrip_RadiusBiasTxt,
+		     wxT(""), wxDefaultPosition, wxDefaultSize,
+		     wxTE_PROCESS_ENTER);
+  assert(m_pRadiusBiasTxt);
+
+  m_pSelColDataLst
+    = new wxComboBox(this, MPP_Scatter_plotAsTubeStrip_SelColDataLst,
 		     wxT(""), wxDefaultPosition, wxDefaultSize,
 		     0, NULL, wxCB_READONLY);
-  assert(m_pSelDataLst);
+  assert(m_pSelColDataLst);
+
+  m_pSelRadDataLst
+    = new wxComboBox(this, MPP_Scatter_plotAsTubeStrip_SelRadDataLst,
+		     wxT(""), wxDefaultPosition, wxDefaultSize,
+		     0, NULL, wxCB_READONLY);
+  assert(m_pSelRadDataLst);
 
   m_pVecDataChkLst
     = new wxCheckListBox(this, MPP_Scatter_plotAsTubeStrip_VecDataChkLst);
@@ -67,20 +81,32 @@ vsnMPP_Scatter_plotAsTubeStrip(wxPanel* parent, vsnMethodObj* pm)
 		     wxT("update lut minmax"));
   assert(m_pUpdMinMaxChk);
 
-  m_pRadiusTxt
-    = new wxTextCtrl(this, MPP_Scatter_plotAsTubeStrip_RadiusTxt,
-		     wxT(""), wxDefaultPosition, wxDefaultSize,
-		     wxTE_PROCESS_ENTER);
-  assert(m_pRadiusTxt);
-
+  m_pSplitWithNVChk
+    = new wxCheckBox(this, MPP_Scatter_plotAsTubeStrip_SplitWithNVChk,
+                    wxT("split with NV points"));
+  assert(m_pSplitWithNVChk);
+ 
   // prepare sizers
   wxBoxSizer* topsizer = new wxBoxSizer(wxVERTICAL); assert(topsizer);
   wxBoxSizer* sizerH;
 
+  // radius bias
+  sizerH = new wxBoxSizer(wxHORIZONTAL);
+  topsizer->Add(sizerH, 0, wxALL, 3);
+  sizerH->Add(new wxStaticText(this, -1, wxT("radius bias")),
+              0, wxALIGN_LEFT|wxALL, 3);
+  sizerH->Add(m_pRadiusBiasTxt, 0, wxALIGN_LEFT|wxALL, 3);
+
   // data selector
-  topsizer->Add(new wxStaticText(this, -1, wxT("select scalar data")),
+  topsizer->Add(new wxStaticText(this, -1,
+				 wxT("select scalar data for color")),
                 0, wxALIGN_LEFT|wxALL, 3);
-  topsizer->Add(m_pSelDataLst, 0, wxEXPAND|wxALL, 3);
+  topsizer->Add(m_pSelColDataLst, 0, wxEXPAND|wxALL, 3);
+
+  topsizer->Add(new wxStaticText(this, -1,
+				 wxT("select scalar data for radius")),
+                0, wxALIGN_LEFT|wxALL, 3);
+  topsizer->Add(m_pSelRadDataLst, 0, wxEXPAND|wxALL, 3);
 
   // vector data selector
   topsizer->Add(new wxStaticText(this, -1, wxT("vector components")),
@@ -91,13 +117,9 @@ vsnMPP_Scatter_plotAsTubeStrip(wxPanel* parent, vsnMethodObj* pm)
   m_pUpdMinMaxChk->SetValue(TRUE);
   topsizer->Add(m_pUpdMinMaxChk, 0, wxALL, 3);
 
-  // radius
-  sizerH = new wxBoxSizer(wxHORIZONTAL);
-  topsizer->Add(sizerH, 0, wxALL, 3);
-  sizerH->Add(new wxStaticText(this, -1, wxT("radius")),
-              0, wxALIGN_LEFT|wxALL, 3);
-  sizerH->Add(m_pRadiusTxt, 0, wxALIGN_LEFT|wxALL, 3);
-
+  // split with NV
+  topsizer->Add(m_pSplitWithNVChk, 0, wxALL, 3);
+ 
   // post process
   SetSizer(topsizer);
   addTo(parent);
@@ -136,39 +158,76 @@ bool vsnMPP_Scatter_plotAsTubeStrip::update() {
     if ( vidx[2] >= 0 && vidx[2] < dlen ) m_pVecDataChkLst->Check(vidx[2]);
   }
 
-  // select scalar data
-  if ( m_pSelDataLst->GetCount() < 1 ) {
-    m_pSelDataLst->Append(wxT("None"));
+  // select scalar data for color
+  if ( m_pSelColDataLst->GetCount() < 1 ) {
+    m_pSelColDataLst->Append(wxT("None"));
     if ( dlen > 0 ) {
       for ( i = 0; i < dlen; i++ ) {
         sprintf(txt, "data%zd", i);
-        m_pSelDataLst->Append(vsnApp::ConvSysToWx(txt));
+        m_pSelColDataLst->Append(vsnApp::ConvSysToWx(txt));
       } // end of for(i)
       if ( dlen >= 3 )
-        m_pSelDataLst->Append(wxT("vector length"));
+        m_pSelColDataLst->Append(wxT("vector length"));
     }
   }
-  WhichDataType selData = pm->getSelectedData();
-  if ( selData >= 0 && selData <= dlen )
-    m_pSelDataLst->SetSelection(selData);
-  else if ( selData == DATA_Veclen && dlen >= 3 )
-    m_pSelDataLst->SetSelection(dlen + 1);
+  WhichDataType selColData = pm->getSelectedColData();
+  if ( selColData >= 0 && selColData <= dlen )
+    m_pSelColDataLst->SetSelection(selColData);
+  else if ( selColData == DATA_Veclen && dlen >= 3 )
+    m_pSelColDataLst->SetSelection(dlen + 1);
   else
-    m_pSelDataLst->SetSelection(0);
+    m_pSelColDataLst->SetSelection(0);
+
+  // select scalar data for radius
+  if ( m_pSelRadDataLst->GetCount() < 1 ) {
+    m_pSelRadDataLst->Append(wxT("Const 1.0"));
+    if ( dlen > 0 ) {
+      for ( i = 0; i < dlen; i++ ) {
+        sprintf(txt, "data%zd", i);
+        m_pSelRadDataLst->Append(vsnApp::ConvSysToWx(txt));
+      } // end of for(i)
+      if ( dlen >= 3 )
+        m_pSelRadDataLst->Append(wxT("vector length"));
+    }
+  }
+  WhichDataType selRadData = pm->getSelectedRadData();
+  if ( selRadData >= 0 && selRadData <= dlen )
+    m_pSelRadDataLst->SetSelection(selRadData);
+  else if ( selRadData == DATA_Veclen && dlen >= 3 )
+    m_pSelRadDataLst->SetSelection(dlen + 1);
+  else
+    m_pSelRadDataLst->SetSelection(0);
 
   // update minmax mode
   m_pUpdMinMaxChk->SetValue(pm->getUpdateMinMaxMode());
 
-  // radius
-  float r = pm->getRadius();
+  // split with NV
+  m_pSplitWithNVChk->SetValue(pm->getSplitWithNV());
+
+  // radius bias
+  float r = pm->getRadiusBias();
   sprintf(txt, "%g", r);
-  m_pRadiusTxt->SetValue(vsnApp::ConvSysToWx(txt));  
+  m_pRadiusBiasTxt->SetValue(vsnApp::ConvSysToWx(txt));  
 
   return true;
 }
 
 
 /* event handler */
+
+void vsnMPP_Scatter_plotAsTubeStrip::OnRadiusBiasTxt(wxCommandEvent& event) {
+  vsnMethod_Scatter_plotAsTubeStrip* pm
+    = dynamic_cast<vsnMethod_Scatter_plotAsTubeStrip*>(p_method);
+  if ( ! pm ) return;
+
+  wxString valStr = m_pRadiusBiasTxt->GetValue();
+  if ( valStr.IsEmpty() ) return;
+  float value = (float)atof(vsnApp::ConvWxToSys(valStr).c_str());
+  if ( value < 0.001f ) value = 0.001f;
+
+  if ( pm->setRadiusBias(value) )
+    pm->chkNotice();
+}
 
 void
 vsnMPP_Scatter_plotAsTubeStrip::OnVecDataChkLst(wxCommandEvent& event) {
@@ -195,21 +254,42 @@ vsnMPP_Scatter_plotAsTubeStrip::OnVecDataChkLst(wxCommandEvent& event) {
     pm->chkNotice();
 }
 
-void vsnMPP_Scatter_plotAsTubeStrip::OnSelDataLst(wxCommandEvent& event) {
-  if ( ! m_pSelDataLst ) return;
+void vsnMPP_Scatter_plotAsTubeStrip::OnSelColDataLst(wxCommandEvent& event) {
+  if ( ! m_pSelColDataLst ) return;
   WhichDataType sel = event.GetInt();
   if ( sel < 0 ) return;
 
-  wxString valStr = m_pSelDataLst->GetString(sel);
+  wxString valStr = m_pSelColDataLst->GetString(sel);
   if ( valStr == wxT("vector length") )
     sel = DATA_Veclen;
 
   vsnMethod_Scatter_plotAsTubeStrip* pm
     = dynamic_cast<vsnMethod_Scatter_plotAsTubeStrip*>(p_method);
   if ( ! pm ) return;
-  if ( sel == pm->getSelectedData() ) return;
+  if ( sel == pm->getSelectedColData() ) return;
 
-  if ( ! pm->setSelectedData(sel) ) {
+  if ( ! pm->setSelectedColData(sel) ) {
+    update();
+    return;
+  }
+  pm->chkNotice();
+}
+
+void vsnMPP_Scatter_plotAsTubeStrip::OnSelRadDataLst(wxCommandEvent& event) {
+  if ( ! m_pSelRadDataLst ) return;
+  WhichDataType sel = event.GetInt();
+  if ( sel < 0 ) return;
+
+  wxString valStr = m_pSelRadDataLst->GetString(sel);
+  if ( valStr == wxT("vector length") )
+    sel = DATA_Veclen;
+
+  vsnMethod_Scatter_plotAsTubeStrip* pm
+    = dynamic_cast<vsnMethod_Scatter_plotAsTubeStrip*>(p_method);
+  if ( ! pm ) return;
+  if ( sel == pm->getSelectedRadData() ) return;
+
+  if ( ! pm->setSelectedRadData(sel) ) {
     update();
     return;
   }
@@ -228,17 +308,15 @@ void vsnMPP_Scatter_plotAsTubeStrip::OnUpdMinMaxChk(wxCommandEvent& event) {
     pm->chkNotice();
 }
 
-void vsnMPP_Scatter_plotAsTubeStrip::OnRadiusTxt(wxCommandEvent& event) {
+void vsnMPP_Scatter_plotAsTubeStrip::OnSplitWithNVChk(wxCommandEvent& event)
+{
+  if ( ! m_pSplitWithNVChk ) return;
   vsnMethod_Scatter_plotAsTubeStrip* pm
     = dynamic_cast<vsnMethod_Scatter_plotAsTubeStrip*>(p_method);
   if ( ! pm ) return;
 
-  wxString valStr = m_pRadiusTxt->GetValue();
-  if ( valStr.IsEmpty() ) return;
-  float value = (float)atof(vsnApp::ConvWxToSys(valStr).c_str());
-  if ( value < 0.001f ) value = 0.001f;
-
-  if ( pm->setRadius(value) )
+  bool val = m_pSplitWithNVChk->GetValue();
+  if ( pm->setSplitWithNV(val) )
     pm->chkNotice();
 }
 
@@ -252,15 +330,19 @@ void vsnMPP_Scatter_plotAsTubeStrip::OnRadiusTxt(wxCommandEvent& event) {
 vsnMethod_Scatter_plotAsTubeStrip::
 vsnMethod_Scatter_plotAsTubeStrip(const string& name)
 : vsnMethodObj(name),
-  m_selectedData(DATA_None), m_vecDataIdx(0,1,2),
-  m_updateMinMax(true), m_radius(1.f), m_shape(NULL)
+  m_selectedColData(DATA_None), m_selectedRadData(DATA_None),
+  m_vecDataIdx(0,1,2), m_updateMinMax(true), m_radiusBias(1.f),
+  m_splitWithNV(true), m_shape(NULL)
 {
   m_showType = RT_SMOOTH;
 }
 
 vsnMethod_Scatter_plotAsTubeStrip::~vsnMethod_Scatter_plotAsTubeStrip() {
-  if ( m_shape )
+  if ( m_shape ) {
+    m_shape->remAllChildren();
     delete m_shape;
+    m_shape = NULL;
+  }
 }
 
 
@@ -274,7 +356,7 @@ void vsnMethod_Scatter_plotAsTubeStrip::adjustRange() {
   int dlen = (int)pData->getDataLen();
 
   float dr[2];
-  if ( m_selectedData == DATA_Veclen ) {
+  if ( m_selectedColData == DATA_Veclen ) {
     CES::Vec3<int> vdl = m_vecDataIdx;
     if ( pData->getVectorMaxLen(vdl, dr[1]) ) {
       if ( m_updateMinMax ) {
@@ -285,7 +367,7 @@ void vsnMethod_Scatter_plotAsTubeStrip::adjustRange() {
     }
     setUseLut(true);
   } // end of if(DATA_Veclen)
-  else if ( m_selectedData > 0 && m_selectedData <= dlen ) {
+  else if ( m_selectedColData > 0 && m_selectedColData <= dlen ) {
     if ( pData->getMinMax(m_selectedData -1, dr) ) {
       if ( m_updateMinMax ) {
         m_lut.minVal = dr[0];
@@ -305,11 +387,10 @@ void vsnMethod_Scatter_plotAsTubeStrip::adjustRange() {
   }
 }
 
-bool vsnMethod_Scatter_plotAsTubeStrip::setRadius(const float r) {
-  if ( m_radius == r ) return true;
-  m_radius = r;
-  if ( m_shape )
-    m_shape->setRadius(m_radius);
+bool vsnMethod_Scatter_plotAsTubeStrip::setRadiusBias(const float rb) {
+  if ( m_radiusBias == rb ) return true;
+  m_radiusBias = rb;
+  if ( ! update() ) return false;
   updateUI();
   return true;
 }
@@ -330,8 +411,9 @@ vsnMethod_Scatter_plotAsTubeStrip::setVecDataIdx(const Vec3<int>& vdidx) {
 }
 
 bool
-vsnMethod_Scatter_plotAsTubeStrip::setSelectedData(const WhichDataType sd) {
-  if ( sd == m_selectedData ) return true;
+vsnMethod_Scatter_plotAsTubeStrip::setSelectedColData(const WhichDataType sd)
+{
+  if ( sd == m_selectedColData ) return true;
 
   vsnNumericalDataIF* pData = dynamic_cast<vsnNumericalDataIF*>(p_refData);
   if ( ! pData ) return false;
@@ -339,10 +421,28 @@ vsnMethod_Scatter_plotAsTubeStrip::setSelectedData(const WhichDataType sd) {
   int dlen = (int)pData->getDataLen();
   if ( sd > dlen ) return false;
   if ( sd == DATA_Veclen && dlen < 3 ) return false;
-  m_selectedData = sd;
+  m_selectedColData = sd;
 
   // data range
   adjustRange();
+
+  if ( ! update() ) return false;
+  updateUI();
+  return true;
+}
+
+bool
+vsnMethod_Scatter_plotAsTubeStrip::setSelectedRadData(const WhichDataType sd)
+{
+  if ( sd == m_selectedRadData ) return true;
+
+  vsnNumericalDataIF* pData = dynamic_cast<vsnNumericalDataIF*>(p_refData);
+  if ( ! pData ) return false;
+
+  int dlen = (int)pData->getDataLen();
+  if ( sd > dlen ) return false;
+  if ( sd == DATA_Veclen && dlen < 3 ) return false;
+  m_selectedRadData = sd;
 
   if ( ! update() ) return false;
   updateUI();
@@ -371,22 +471,31 @@ vsnMethod_Scatter_plotAsTubeStrip::setUpdateMinMaxMode(const bool mode) {
       = dynamic_cast<vsnNumericalDataIF*>(p_refData);
     if ( pData ) {
       float dr[2];
-      if ( m_selectedData == DATA_Veclen ) {
+      if ( m_selectedColData == DATA_Veclen ) {
 	CES::Vec3<int> vdl = m_vecDataIdx;
         if ( pData->getVectorMaxLen(vdl, dr[1]) ) {
           m_lut.minVal = 0.f;
           m_lut.maxVal = dr[1];
         }
       } // end of if(DATA_Veclen)
-      else if ( m_selectedData > 0 &&
-		m_selectedData <= pData->getDataLen() ) {
-        if ( pData->getMinMax(m_selectedData -1, dr) ) {
+      else if ( m_selectedColData > 0 &&
+		m_selectedColData <= pData->getDataLen() ) {
+        if ( pData->getMinMax(m_selectedColData -1, dr) ) {
           m_lut.minVal = dr[0];
           m_lut.maxVal = dr[1];
         }
       }
     } // end of if(pData)
   } // end of if(m_updateMinMax)
+
+  if ( ! update() ) return false;
+  updateUI();
+  return true;
+}
+
+bool vsnMethod_Scatter_plotAsTubeStrip::setSplitWithNV(const bool split) {
+  if ( m_splitWithNV == split ) return true;
+  m_splitWithNV = split;
 
   if ( ! update() ) return false;
   updateUI();
@@ -419,6 +528,7 @@ bool vsnMethod_Scatter_plotAsTubeStrip::updateStep(const int stp,
 						   const bool force,
 						   const bool cascade)
 {
+  //XXX
   vsnData_Scatter* pData = dynamic_cast<vsnData_Scatter*>(p_refData);
   if ( ! pData ) return false;
   m_requestedStp = stp;

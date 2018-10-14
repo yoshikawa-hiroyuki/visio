@@ -15,14 +15,14 @@
 #include "vsnMethodObj.h"
 #include "vsnData_Scatter.h"
 
-#include "vsnExtrude.h"
-
 namespace VSN {
   // control ids
-  enum {MPP_Scatter_plotAsTubeStrip_SelDataLst = 3800,
+  enum {MPP_Scatter_plotAsTubeStrip_RadiusBiasTxt = 3800,
+	MPP_Scatter_plotAsTubeStrip_SelColDataLst,
+	MPP_Scatter_plotAsTubeStrip_SelRadDataLst,
 	MPP_Scatter_plotAsTubeStrip_VecDataChkLst,
 	MPP_Scatter_plotAsTubeStrip_UpdMinMaxChk,
-	MPP_Scatter_plotAsTubeStrip_RadiusTxt,
+	MPP_Scatter_plotAsTubeStrip_SplitWithNVChk,
   };
 };
 
@@ -40,16 +40,20 @@ public:
   virtual bool update();
 
   // event handler
-  void OnSelDataLst(wxCommandEvent& event);
+  void OnRadiusBiasTxt(wxCommandEvent& event);
+  void OnSelColDataLst(wxCommandEvent& event);
+  void OnSelRadDataLst(wxCommandEvent& event);
   void OnVecDataChkLst(wxCommandEvent& event);
   void OnUpdMinMaxChk(wxCommandEvent& event);
-  void OnRadiusTxt(wxCommandEvent& event);
+  void OnSplitWithNVChk(wxCommandEvent& event);
 
 private:
-  wxComboBox*     m_pSelDataLst;
+  wxTextCtrl*     m_pRadiusBiasTxt;
+  wxComboBox*     m_pSelColDataLst;
+  wxComboBox*     m_pSelRadDataLst;
   wxCheckListBox* m_pVecDataChkLst;
   wxCheckBox*     m_pUpdMinMaxChk;
-  wxTextCtrl*     m_pRadiusTxt;
+  wxCheckBox*     m_pSplitWithNVChk;
 
   DECLARE_EVENT_TABLE()
 };
@@ -68,18 +72,24 @@ public:
   virtual ~vsnMethod_Scatter_plotAsTubeStrip();
 
   // methods
+  float getRadiusBias() const {return m_radiusBias;}
+  bool setRadiusBias(const float rb);
+
   CES::Vec3<int> getVecDataIdx() const {return m_vecDataIdx;}
   bool setVecDataIdx(const CES::Vec3<int>& vdidx);
   bool isValidVecData() const;
 
-  VSN::WhichDataType getSelectedData() const {return m_selectedData;}
-  bool setSelectedData(const VSN::WhichDataType sd);
+  VSN::WhichDataType getSelectedColData() const {return m_selectedColData;}
+  bool setSelectedColData(const VSN::WhichDataType sd);
 
+  VSN::WhichDataType getSelectedRadData() const {return m_selectedRadData;}
+  bool setSelectedRadData(const VSN::WhichDataType sd);
+  
   bool getUpdateMinMaxMode() const {return m_updateMinMax;}
   bool setUpdateMinMaxMode(const bool mode);
 
-  float getRadius() const {return m_radius;}
-  bool setRadius(const float r);
+  bool getSplitWithNV() const {return m_splitWithNV;}
+  bool setSplitWithNV(const bool split);
 
   // from vsnTimeSeriesMethodIF
   virtual bool updateStep(const int stp,
@@ -102,11 +112,13 @@ public:
   virtual bool commandXML(xmlNodePtr xnp);
 
 protected:
-  float              m_radius;
-  VSN::WhichDataType m_selectedData;
+  float              m_radiusBias;
+  VSN::WhichDataType m_selectedColData;
+  VSN::WhichDataType m_selectedRadData;
   CES::Vec3<int>     m_vecDataIdx;
   bool               m_updateMinMax;
-  vsnTubeLineStrip*  m_shape;
+  bool               m_splitWithNV;
+  vfrGroup*          m_shape;
 
   void adjustRange();
 };

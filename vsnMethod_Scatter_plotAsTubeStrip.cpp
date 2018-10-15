@@ -180,7 +180,7 @@ bool vsnMPP_Scatter_plotAsTubeStrip::update() {
 
   // select scalar data for radius
   if ( m_pSelRadDataLst->GetCount() < 1 ) {
-    m_pSelRadDataLst->Append(wxT("Const 1.0"));
+    m_pSelRadDataLst->Append(wxT("Const(1.0)"));
     if ( dlen > 0 ) {
       for ( i = 0; i < dlen; i++ ) {
         sprintf(txt, "data%zd", i);
@@ -368,7 +368,7 @@ void vsnMethod_Scatter_plotAsTubeStrip::adjustRange() {
     setUseLut(true);
   } // end of if(DATA_Veclen)
   else if ( m_selectedColData > 0 && m_selectedColData <= dlen ) {
-    if ( pData->getMinMax(m_selectedData -1, dr) ) {
+    if ( pData->getMinMax(m_selectedColData -1, dr) ) {
       if ( m_updateMinMax ) {
         m_lut.minVal = dr[0];
         m_lut.maxVal = dr[1];
@@ -528,7 +528,6 @@ bool vsnMethod_Scatter_plotAsTubeStrip::updateStep(const int stp,
 						   const bool force,
 						   const bool cascade)
 {
-  //XXX
   vsnData_Scatter* pData = dynamic_cast<vsnData_Scatter*>(p_refData);
   if ( ! pData ) return false;
   m_requestedStp = stp;
@@ -541,7 +540,7 @@ bool vsnMethod_Scatter_plotAsTubeStrip::updateStep(const int stp,
 
   // shape
   if ( ! m_shape ) {
-    m_shape = new vsnTubeLineStrip();
+    m_shape = new vfrGroup();
     if ( ! m_shape ) {
       ErrMsg(MsgERR, getMethodType() + string("[") + getName()
              + string("]: memory allocation failed"));
@@ -551,79 +550,145 @@ bool vsnMethod_Scatter_plotAsTubeStrip::updateStep(const int stp,
     addChild(m_shape);
   }
   m_shape->getPrivateMaterial()->setRenderMode(RT_NONE);
+  m_shape->remAllChildren();
   if ( ! m_show ) {
     return true;
   }
 
   // check selected data
   size_t dlen = pData->getDataLen();
-  if ( m_selectedData == DATA_Veclen && ! isValidVecData() ) return true;
+  if ( (m_selectedColData == DATA_Veclen || m_selectedRadData == DATA_Veclen)
+       && ! isValidVecData() ) return true;
 
-  // alloc vertices datas
-  int sampleSz = pData->getNumVerts();
-  if ( sampleSz < 2 ) return true;
-  if ( ! m_shape->alcVerts(sampleSz) ) {
-    ErrMsg(MsgERR, getMethodType() + string("[") + getName()
-           + string("]: memory allocation for vertex failed"));
-    return false;
-  }
-  if ( m_selectedData == DATA_Veclen ||
-       (m_selectedData > 0 && m_selectedData <= dlen) ) {
-    if ( ! m_shape->alcColors(sampleSz) ) {
-      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
-             + string("]: memory allocation for colors failed"));
-      return false;
-    }
-  }
-
-  // set verts of tubestrip
-  register size_t i;
-  vector3* vl = m_shape->getVerts();
+  // get point data
+  int numVtx = pData->getNumVerts();
+  if ( numVtx < 2 ) return true;
   vector3* pv = pData->getVerts();
   float* pd = pData->getData();
-  for ( i = 0; i < sampleSz; i++ ) {
-    memcpy(vl[i], pv[i], sizeof(vector3));
-  } // end of for(i)
-  m_shape->generateBbox();
 
-  // set colors
-  vector4* cl = m_shape->getColors();
-  Vec3<float> vv;
-  register float dval;
-  register int c;
-  if ( m_selectedData == DATA_Veclen ) {
-    for ( i = 0; i < sampleSz; i++ ) {
-      vv[0] = pd[dlen*i + m_vecDataIdx[0]];
-      vv[1] = pd[dlen*i + m_vecDataIdx[1]];
-      vv[2] = pd[dlen*i + m_vecDataIdx[2]];
-      dval = vv.Length();
-      c = m_lut.getValIdx(dval);
-      cl[i][0] = m_lut.lutEntry[c*4  ];
-      cl[i][1] = m_lut.lutEntry[c*4+1];
-      cl[i][2] = m_lut.lutEntry[c*4+2];
-      cl[i][3] = 1.f;
+  // adjust split NV list
+  deque<int> nv_list;
+  if ( getSplitWithNV() ) {
+    nv_list = pData->getNvList(m_requestedStp);
+    int totalNv = 0;
+    deque<int>::iterator nvit = nv_list.begin();
+    for ( ; nvit != nv_list.end(); nvit++ ) totalNv += *nvit;
+    if ( numVtx < totalNv ) {
+      while ( nv_list.size() > 0 ) {
+	int lastNv = nv_list.back();
+	nv_list.pop_back();
+	totalNv -= lastNv;
+	if ( numVtx >= totalNv ) break;
+      }
+    }
+    if ( numVtx > totalNv ) {
+      int lastNv = numVtx - totalNv;
+      nv_list.push_back(lastNv);
+    }
+  } else {
+    nv_list.push_back(numVtx);
+  }
+  size_t numStrip = nv_list.size();
+
+  // alloc TubeLineStrip set
+  size_t idxOfst = 0;
+  for ( int idxL = 0; idxL < numStrip; idxL++ ) {
+    if ( nv_list[idxL] < 2 ) continue;
+    vsnTubeLineStrip* ptls = new vsnTubeLineStrip();
+    if ( ! ptls ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+           + string("]: memory allocation for TubeLineStrip failed"));
+      return false;
+    }
+    if ( ! ptls->alcVerts(nv_list[idxL]) ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	     + string("]: memory allocation for vertex failed"));
+      return false;
+    }
+    if ( m_selectedColData == DATA_Veclen ||
+	 (m_selectedColData > 0 && m_selectedColData <= dlen) ) {
+      if ( ! ptls->alcColors(nv_list[idxL]) ) {
+	ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	       + string("]: memory allocation for colors failed"));
+	return false;
+      }
+    }
+    if ( ! ptls->alcRadiusList(nv_list[idxL]) ) {
+      ErrMsg(MsgERR, getMethodType() + string("[") + getName()
+	     + string("]: memory allocation for radius failed"));
+      return false;
+    }
+
+    // set verts of TubeLineStrip
+    register size_t i;
+    vector3* vl = ptls->getVerts();
+    for ( i = 0; i < nv_list[idxL]; i++ ) {
+      memcpy(vl[i], pv[i+idxOfst], sizeof(vector3));
     } // end of for(i)
-    m_shape->setColorMode(AT_PER_VERTEX);
-  }
-  else if ( m_selectedData > 0 && m_selectedData <= dlen ) {
-    for ( i = 0; i < sampleSz; i++ ) {
-      dval = pd[dlen*i + m_selectedData -1];
-      c = m_lut.getValIdx(dval);
-      cl[i][0] = m_lut.lutEntry[c*4  ];
-      cl[i][1] = m_lut.lutEntry[c*4+1];
-      cl[i][2] = m_lut.lutEntry[c*4+2];
-      cl[i][3] = 1.f;
-    } // end of for(i)
-    m_shape->setColorMode(AT_PER_VERTEX);
-  }
-  else { // not ref
-    cl[0][0] = m_colour[0]; cl[0][1] = m_colour[1];
-    cl[0][2] = m_colour[2]; cl[0][3] = 1.f;
-    m_shape->setColorMode(AT_WHOLE);
-  }
+    ptls->generateBbox();
+
+    // set colors
+    vector4* cl = ptls->getColors();
+    Vec3<float> vv;
+    register float dval;
+    register int c;
+    if ( m_selectedColData == DATA_Veclen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	vv[0] = pd[dlen*(i+idxOfst) + m_vecDataIdx[0]];
+	vv[1] = pd[dlen*(i+idxOfst) + m_vecDataIdx[1]];
+	vv[2] = pd[dlen*(i+idxOfst) + m_vecDataIdx[2]];
+	dval = vv.Length();
+	c = m_lut.getValIdx(dval);
+	cl[i][0] = m_lut.lutEntry[c*4  ];
+	cl[i][1] = m_lut.lutEntry[c*4+1];
+	cl[i][2] = m_lut.lutEntry[c*4+2];
+	cl[i][3] = 1.f;
+      } // end of for(i)
+      ptls->setColorMode(AT_PER_VERTEX);
+    }
+    else if ( m_selectedColData > 0 && m_selectedColData <= dlen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	dval = pd[dlen*(i+idxOfst) + m_selectedColData -1];
+	c = m_lut.getValIdx(dval);
+	cl[i][0] = m_lut.lutEntry[c*4  ];
+	cl[i][1] = m_lut.lutEntry[c*4+1];
+	cl[i][2] = m_lut.lutEntry[c*4+2];
+	cl[i][3] = 1.f;
+      } // end of for(i)
+      ptls->setColorMode(AT_PER_VERTEX);
+    }
+    else { // not ref
+      cl[0][0] = m_colour[0]; cl[0][1] = m_colour[1];
+      cl[0][2] = m_colour[2]; cl[0][3] = 1.f;
+      ptls->setColorMode(AT_WHOLE);
+    }
+
+    // set radius
+    deque<double>& rl = ptls->getRadiusList();
+    if ( m_selectedRadData == DATA_Veclen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	vv[0] = pd[dlen*(i+idxOfst) + m_vecDataIdx[0]];
+	vv[1] = pd[dlen*(i+idxOfst) + m_vecDataIdx[1]];
+	vv[2] = pd[dlen*(i+idxOfst) + m_vecDataIdx[2]];
+	rl[i] = vv.Length() * m_radiusBias;
+      } // end of for(i)
+    }
+    else if ( m_selectedRadData > 0 && m_selectedRadData <= dlen ) {
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	rl[i] = pd[dlen*(i+idxOfst) + m_selectedColData -1] * m_radiusBias;
+      } // end of for(i)
+    }
+    else { // not ref
+      for ( i = 0; i < nv_list[idxL]; i++ ) {
+	rl[i] = m_radiusBias;
+      } // end of for(i)
+    }
+
+    m_shape->addChild(ptls);
+    idxOfst += nv_list[idxL];
+  } // end of for(idxL)  
 
   // ok
-  m_shape->setRadius(m_radius);
   m_shape->getPrivateMaterial()->setRenderMode(m_showType);
   setBaseColor(m_colour);
   setHilight(m_hilight);
@@ -665,7 +730,7 @@ bool vsnMethod_Scatter_plotAsTubeStrip::parseXML(xmlNodePtr xnp) {
         goto _NEXT_XML_NODE;
       }
 
-      if ( xsN == string("use_data") ) {
+      if ( xsN == string("use_color_data") ) {
         WhichDataType sdt = -2;
         if ( xsV == string("none") ) sdt = DATA_None;
         else if ( xsV == string("veclen")  ) sdt = DATA_Veclen;
@@ -673,11 +738,24 @@ bool vsnMethod_Scatter_plotAsTubeStrip::parseXML(xmlNodePtr xnp) {
           string numStr = xsV.substr(4);
           if ( ! numStr.empty() ) sdt = atoi(numStr.c_str()) + 1;
         }
-        if ( ! setSelectedData(sdt) ) {
+        if ( ! setSelectedColData(sdt) ) {
           ErrMsg(MsgERR, msgHdr + string("failed to select ") +xsV);
           goto _NEXT_XML_NODE;
         }
-      } // end of "use_data"
+      } // end of "use_color_data"
+      else if ( xsN == string("use_radius_data") ) {
+        WhichDataType sdt = -2;
+        if ( xsV == string("none") ) sdt = DATA_None;
+        else if ( xsV == string("veclen")  ) sdt = DATA_Veclen;
+        else if ( xsV.substr(0, 4) == string("data") ) {
+          string numStr = xsV.substr(4);
+          if ( ! numStr.empty() ) sdt = atoi(numStr.c_str()) + 1;
+        }
+        if ( ! setSelectedRadData(sdt) ) {
+          ErrMsg(MsgERR, msgHdr + string("failed to select ") +xsV);
+          goto _NEXT_XML_NODE;
+        }
+      } // end of "use_radius_data"
       else if ( xsN == string("vec_idx") ) {
         Vec3<int> idcs(-1, -1, -1);
         istringstream iss(xsV);
@@ -704,13 +782,27 @@ bool vsnMethod_Scatter_plotAsTubeStrip::parseXML(xmlNodePtr xnp) {
           goto _NEXT_XML_NODE;
         }
       } // end of "upd_minmax"
-      else if ( xsN == string("radius") ) {
-        float rad = (float)atof(xsV.c_str());
-        if ( ! setRadius(rad) ) {
-          ErrMsg(MsgERR, msgHdr + string("invalid value in param radius"));
+      else if ( xsN == string("radius_bias") ) {
+        float rb = (float)atof(xsV.c_str());
+        if ( ! setRadiusBias(rb) ) {
+          ErrMsg(MsgERR, msgHdr + string("invalid value in param radius_bias"));
           goto _NEXT_XML_NODE;
         }
-      } // end of "radius"
+      } // end of "radius_bias"
+      else if ( xsN == string("split_with_NV") ) {
+        bool aam;
+        if ( xsV == string("yes") ) aam = true;
+        else if ( xsV == string("no") ) aam = false;
+        else {
+          ErrMsg(MsgERR, msgHdr
+                 + string("invalid value in param split_with_NV"));
+          goto _NEXT_XML_NODE;
+        }
+        if ( ! setSplitWithNV(aam) ) {
+          ErrMsg(MsgERR, msgHdr + string("can't set split_with_NV"));
+          goto _NEXT_XML_NODE;
+        }
+      } // end of "split_with_NV"
     } // end of param
 
   _NEXT_XML_NODE:
@@ -737,17 +829,32 @@ bool vsnMethod_Scatter_plotAsTubeStrip::outputXML(std::ostream& os,
   os << " >" << endl;
 
   // output original params
-  // use_data
-  if ( m_selectedData != DATA_None ) {
-    os << idts_2 << "<param name=\"use_data\" value=\"";
-    if ( m_selectedData == DATA_Veclen )
+  // use_color_data
+  if ( m_selectedColData != DATA_None ) {
+    os << idts_2 << "<param name=\"use_color_data\" value=\"";
+    if ( m_selectedColData == DATA_Veclen )
       os << "veclen";
-    else if ( m_selectedData > 0 )
-      os << "data" << m_selectedData -1;
+    else if ( m_selectedColData > 0 )
+      os << "data" << m_selectedColData -1;
     else {
       os << "none";
       ErrMsg(MsgWARN, msgHdr
-             + string("invalid use_data has set, so don't output\n"));
+             + string("invalid use_color_data has set, so don't output\n"));
+    }
+    os << "\" />" << endl;
+  }
+
+  // use_radius_data
+  if ( m_selectedRadData != DATA_None ) {
+    os << idts_2 << "<param name=\"use_radius_data\" value=\"";
+    if ( m_selectedRadData == DATA_Veclen )
+      os << "veclen";
+    else if ( m_selectedRadData > 0 )
+      os << "data" << m_selectedRadData -1;
+    else {
+      os << "none";
+      ErrMsg(MsgWARN, msgHdr
+             + string("invalid use_radius_data has set, so don't output\n"));
     }
     os << "\" />" << endl;
   }
@@ -764,10 +871,15 @@ bool vsnMethod_Scatter_plotAsTubeStrip::outputXML(std::ostream& os,
     os << idts_2 << "<param name=\"upd_minmax\" value=\"no\" />" << endl;
   }
 
-  // radius
-  if ( m_radius != 1.f ) {
-    os << idts_2 << "<param name=\"radius\" value=\""
-       << m_radius << "\" />" << endl;
+  // radius_bias
+  if ( m_radiusBias != 1.f ) {
+    os << idts_2 << "<param name=\"radius_bias\" value=\""
+       << m_radiusBias << "\" />" << endl;
+  }
+
+  // split with NV
+  if ( m_splitWithNV != true ) {
+    os << idts_2 << "<param name=\"split_with_NV\" value=\"no\" />" << endl;
   }
 
   os << idts << "</method>" << endl;
@@ -810,7 +922,7 @@ bool vsnMethod_Scatter_plotAsTubeStrip::commandXML(xmlNodePtr xnp) {
     valueStr = string((const char*)xs);
 
   // do the command
-  if ( nameStr == "set_use_data" ) {
+  if ( nameStr == "set_use_color_data" ) {
     WhichDataType sdt = -2;
     if ( valueStr == string("none") ) sdt = DATA_None;
     else if ( valueStr == string("veclen")  ) sdt = DATA_Veclen;
@@ -818,12 +930,26 @@ bool vsnMethod_Scatter_plotAsTubeStrip::commandXML(xmlNodePtr xnp) {
       string numStr = valueStr.substr(4);
       if ( ! numStr.empty() ) sdt = atoi(numStr.c_str()) + 1;
     }
-    if ( ! setSelectedData(sdt) ) {
+    if ( ! setSelectedColData(sdt) ) {
       ErrMsg(MsgERR, msgHdr + "command " + nameStr
              + ": set failed: " + valueStr);
       return false;
     }
-  } // end of "set_use_data"
+  } // end of "set_use_color_data"
+  else if ( nameStr == "set_use_radius_data" ) {
+    WhichDataType sdt = -2;
+    if ( valueStr == string("none") ) sdt = DATA_None;
+    else if ( valueStr == string("veclen")  ) sdt = DATA_Veclen;
+    else if ( valueStr.substr(0, 4) == string("data") ) {
+      string numStr = valueStr.substr(4);
+      if ( ! numStr.empty() ) sdt = atoi(numStr.c_str()) + 1;
+    }
+    if ( ! setSelectedRadData(sdt) ) {
+      ErrMsg(MsgERR, msgHdr + "command " + nameStr
+             + ": set failed: " + valueStr);
+      return false;
+    }
+  } // end of "set_use_radius_data"
   else if ( nameStr == string("set_vec_idx") ) {
     Vec3<int> idcs(-1, -1, -1);
     istringstream iss(valueStr);
@@ -854,14 +980,29 @@ bool vsnMethod_Scatter_plotAsTubeStrip::commandXML(xmlNodePtr xnp) {
       return false;
     }
   } // end of "set_upd_minmax"
-  else if ( nameStr == "set_radius" ) {
-    float rad = (float)atof(valueStr.c_str());
-    if ( ! setRadius(rad) ) {
+  else if ( nameStr == "set_radius_bias" ) {
+    float rb = (float)atof(valueStr.c_str());
+    if ( ! setRadiusBias(rb) ) {
       ErrMsg(MsgERR, msgHdr +
-             string("command set_radius: set failed: ") + valueStr);
+             string("command set_radius_bias: set failed: ") + valueStr);
       return false;
     }
-  } // end of "set_radius"
+  } // end of "set_radius_bias"
+  else if ( nameStr == "set_split_with_NV" ) {
+    bool split;
+    if ( valueStr == string("yes") ) split = true;
+    else if ( valueStr == string("no") ) split = false;
+    else {
+      ErrMsg(MsgERR, msgHdr +
+             string("invalid command: set_split_with_NV: invalid value"));
+      return false;
+    }
+    if ( ! setSplitWithNV(split) ) {
+      ErrMsg(MsgERR, msgHdr +
+             string("command set_split_with_NV: set failed: ") + valueStr);
+      return false;
+    }
+  } // end of "set_split_with_NV"
   else {
     // not my command
     ErrMsg(MsgERR, msgHdr + string("unknown command: ") + nameStr);

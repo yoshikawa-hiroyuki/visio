@@ -9,7 +9,7 @@ TP_DIR = ../RikenLib/TextParser-1.5.7
 TMPLDIR = $(VFRDIR)/tmpl
 NVR_DIR = ../nvr
 RVR_DIR = ../rvr
-BOOST_DIR = ../boost_1_50_0
+BOOST_DIR = /usr/local
 GLEW_DIR = /usr/local
 GLE_DIR = /opt/GLE
 

@@ -267,36 +267,49 @@ vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
 
     string buff, path_body;
     ScatterType sType = checkType(path_lst[i], path_body);
-    if ( sType != ScatterPWN && sType != ScatterSCAT ) {
+    if ( sType != ScatterPWN && sType != ScatterSCAT && sType != ScatterSCAB ) {
       pathLst.push_back(path_lst[i]);
       idx++;
       continue;
     }
 
     // PWN|SCAT: check '#TS' and '#NV'
-    ifstream sf(path_body.c_str());
-    if ( ! sf ) continue;
-    while ( ! sf.eof() ) {
-      VFR::GetLine(sf, buff);
-      if ( buff.size() < 1 ) continue;
-      if ( buff[0] != '#' ) break;
-      if ( buff.size() >= 4 && buff.substr(0, 3) == "#TS" ) {
-	int st; float tm;
-	if ( sscanf(buff.substr(3).c_str(), "%d %f", &st, &tm) != 2 ) continue;
-	m_stpList[idx].step = st;
-	m_stpList[idx].time = tm;
-	continue;
-      } else if (buff.size() >= 4 && buff.substr(0, 3) == "#NV" ) {
-	vector<string> toks = SplitString(TrimString(buff.substr(3)));
-	vector<string>::iterator tit;
-	for ( tit = toks.begin(); tit != toks.end(); tit++ ) {
-	  int nv = atoi(tit->c_str());
-	  if ( nv > 0 )
-	    m_nvList[idx].push_back(nv);
-	} // end of for(tit)
-      }
-    } // end of while
-    sf.close();
+    if ( sType == ScatterPWN || sType == ScatterSCAT ) {
+      ifstream sf(path_body.c_str());
+      if ( ! sf ) continue;
+      while ( ! sf.eof() ) {
+	VFR::GetLine(sf, buff);
+	if ( buff.size() < 1 ) continue;
+	if ( buff[0] != '#' ) break;
+	if ( buff.size() >= 4 && buff.substr(0, 3) == "#TS" ) {
+	  int st; float tm;
+	  if ( sscanf(buff.substr(3).c_str(), "%d %f", &st, &tm) != 2 )
+	    continue;
+	  m_stpList[idx].step = st;
+	  m_stpList[idx].time = tm;
+	  continue;
+	} else if (buff.size() >= 4 && buff.substr(0, 3) == "#NV" ) {
+	  vector<string> toks = SplitString(TrimString(buff.substr(3)));
+	  vector<string>::iterator tit;
+	  for ( tit = toks.begin(); tit != toks.end(); tit++ ) {
+	    int nv = atoi(tit->c_str());
+	    if ( nv > 0 )
+	      m_nvList[idx].push_back(nv);
+	  } // end of for(tit)
+	}
+      } // end of while
+      sf.close();
+    }
+    else { // SCAB: check step(int4), time(float4) at the head of the file
+      ifstream sf(path_body.c_str(), ios::in | ios::binary);
+      if ( ! sf ) continue;
+      int st; float tm;
+      sf.read((char*)&st, sizeof(int));
+      sf.read((char*)&tm, sizeof(float));
+      m_stpList[idx].step = st;
+      m_stpList[idx].time = tm;
+      sf.close();
+    }
 
     if ( idx != 0 ) {
       if ( m_stpList[idx].step <= m_stpList[idx -1].step )
@@ -448,6 +461,9 @@ bool vsnData_Scatter::setCurrentStepIdx(const size_t stpIdx) {
   case ScatterSCAT:
     ret = readSCAT(path_body);
     break;
+  case ScatterSCAB:
+    ret = readSCAB(path_body);
+    break;
   } // end of switch(m_scatterType)
   if ( ! ret ) {
     m_scatterType = ScatterNONE;
@@ -485,6 +501,8 @@ vsnData_Scatter::checkType(const std::string& path,
     return ScatterPWN;
   else if ( path_type == "SCAT" )
     return ScatterSCAT;
+  else if ( path_type == "SCAB" )
+    return ScatterSCAB;
 
   // guess scatterType from suffix
   size_t pathlen = path_body.size();
@@ -504,6 +522,13 @@ vsnData_Scatter::checkType(const std::string& path,
     return ScatterSCAT;
   } // end of 'sct'
 
+  if ( (path_body[pathlen-3]=='s' || path_body[pathlen-3]=='S') &&
+       (path_body[pathlen-2]=='c' || path_body[pathlen-2]=='C') &&
+       (path_body[pathlen-1]=='b' || path_body[pathlen-1]=='B') ) {
+    // SCB : Scatter binary file
+    return ScatterSCAB;
+  } // end of 'scb'
+
   if ( pathlen > 3 &&
        (path_body[pathlen-4]=='s' || path_body[pathlen-4]=='S') &&
        (path_body[pathlen-3]=='c' || path_body[pathlen-3]=='C') &&
@@ -512,6 +537,15 @@ vsnData_Scatter::checkType(const std::string& path,
     // SCAT : Scatter file
     return ScatterSCAT;
   } // end of 'scat'
+
+  if ( pathlen > 3 &&
+       (path_body[pathlen-4]=='s' || path_body[pathlen-4]=='S') &&
+       (path_body[pathlen-3]=='c' || path_body[pathlen-3]=='C') &&
+       (path_body[pathlen-2]=='a' || path_body[pathlen-2]=='A') &&
+       (path_body[pathlen-1]=='b' || path_body[pathlen-1]=='B') ) {
+    // SCAB : Scatter binary file
+    return ScatterSCAB;
+  } // end of 'scab'
 
   return ScatterNONE;
 }
@@ -626,6 +660,53 @@ bool vsnData_Scatter::readSCAT(const std::string& path) {
   return true;
 }
 
+bool vsnData_Scatter::readSCAB(const std::string& path) {
+  if ( path.empty() ) return false;
+  register size_t i, j, idx;
+
+  ifstream sf(path.c_str(), ios::in | ios::binary);
+  if ( ! sf ) return false;
+
+  // read header (np, nd)
+  size_t np = 0, nd = 0;
+  unsigned _np, _nd;
+  int st; float tm;
+  sf.read((char*)&st, sizeof(int));
+  sf.read((char*)&tm, sizeof(float));
+  sf.read((char*)&_np, sizeof(unsigned));
+  sf.read((char*)&_nd, sizeof(int));
+  if ( ! sf.fail() ) {
+    np = _np; nd = _nd;
+  }
+  if ( np < 1 || nd < 1 )
+    return false;
+
+  // allocate
+  if ( ! alcVerts(np) ) return false;   
+  m_pData = (float*)ReAllocate(m_pData, sizeof(float)*np*nd);
+  if ( ! m_pData ) return false;
+
+  // read data
+  for ( idx = 0, i = 0; i < np; ) {
+    if ( sf.eof() ) break;
+
+    // x, y, z
+    sf.read((char*)_verts[i], sizeof(float)*3);
+
+    // data
+    for ( j = 0; j < nd; j++ )
+      sf.read((char*)&m_pData[idx++], sizeof(float));
+
+    i++;
+  } // end of for(i)
+  if ( np != i ) alcVerts(i);
+  m_dataLen = nd;
+
+  generateBbox();
+  notice();
+  return true;
+}
+
 bool vsnData_Scatter::checkMinMax(const bool wholeStp, const bool progress) {
   register size_t i, j, k, idx;
   string errMsg = string("DataScatter[") + getName() + string("]: ");
@@ -710,6 +791,9 @@ bool vsnData_Scatter::checkMinMax(const bool wholeStp, const bool progress) {
     case ScatterSCAT:
       ret = readSCAT(path_body);
       break;
+    case ScatterSCAB:
+      ret = readSCAB(path_body);
+      break;
     } // end of switch(m_scatterType)
     if ( ! ret ) {
       char txt[64]; sprintf(txt, "  step#%zd ", i); errMsg += txt;
@@ -784,6 +868,9 @@ bool vsnData_Scatter::getVectorMaxLen(const CES::Vec3<int>& vidx, float& vml) {
     case ScatterSCAT:
       ret = readSCAT(path_body);
       break;
+    case ScatterSCAB:
+      ret = readSCAB(path_body);
+      break;
     } // end of switch(m_scatterType)
     if ( ! ret ) continue;
 
@@ -805,7 +892,7 @@ bool vsnData_Scatter::getVectorMaxLen(const CES::Vec3<int>& vidx, float& vml) {
 // from vsnIoObject
 
 bool vsnData_Scatter::outputXML(std::ostream& os, const size_t ts) {
-  const char *scatterTypeStr[] = {"", ";PWN", ";SCT"};
+  const char *scatterTypeStr[] = {"", ";PWN", ";SCT", ";SCB"};
 
   string bkupPath = m_path;
   m_path = m_path + scatterTypeStr[m_scatterType];

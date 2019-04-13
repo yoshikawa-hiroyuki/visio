@@ -14,7 +14,7 @@ class vsnData_Scatter
 {
 public:
   enum ScatterType {
-    ScatterNONE =0, ScatterPWN, ScatterSCAT
+    ScatterNONE =0, ScatterPWN, ScatterSCAT, ScatterSCAB
   };
 
   vsnData_Scatter(const std::string& name =std::string(VFR_NONAME));
@@ -77,6 +77,7 @@ private:
   ScatterType checkType(const std::string& path, std::string& path_body) const;
   bool readPWN(const std::string& path);
   bool readSCAT(const std::string& path);
+  bool readSCAB(const std::string& path);
 };
 
 #endif // _VSN_DATA_SCATTER_H_

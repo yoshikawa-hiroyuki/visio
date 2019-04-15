@@ -19,6 +19,7 @@
 #include "vsnDataSeqFiles.h"
 #include "vsnError.h"
 #include "utilString.h"
+#include "utilEndian.h"
 
 #include "vsnMethod_Scatter_info.h"
 #include "vsnMethod_Scatter_plotArrows.h"
@@ -669,15 +670,25 @@ bool vsnData_Scatter::readSCAB(const std::string& path) {
 
   // read header (np, nd)
   size_t np = 0, nd = 0;
-  unsigned _np, _nd;
+  unsigned _np;
+  int _nd;
   int st; float tm;
   sf.read((char*)&st, sizeof(int));
   sf.read((char*)&tm, sizeof(float));
   sf.read((char*)&_np, sizeof(unsigned));
   sf.read((char*)&_nd, sizeof(int));
-  if ( ! sf.fail() ) {
-    np = _np; nd = _nd;
+  if ( sf.fail() ) return false;
+  bool edConv = false;
+  if ( _nd < 0 || _nd > 1073741824 ) { // 2^30
+    BSWAP32(_nd);
+    if ( _nd < 0 || _nd > 1073741824 )
+      return false;
+    edConv = true;
+    BSWAP32(_np);
+    BSWAP32(st);
+    BSWAP32(tm);
   }
+  np = _np; nd = _nd;
   if ( np < 1 || nd < 1 )
     return false;
 
@@ -692,10 +703,13 @@ bool vsnData_Scatter::readSCAB(const std::string& path) {
 
     // x, y, z
     sf.read((char*)_verts[i], sizeof(float)*3);
+    if ( edConv ) BSWAPVEC(_verts[i], 3);
 
     // data
-    for ( j = 0; j < nd; j++ )
-      sf.read((char*)&m_pData[idx++], sizeof(float));
+    for ( j = 0; j < nd; j++, idx++ ) {
+      sf.read((char*)&m_pData[idx], sizeof(float));
+      if ( edConv ) BSWAP32(m_pData[idx]);
+    }
 
     i++;
   } // end of for(i)

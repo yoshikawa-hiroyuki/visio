@@ -428,10 +428,9 @@ vsnData_TriaCells::checkType(const std::string& path,
   if ( path_type == "VTK" )
     return TriaCellsVTK;
 
-  // guess scatterType from suffix
+  // guess Type from suffix
   size_t pathlen = path_body.size();
   if ( pathlen < 3 ) return TriaCellsNONE;
-
   if ( (path_body[pathlen-3]=='v' || path_body[pathlen-3]=='V') &&
        (path_body[pathlen-2]=='t' || path_body[pathlen-2]=='T') &&
        (path_body[pathlen-1]=='k' || path_body[pathlen-1]=='K') ) {

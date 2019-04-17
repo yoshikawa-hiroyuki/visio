@@ -5,6 +5,7 @@
 #define _VSN_DATA_SCATTER_H_
 
 #include "vsnDataObj.h"
+#include "utilEndian.h"
 
 
 class vsnData_Scatter
@@ -14,7 +15,7 @@ class vsnData_Scatter
 {
 public:
   enum ScatterType {
-    ScatterNONE =0, ScatterPWN, ScatterSCAT, ScatterSCAB
+    ScatterNONE =0, ScatterPWN, ScatterSCAT, ScatterSCAB, ScatterSCAB_BE
   };
 
   vsnData_Scatter(const std::string& name =std::string(VFR_NONAME));
@@ -77,7 +78,7 @@ private:
   ScatterType checkType(const std::string& path, std::string& path_body) const;
   bool readPWN(const std::string& path);
   bool readSCAT(const std::string& path);
-  bool readSCAB(const std::string& path);
+  bool readSCAB(const std::string& path, const int endian=LITTLE_ENDIAN);
 };
 
 #endif // _VSN_DATA_SCATTER_H_

@@ -883,8 +883,8 @@ bool vsnViewFrame::setupMenuBar() {
 		  wxT("Import Dfi data file"));
   impMenu->AppendSeparator();
   impMenu->Append(ViewFrameMenu_File_Imp_Scatter,
-		  wxT("Scatter(Scat, Pwn) data files..."),
-		  wxT("Import Scatter(Scat/Pwn) data files"));
+		  wxT("Scatter(Scat, Scab, Pwn) data files..."),
+		  wxT("Import Scatter(Scat/Scab/Pwn) data files"));
   impMenu->Append(ViewFrameMenu_File_Imp_ScatterTS,
 		  wxT("Scatter as Time series data ..."),
 		  wxT("Import Scatter data files as time series data"));
@@ -1562,9 +1562,11 @@ void vsnViewFrame::OnMenuFile_Imp_Scatter(wxCommandEvent& event) {
   }
 
   // prepare file dialog
-  wxFileDialog fileDlg(this, wxT("select SCAT/PWN file(s) to import"),
+  wxFileDialog fileDlg(this, wxT("select SCAT/SCAB/PWN file(s) to import"),
 		       wxT(""), wxT(""), // default Dir / File
 		       wxT("Scatter (*.scat;*.sct)|*.scat;*.sct")
+		       wxT("|Scatter Binary (*.scab;*.scb)|*.scab;*.scb")
+		       wxT("|Scatter Binary BigEndian (*.scb_be)|*.scb_be")
 		       wxT("|Points with Normal (*.pwn)|*.pwn")
 		       /* wxT("|(*)|*") */,
 		       wxFD_OPEN | wxFD_MULTIPLE);
@@ -1604,7 +1606,12 @@ void vsnViewFrame::OnMenuFile_Imp_Scatter(wxCommandEvent& event) {
       if ( filePath.size() >= 3 ) {
 	string sfx = filePath.substr(filePath.size() - 3);
 	if ( sfx == "sct" || sfx == "SCT" ) cmd += string(";SCT");
+	if ( sfx == "scb" || sfx == "SCB" ) cmd += string(";SCAB");
 	if ( sfx == "pwn" || sfx == "PWN" ) cmd += string(";PWN");
+      }
+      if ( filePath.size() >= 6 ) {
+	string sfx = filePath.substr(filePath.size() - 6);
+	if ( sfx == "scb_be" || sfx == "SCB_BE" ) cmd += string(";SCAB_BE");
       }
       cmd += string("\" />\n");
       cmd += string("</command>");
@@ -1630,6 +1637,8 @@ void vsnViewFrame::OnMenuFile_Imp_ScatterTS(wxCommandEvent& event) {
   wxFileDialog fileDlg(this, wxT("select SCAT/PWN file(s) to import"),
 		       wxT(""), wxT(""), // default Dir / File
 		       wxT("Scatter (*.scat;*.sct)|*.scat;*.sct")
+		       wxT("|Scatter Binary (*.scab;*.scb)|*.scab;*.scb")
+		       wxT("|Scatter Binary BigEndian (*.scb_be)|*.scb_be")
 		       wxT("|Points with Normal (*.pwn)|*.pwn")
 		       /* wxT("|(*)|*") */,
 		       wxFD_OPEN | wxFD_MULTIPLE);
@@ -1660,7 +1669,12 @@ void vsnViewFrame::OnMenuFile_Imp_ScatterTS(wxCommandEvent& event) {
     if ( filePath.size() >= 3 ) {
       string sfx = filePath.substr(filePath.size() - 3);
       if ( sfx == "sct" || sfx == "SCT" ) cmd += string(";SCT");
+      if ( sfx == "scb" || sfx == "SCB" ) cmd += string(";SCAB");
       if ( sfx == "pwn" || sfx == "PWN" ) cmd += string(";PWN");
+    }
+    if ( filePath.size() >= 6 ) {
+      string sfx = filePath.substr(filePath.size() - 6);
+      if ( sfx == "scb_be" || sfx == "SCB_BE" ) cmd += string(";SCAB_BE");
     }
     cmd += string("\" />\n");
   }
@@ -1683,7 +1697,12 @@ void vsnViewFrame::OnMenuFile_Imp_ScatterTS(wxCommandEvent& event) {
       if ( filePath.size() >= 3 ) {
 	string sfx = filePath.substr(filePath.size() - 3);
 	if ( sfx == "sct" || sfx == "SCT" ) cmd += string(";SCT");
+	if ( sfx == "scb" || sfx == "SCB" ) cmd += string(";SCAB");
 	if ( sfx == "pwn" || sfx == "PWN" ) cmd += string(";PWN");
+      }
+      if ( filePath.size() >= 6 ) {
+	string sfx = filePath.substr(filePath.size() - 6);
+	if ( sfx == "scb_be" || sfx == "SCB_BE" ) cmd += string(";SCAB_BE");
       }
       cmd += string("\" />\n");
     } // end of for(i)

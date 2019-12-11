@@ -4,7 +4,7 @@ G = -g
 OPT = -O0
 
 VFRDIR=../vfr/dist
-TP_DIR = ../RikenLib/TextParser
+TP_DIR = ../RikenLib/TextParser/eoe
 NVR_DIR = ../nvr
 RVR_DIR = ../rvr
 BOOST_DIR = ../boost_1_50_0
@@ -14,14 +14,14 @@ GLE_DIR = /usr
 INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DLinux -DLINUX $(G) $(OPT)
 CXXFLAGS = $(CFLAGS) -DNDEBUG \
-	`$(VFRDIR)/config/vfr-config --Wx --cflags` \
+	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \
 	`pkg-config --cflags libxml-2.0` \
 	-I$(TP_DIR)/include -I$(NVR_DIR)/include -I$(RVR_DIR)/include \
 	-I$(GLEW_DIR)/include -I$(GLE_DIR)/include -DGL_GLEXT_PROTOTYPES
-LDLIBS = `$(VFRDIR)/config/vfr-config --Wx --libs` \
+LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
 	`pkg-config --libs libxml-2.0` \
 	-lTP -lNVR -lRVR -lGLEW -lz -lGL -lGLU -lgle
-LDFLAGS = `$(VFRDIR)/config/vfr-config --Wx --ldflags` \
+LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
 	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \
 	-L$(GLE_DIR)/lib \
 	-Wl,-rpath,/usr/local/Vtools/bin

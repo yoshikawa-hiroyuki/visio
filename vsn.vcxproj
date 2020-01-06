@@ -27,22 +27,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -177,7 +177,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;../GLE/ms-visual-c/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser/include;C:/wxWidgets-3.0.4/include;C:/wxWidgets-3.0.4/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;../GLE/ms-visual-c/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)Visio.exe</OutputFile>
@@ -188,8 +188,8 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;../GLE/ms-visual-c/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;gle.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.4/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;../GLE/ms-visual-c/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2.lib;iconv.lib;charset.lib;glew32.lib;gle.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>

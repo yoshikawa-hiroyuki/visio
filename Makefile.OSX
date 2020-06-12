@@ -5,7 +5,7 @@ G = -g
 CXX=`wx-config --cxx`
 
 VFRDIR=../vfr/dist
-TP_DIR = ../RikenLib/TextParser-1.5.7
+TP_DIR = ../RikenLib/TextParser/eoe
 TMPLDIR = $(VFRDIR)/tmpl
 NVR_DIR = ../nvr
 RVR_DIR = ../rvr

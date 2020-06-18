@@ -17,13 +17,13 @@ INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
 CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \
-	`/usr/local/opt/libxml2/bin/xml2-config --cflags` \
+	`xml2-config --cflags` \
 	-I/Library/Frameworks/Cg.framework/Headers \
 	-I$(TP_DIR)/include \
 	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
 	-I$(GLE_DIR)/include
 LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
-	`/usr/local/opt/libxml2/bin/xml2-config --libs` \
+	`xml2-config --libs` \
 	-lTP -lNVR -lRVR -lglew -lz -liconv -lgle
 LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
 	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \

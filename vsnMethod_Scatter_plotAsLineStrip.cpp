@@ -657,6 +657,7 @@ bool vsnMethod_Scatter_plotAsLineStrip::updateStep(const int stp,
       pls->setColorMode(AT_WHOLE);
     }
 
+    pls->setTransparency(m_antiAlias);
     m_shape->addChild(pls);
     idxOfst += nv_list[idxL];
   } // end of for(idxL)  

@@ -15,6 +15,8 @@
 
 #include "vsnMethod_sampler.h"
 #include "vsnError.h"
+#include <iostream>
+#include <fstream>
 
 using namespace std;
 using namespace CES;
@@ -64,6 +66,7 @@ BEGIN_EVENT_TABLE(vsnMPP_sampler, wxPanel)
   EVT_BUTTON(MPP_sampler_XFormBtn, vsnMPP_sampler::OnXFormBtn)
   EVT_CHECKBOX(MPP_sampler_UseMouseChk, vsnMPP_sampler::OnUseMouseChk)
   EVT_CHECKBOX(MPP_sampler_AntiAliasChk, vsnMPP_sampler::OnAntiAliasChk)
+  EVT_BUTTON(MPP_sampler_ExportBtn, vsnMPP_sampler::OnExportBtn)
 END_EVENT_TABLE()
 
 
@@ -137,6 +140,12 @@ vsnMPP_sampler::vsnMPP_sampler(wxPanel* parent, vsnMethodObj* pm)
 				  wxT("use mouse"));
   sizerH->Add(m_pUseMouseChk, 0, wxALIGN_LEFT|wxALL, 3);
 
+  // export btn
+  sizerH = new wxBoxSizer(wxHORIZONTAL);
+  topsizer->Add(sizerH, 0, wxEXPAND);
+  m_pExportBtn = new wxButton(this, MPP_sampler_ExportBtn, wxT("export"));
+  sizerH->Add(m_pExportBtn, 0, wxALIGN_LEFT|wxALL, 3);
+
   // post process
   SetSizer(topsizer);
   addTo(parent);
@@ -152,7 +161,7 @@ vsnMPP_sampler::~vsnMPP_sampler() {
 /* interface */
 
 bool vsnMPP_sampler::update() {
-  if ( ! m_pDivMTxt || ! m_pDivNTxt || ! m_pXformBtn || ! m_pUseMouseChk ||
+  if ( ! m_pDivMTxt || ! m_pDivNTxt || ! m_pUseMouseChk ||
        ! m_pLineWidthTxt || ! m_pPointSizeTxt || ! m_pAntiAliasChk )
     return false;
 
@@ -311,6 +320,55 @@ void vsnMPP_sampler::OnUseMouseChk(wxCommandEvent& event) {
 
   bool val = m_pUseMouseChk->GetValue();
   setUseMouseMode(val);
+}
+
+void vsnMPP_sampler::OnExportBtn(wxCommandEvent& event) {
+  vsnMethod_sampler* pm = dynamic_cast<vsnMethod_sampler*>(p_method);
+  if ( ! pm ) return;
+  vsnApp* pApp = vsnApp::GetApp();
+
+  wxFileDialog fileDlg(this, wxT("sampler: specify file to export"),
+                       wxT(""), wxT(""), // default Dir / File
+                       wxT("CSV (*.csv)|*.csv")
+                       wxT("|(*)|*"),
+                       wxFD_SAVE);
+
+  // set default params
+  string targDir = pApp->getImportDir();
+  if ( targDir.empty() ) {
+    string appCurFile = pApp->getCurrentFilename();
+    if ( ! appCurFile.empty() )
+      targDir = DirName(appCurFile, vsnPath_getDelimChar());
+  }
+  if ( targDir.empty() )
+    targDir = pApp->getCwd();
+  if ( ! targDir.empty() )
+    fileDlg.SetDirectory(vsnApp::ConvSysToWx(targDir));
+
+  // get output path
+  if ( fileDlg.ShowModal() != wxID_OK ) return;
+  string outPath = vsnPath_normalize(vsnApp::ConvWxToSys(fileDlg.GetPath()));
+  if ( outPath.empty() ) return;
+
+  // override check
+  FILE* ofp = fopen(outPath.c_str(), "r");
+  if ( ofp ) {
+    fclose(ofp);
+    wxString msg = wxT("The specified file has already existed\n  ");
+    msg += wxString::FromUTF8(outPath.c_str());
+    msg += wxT("\n\nAre you sure to override ?\n");
+    wxMessageDialog dlg(NULL, msg, wxT("sampler: export"),
+                        vsn_wxOK_CANCEL|wxICON_QUESTION);
+    if ( dlg.ShowModal() != vsn_wxIDOK ) return;
+  }
+
+  // export
+  if ( ! pm->exportFile(outPath) ) {
+    ErrMsg(MsgERR, string("sampler: export failed.\n  File: ") + outPath);
+    return;
+  }
+
+  return;
 }
 
 
@@ -505,6 +563,31 @@ CES::Vec3<float> vsnMethod_sampler::getNormalVec() const {
   Vec3<float> vn = M * Vec3<float>(0.f, 0.f, 1.f);
   vn.UnitVec();
   return vn;
+}
+
+bool vsnMethod_sampler::exportFile(const std::string& path) {
+  if ( path.empty() ) return false;
+  size_t sampleNum = m_sampleSize.x * m_sampleSize.y;
+  if ( sampleNum < 1 ) return false;
+  vector3* vp = getVerts();
+  if ( ! vp ) return false;
+
+  ofstream os(path.c_str());
+  if ( ! os ) return false;
+  os << "# TRANSLATE=0.0, 0.0, 0.0" << endl;
+  os << "# SCALE=1.0, 1.0, 1.0" << endl;
+  os << "# ROTATE=0.0, 0.0, 0.0" << endl;
+
+  os << sampleNum << endl;
+  for ( auto j = 0; j < m_sampleSize.y; j++ ) {
+    for ( auto i = 0; i < m_sampleSize.x; i++ ) {
+      auto k = m_sampleSize.x * j + i;
+      os << vp[k][0] << ", " << vp[k][1] << ", " << vp[k][2] << endl;
+    } // end of for(i)
+  } // end of for(j)
+
+  os.close();
+  return true;
 }
 
 
@@ -948,6 +1031,13 @@ bool vsnMethod_sampler::commandXML(xmlNodePtr xnp) {
       return false;
     }
   } // end of "set_antialias"
+  else if ( nameStr == "export" ) {
+    if ( ! exportFile(valueStr) ) {
+      ErrMsg(MsgERR, msgHdr +
+             string("command export: failed to export to file: ") + valueStr);
+      return false;
+    }
+  } // end of "export"
   else {
     // not my command
     ErrMsg(MsgERR, msgHdr + string("unknown command: ") + nameStr);

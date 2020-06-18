@@ -21,7 +21,8 @@ namespace VSN {
 	MPP_sampler_UseMouseChk,
 	MPP_sampler_LineWidth,
 	MPP_sampler_PointSize,
-	MPP_sampler_AntiAliasChk
+	MPP_sampler_AntiAliasChk,
+	MPP_sampler_ExportBtn
   };
 };
 
@@ -48,6 +49,7 @@ public:
   void OnXFormBtn(wxCommandEvent& event);
   void OnUseMouseChk(wxCommandEvent& event);
   void OnAntiAliasChk(wxCommandEvent& event);
+  void OnExportBtn(wxCommandEvent& event);
 
 private:
   vsnXFormDlg* m_pXFormDlg;
@@ -59,6 +61,7 @@ private:
   wxButton*    m_pXformBtn;
   wxCheckBox*  m_pUseMouseChk;
   wxCheckBox*  m_pAntiAliasChk;
+  wxButton*    m_pExportBtn;
 
   //-------- SamplerDragTransAct --------
   class SamplerDragTransAct : public vfrAction, public vsnGfxBaseAct {
@@ -97,7 +100,7 @@ public:
 
   // XML util
   bool exportXMLNode(std::ostream& os, const size_t ts =0) const;
-  
+
 protected:
   class vsnMethod_sampler* p_splr;
 };
@@ -132,6 +135,8 @@ public:
   const vector3* const getSamplePoints() {return getVerts();}
   CES::Vec3<float> getNormalVec() const;
 
+  bool exportFile(const std::string& path);
+  
   // from vsnMethodObj
   virtual std::deque<std::string> getDataTypes() const {
     std::deque<std::string> r; r.push_back(std::string("*")); return r;

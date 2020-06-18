@@ -18,7 +18,6 @@
 #include "vsnData_Scatter.h"
 #include "vsnDataSeqFiles.h"
 #include "vsnError.h"
-#include "utilString.h"
 
 #include "vsnMethod_Scatter_info.h"
 #include "vsnMethod_Scatter_plotArrows.h"
@@ -290,7 +289,10 @@ vsnData_Scatter::setupLists(const std::deque<std::string>& path_lst) {
 	  m_stpList[idx].time = tm;
 	  continue;
 	} else if (buff.size() >= 4 && buff.substr(0, 3) == "#NV" ) {
-	  vector<string> toks = SplitString(TrimString(buff.substr(3)));
+	  vector<string> toks
+	    = VFR::SplitString(VFR::TrimString(buff.substr(3),
+					       string(" \t\r\n")),
+			       string(" ,;\t"));
 	  vector<string>::iterator tit;
 	  for ( tit = toks.begin(); tit != toks.end(); tit++ ) {
 	    int nv = atoi(tit->c_str());

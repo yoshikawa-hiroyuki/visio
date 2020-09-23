@@ -412,6 +412,7 @@ void vsnMPP_OctVol_isosurf::OnExportBtn(wxCommandEvent& event) {
 		       wxT(""), wxT(""), // default Dir / File
 		       wxT("Wavefront OBJ (*.obj;*.wfo)|*.obj;*.wfo")
 		       wxT("|STL (*.stl;*.sla;*.stla;*.slb;*.stlb)")
+		       wxT("|*.stl;*.sla;*.stla;*.slb;*.stlb")
 		       wxT("|(*)|*"),
                        wxFD_SAVE);
   string exportedPath = pm->getExportedPath();

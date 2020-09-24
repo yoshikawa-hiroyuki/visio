@@ -66,6 +66,7 @@ bundle: $(BUNDLE)/MacOS/$(PROGRAM) \
 	$(BUNDLE)/Info.plist \
 	$(BUNDLE)/PkgInfo \
 	$(BUNDLE)/doc/Visio_UG.pdf \
+	$(BUNDLE)/doc/DFF_V-Tools.pdf \
 	$(BUNDLE)/Resources/$(PROGRAM).rsrc \
 	$(BUNDLE)/Resources/$(PROGRAM).icns
 
@@ -84,12 +85,17 @@ $(BUNDLE)/PkgInfo:
 
 $(BUNDLE)/doc/Visio_UG.pdf:
 	@$(INSTALL) -d `dirname $@`
-	cp ../doc/Visio_user_guide.pdf $@
+	cp ../doc/Visio_UG.pdf $@
+
+$(BUNDLE)/doc/DFF_V-Tools.pdf:
+	@$(INSTALL) -d `dirname $@`
+	cp ../doc/DFF_V-Tools.pdf $@
 
 $(BUNDLE)/MacOS/$(PROGRAM): $(PROGRAM)
 	@$(INSTALL) -d `dirname $@`
 	cp $< $@
 	./inst_local_dylib.sh $@
+	./inst_local_dylib.sh $@ /opt/GLE
 
 $(BUNDLE)/Resources/$(PROGRAM).rsrc: $(TMPLDIR)/tmpl.rsrc
 	@$(INSTALL) -d `dirname $@`

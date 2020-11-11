@@ -18,7 +18,6 @@ CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
 CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \
 	`xml2-config --cflags` \
-	-I/Library/Frameworks/Cg.framework/Headers \
 	-I$(TP_DIR)/include \
 	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
 	-I$(GLE_DIR)/include

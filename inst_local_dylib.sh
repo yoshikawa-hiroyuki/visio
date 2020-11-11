@@ -1,8 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 #  inst_local_dylib.sh  install dylib and replace path of dylib in program
 #  usage: inst_local_dylib.sh program [dylib_path_keyword]
 #    if omitted dylib_path_keyword, use '/usr/local'
-#  (c)2018 Yoshikawa, Hiroyuki, FUJITSU LTD.
+#  (c)2018-2020 Yoshikawa, Hiroyuki, FUJITSU LTD.
 prog=$1
 targ=$2
 if [ x"$prog" == x ]; then
@@ -24,8 +24,23 @@ for l in $targLibs; do
 	echo "$0: $l not found."
 	exit 3
     fi
-    \cp -f $l $progDir
-    lbase="@executable_path/`basename $l`"
-    install_name_tool -change "$l" $lbase $prog
+    lbase=`basename $l`
+    if [ ! -f $progDir/$lbase ]; then
+	\cp -f $l $progDir
+	chmod +w $progDir/$lbase
+    fi
+    rpath="@rpath/$lbase"
+    install_name_tool -id $rpath $progDir/$lbase
+    for ll in `otool -L $progDir/$lbase | grep $targ | awk '{print $1}'`; do
+	llbase=`basename $ll`
+	if [ ! -f $progDir/$llbase ]; then
+	    \cp -f $ll $progDir
+	    chmod +w $progDir/$llbase
+	fi
+	rrpath="@rpath/$llbase"
+	install_name_tool -change "$ll" $rrpath $progDir/$lbase
+    done
+    epath="@executable_path/$lbase"
+    install_name_tool -change "$l" $epath $prog
 done
 exit 0

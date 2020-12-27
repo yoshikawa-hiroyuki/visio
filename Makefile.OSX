@@ -17,8 +17,7 @@ INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
 CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \
-	`env PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig" pkg-config --cflags libxml-2.0` \
-	-I/Library/Frameworks/Cg.framework/Headers \
+	`xml2-config --cflags` \
 	-I$(TP_DIR)/include \
 	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
 	-I$(GLE_DIR)/include

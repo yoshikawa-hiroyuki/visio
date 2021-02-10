@@ -2,6 +2,12 @@
 
 G = -g
 
+WITH_GLE=yes
+WITH_GLFW=no
+ifeq ("$(shell arch)", "arm64")
+  WITH_GLE=no
+  WITH_GLFW=yes
+endif
 CXX=`wx-config --cxx`
 
 VFRDIR=../vfr/dist
@@ -11,7 +17,25 @@ NVR_DIR = ../nvr
 RVR_DIR = ../rvr
 BOOST_DIR = /usr/local
 GLEW_DIR = /usr/local
-GLE_DIR = /opt/GLE
+ifeq ("$(shell arch)", "arm64")
+  GLEW_DIR=/opt/homebrew
+endif
+ifeq ("$(WITH_GLE)", "yes")
+  GLE_DIR = /opt/GLE
+  GLE_INC = -I$(GLE_DIR)/include -D_USE_GLE
+  GLE_LIB = -L$(GLE_DIR)/lib -lgle
+else
+  GLE_INC = 
+  GLE_LIB = 
+endif
+ifeq ("$(WITH_GLFW)", "yes")
+  GLFW_DIR = /opt/homebrew
+  GLFW_INC = -I$(GLFW_DIR)/include -D_USE_GLFW
+  GLFW_LIB = -L$(GLFW_DIR)/lib -lglfw
+else
+  GLFW_INC = 
+  GLFW_LIB = 
+endif
 
 INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
@@ -20,13 +44,13 @@ CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`xml2-config --cflags` \
 	-I$(TP_DIR)/include \
 	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
-	-I$(GLE_DIR)/include
+	$(GLE_INC) $(GLFW_INC)
+
 LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
-	`env PKG_CONFIG_PATH="/usr/local/opt/libxml2/lib/pkgconfig" pkg-config --libs libxml-2.0` \
-	-lTP -lNVR -lRVR -lglew -lz -liconv -lgle
+	`xml2-config --libs` $(GLE_LIB) $(GLFW_LIB) \
+	-lTP -lNVR -lRVR -lglew -lz -liconv
 LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
-	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \
-	-L$(GLE_DIR)/lib
+	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib
 
 INSTALL = /usr/bin/install -c
 
@@ -93,7 +117,11 @@ $(BUNDLE)/doc/DFF_V-Tools.pdf:
 $(BUNDLE)/MacOS/$(PROGRAM): $(PROGRAM)
 	@$(INSTALL) -d `dirname $@`
 	cp $< $@
+ifeq ("$(shell arch)", "arm64")
+	./inst_local_dylib.sh $@ /opt/homebrew
+else
 	./inst_local_dylib.sh $@
+endif
 	./inst_local_dylib.sh $@ /opt/GLE
 
 $(BUNDLE)/Resources/$(PROGRAM).rsrc: $(TMPLDIR)/tmpl.rsrc
@@ -104,6 +132,8 @@ $(BUNDLE)/Resources/$(PROGRAM).icns: $(TMPLDIR)/tmpl.icns
 	@$(INSTALL) -d `dirname $@`
 	cp $< $@
 
+codesign: $(BUNDLE)/MacOS/$(PROGRAM)
+	codesign --force --deep --sign YohCodeCert `pwd`/$(PROGRAM).app
 
 $(PROGRAM) : $(OBJS) 
 	$(CXX) $(G) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)

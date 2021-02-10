@@ -81,7 +81,6 @@ OBJS =	vsnApp.o \
 	vsnMethod_Scatter_plotArrows.o \
 	vsnMethod_Scatter_plotAsLines.o \
 	vsnMethod_Scatter_plotAsLineStrip.o \
-	vsnMethod_Scatter_plotAsTubeStrip.o \
 	vsnMethod_Scatter_plotPoints.o \
 	vsnData_TriaCells.o \
 	vsnMethod_TriaCells_info.o \
@@ -130,6 +129,8 @@ OBJS =	vsnApp.o \
 	vsnMethod_Sv_staggeredVector.o \
 	vsnMethod_Sv_streamLines.o \
 	vsnMethod_Sv_volren.o \
-	vsnMethod_Sv_VLD.o \
-	vsnExtrude.o \
-	
+	vsnMethod_Sv_VLD.o
+ifeq ("$(WITH_GLE)", "yes")
+OBJS +=	vsnExtrude.o \
+	vsnMethod_Scatter_plotAsTubeStrip.o
+endif

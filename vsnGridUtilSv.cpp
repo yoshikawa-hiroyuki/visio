@@ -190,12 +190,13 @@ bool vsnGridUtilSv::setup(const CES::Vec3<size_t>& dims,
 /* methods */
 
 void vsnGridUtilSv::MatrixGradient(const VSN::DVec4 x_i, VSN::DMat3 g) {
-  DVec4 x_I[6] = {int(x_i[0]), x_i[1], x_i[2], x_i[3],
-                  int(x_i[0] + 1.0), x_i[1], x_i[2], x_i[3],
-                  x_i[0], int(x_i[1]), x_i[2], x_i[3],
-                  x_i[0], int(x_i[1] + 1.0), x_i[2], x_i[3],
-                  x_i[0], x_i[1], int(x_i[2]), x_i[3],
-                  x_i[0], x_i[1], int(x_i[2] + 1.0), x_i[3]};
+  int ixi[3] = {int(x_i[0]), int(x_i[1]), int(x_i[2])};
+  DVec4 x_I[6] = {double(ixi[0]), x_i[1], x_i[2], x_i[3],
+                  double(ixi[0] + 1), x_i[1], x_i[2], x_i[3],
+                  x_i[0], double(ixi[1]), x_i[2], x_i[3],
+                  x_i[0], double(ixi[1] + 1), x_i[2], x_i[3],
+                  x_i[0], x_i[1], double(ixi[2]), x_i[3],
+                  x_i[0], x_i[1], double(ixi[2] + 1), x_i[3]};
   register int n;
   for ( n = 0; n < 3; n++ )
     if ( int(x_i[n]) == m_dims[n] - 1) { // shift for upper boundary

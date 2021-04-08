@@ -163,7 +163,7 @@ vsnCMapCanvas::vsnCMapCanvas(wxWindow* parent, vsnExtLutRefer* pExtRef,
 			     const wxWindowID id,
 			     const wxPoint& pos, const wxSize& size,
 			     long style, const wxString& name)
-: wxGLCanvas(parent, id, pos, size, style, name),
+: wxGLCanvas(parent, id, NULL, pos, size, style, name),
   p_extRefer(pExtRef), m_rgbaCnl(cnlRED), m_lastX(-1), m_context(NULL)
 {
 #if CMAP_DLG_INITIAL_ALPHA
@@ -266,7 +266,7 @@ void vsnCMapCanvas::OnPaint(wxPaintEvent& event) {
 
 void vsnCMapCanvas::OnSize(wxSizeEvent& event) {
   // this is also necessary to update the context on some platforms
-  wxGLCanvas::OnSize(event);
+  //wxGLCanvas::OnSize(event);
 
   // set GL viewport (not called by wxGLCanvas::OnSize on all platforms...)
   int w, h;

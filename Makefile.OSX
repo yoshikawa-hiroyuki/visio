@@ -3,11 +3,6 @@
 G = -g
 
 WITH_GLE=yes
-WITH_GLFW=no
-ifeq ("$(shell arch)", "arm64")
-  WITH_GLE=no
-  WITH_GLFW=yes
-endif
 CXX=`wx-config --cxx`
 
 VFRDIR=../vfr/dist
@@ -28,14 +23,6 @@ else
   GLE_INC = 
   GLE_LIB = 
 endif
-ifeq ("$(WITH_GLFW)", "yes")
-  GLFW_DIR = /opt/homebrew
-  GLFW_INC = -I$(GLFW_DIR)/include -D_USE_GLFW
-  GLFW_LIB = -L$(GLFW_DIR)/lib -lglfw
-else
-  GLFW_INC = 
-  GLFW_LIB = 
-endif
 
 INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
@@ -44,10 +31,10 @@ CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`xml2-config --cflags` \
 	-I$(TP_DIR)/include \
 	-I$(NVR_DIR)/include -I$(RVR_DIR)/include -I$(GLEW_DIR)/include \
-	$(GLE_INC) $(GLFW_INC)
+	$(GLE_INC)
 
 LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
-	`xml2-config --libs` $(GLE_LIB) $(GLFW_LIB) \
+	`xml2-config --libs` $(GLE_LIB) \
 	-lTP -lNVR -lRVR -lglew -lz -liconv
 LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
 	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib

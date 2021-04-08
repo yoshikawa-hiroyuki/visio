@@ -1,6 +1,6 @@
 # Makefile for vsn / MacOSX
 
-G = -g
+G = -O2
 
 WITH_GLE=yes
 CXX=`wx-config --cxx`

@@ -28,10 +28,6 @@
 #define CAMERA_NEAR  0.5
 #define CAMERA_FAR   1000.5
 
-#ifdef USE_GLFW
-#include <GLFW/glfw3.h>
-#endif
-
 using namespace CES;
 
 
@@ -64,21 +60,11 @@ vsnGfxView::vsnGfxView(vsnViewFrame* parent,
     gfxAct_SweepZoom(this),  gfxAct_StartRBoxSelect(this),
     gfxAct_StartRBoxZoom(this, 1.5f, VFR::ST_DASH), gfxAct_Wheel(this)
 {
+  p_parent = parent;
+
   /* gfx draw_area */
   m_pda = vfrDrawAreaWx::GetInstance(parent, pos, size);
   assert(m_pda);
-  p_parent = parent;
-
-#ifdef USE_GLFW
-  glfwInit();
-  GLFWwindow* win = glfwCreateWindow(100, 100, "Test", NULL, NULL);
-  if ( win ) {
-    int width, height;
-    glfwGetFramebufferSize(win, &width, &height);
-    if ( width > 100 ) m_pda->setFbScale(2.f);
-  }
-  glfwTerminate();
-#endif
 
   /* screen */
   m_pScreen = new vfrScreen();

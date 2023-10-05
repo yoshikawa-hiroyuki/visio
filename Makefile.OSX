@@ -24,7 +24,7 @@ else
   GLE_LIB = 
 endif
 
-INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
+INC = -I. -I./Gears/include -I./VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DMacOSX -DMACOSX $(G)
 CXXFLAGS = $(CFLAGS) -DNDEBUG -DGL_SILENCE_DEPRECATION \
 	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \

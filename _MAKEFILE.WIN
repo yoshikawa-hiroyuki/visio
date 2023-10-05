@@ -16,7 +16,7 @@ CFLAGS = /D_WINDOWS /DWINDOWS /W3 /GR \
  /I$(VFRDIR)/include /I$(LIBXMLDIR)/include /I$(ZLIBDIR)/include \
  /I$(WXDIR)/include /I$(WXDIR)/lib/vc_lib/mswu \
  /I../nvr/include \
- /I../Gears/include /I../VLD /I$(BOOST_DIR) \
+ /I./Gears/include /I./VLD /I$(BOOST_DIR) \
  /DNVCG_VOLREN /I$(TT_DIR)/include /I$(CG_DIR)/include
 
 LDLIBS = /libpath:$(VFRDIR)/lib vfr.lib vfru.lib vfrWx.lib \

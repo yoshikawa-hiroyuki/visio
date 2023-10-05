@@ -86,7 +86,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.2/include;C:/wxWidgets-3.0.2/lib/vc_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../boost_1_53_0;./VLD;./Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.2/include;C:/wxWidgets-3.0.2/lib/vc_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WINDOWS;_WINDOWS;wxUSE_GUI=1;NVCG_VOLREN;WIN32;_WIN32;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;UNICODE;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>

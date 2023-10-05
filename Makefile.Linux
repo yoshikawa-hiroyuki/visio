@@ -7,11 +7,11 @@ VFRDIR=../vfr/dist
 TP_DIR = ../RikenLib/TextParser/eoe
 NVR_DIR = ../nvr
 RVR_DIR = ../rvr
-BOOST_DIR = ../boost_1_50_0
+BOOST_DIR = /usr
 GLEW_DIR = /usr
 GLE_DIR = /usr
 
-INC = -I. -I../Gears/include -I../VLD -I$(BOOST_DIR)
+INC = -I. -I./Gears/include -I./VLD -I$(BOOST_DIR)
 CFLAGS = $(INC) -DLinux -DLINUX $(G) $(OPT)
 CXXFLAGS = $(CFLAGS) -DNDEBUG \
 	`$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --cflags` \

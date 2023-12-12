@@ -186,13 +186,13 @@ void vsnMPP_Sv_setRectCoord::OnSetRectCoordBtn(wxCommandEvent& event) {
   valStr = m_pFileTxt->GetValue();
   string rcPath = vsnPath_normalize(vsnApp::ConvWxToSys(valStr));
 
-  int ofst[3];
+  long long ofst[3];
   valStr = m_pOffsetXTxt->GetValue();
-  ofst[0] = atoi(vsnApp::ConvWxToSys(valStr).c_str());
+  ofst[0] = atol(vsnApp::ConvWxToSys(valStr).c_str());
   valStr = m_pOffsetYTxt->GetValue();
-  ofst[1] = atoi(vsnApp::ConvWxToSys(valStr).c_str());
+  ofst[1] = atol(vsnApp::ConvWxToSys(valStr).c_str());
   valStr = m_pOffsetZTxt->GetValue();
-  ofst[2] = atoi(vsnApp::ConvWxToSys(valStr).c_str());
+  ofst[2] = atol(vsnApp::ConvWxToSys(valStr).c_str());
   if ( ofst[0] < 0 ) ofst[0] = 0;
   if ( ofst[1] < 0 ) ofst[1] = 0;
   if ( ofst[2] < 0 ) ofst[2] = 0;

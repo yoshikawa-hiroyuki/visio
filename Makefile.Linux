@@ -1,7 +1,7 @@
 # Makefile for vsn / Linux
 
-G = -g
-OPT = -O0
+G = 
+OPT = -O2
 
 VFRDIR=../vfr/dist
 TP_DIR = ../RikenLib/TextParser/eoe

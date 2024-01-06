@@ -120,7 +120,7 @@ $(BUNDLE)/Resources/$(PROGRAM).icns: $(TMPLDIR)/tmpl.icns
 	cp $< $@
 
 codesign: $(BUNDLE)/MacOS/$(PROGRAM)
-	codesign --force --deep --sign YohCodeCert `pwd`/$(PROGRAM).app
+	codesign --force --deep --sign - `pwd`/$(PROGRAM).app
 
 $(PROGRAM) : $(OBJS) 
 	$(CXX) $(G) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)

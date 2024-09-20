@@ -403,22 +403,9 @@ vsnMethod_Sv_extractHistory::~vsnMethod_Sv_extractHistory() {
 
 // static
 bool vsnMethod_Sv_extractHistory::setupExtractor() {
-  s_extractorPath
-#if defined(LINUX)
-    = "/usr/local/Vtools/bin/histExtract";
-#elif defined(MacOSX)
-    = "/Applications/Vtools/bin/histExtract";
-#elif defined(WINDOWS)
-    = "/Program Files/Vtools/bin/histExtract.exe";
-#else
-    = "histExtract";
-#endif
-
-#if defined(WINDOWS)
-  char* sysDrv = getenv("SYSTEMDRIVE");
-  if ( sysDrv && s_extractorPath[0] == '/' )
-    s_extractorPath = string(sysDrv) + s_extractorPath;
-#endif
+  if ( s_extractorPath.empty() ) {
+    s_extractorPath = vsnApp::GetAppDir() + "/histExtract";
+  }
 
   char* pEnvExtr = getenv("VSN_HIST_EXTRACTOR");
   if ( pEnvExtr && strlen(pEnvExtr) > 0 )

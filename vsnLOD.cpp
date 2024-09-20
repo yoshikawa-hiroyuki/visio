@@ -48,9 +48,9 @@ bool vsnLOD::addArea(const float d) {
 }
 
 /* MxV_w: Returns (M * V).
-¤¿¤À¤·¡¢ÊÖ¤¹Á°¤ËV¤ÎÀ®Ê¬¤òw¤Ç½ü»»¤¹¤ë¡£
-¤³¤ì¤Ë¤è¤ê¡¢¡Ö¥¯¥ê¥Ã¥×ºÂÉ¸·Ï¡×(w¤Ç½ü»»¤¹¤ëÁ°)¤Ç¤Ï¤Ê¤¯
-¡ÖÀµµ¬²½¥Ç¥Ð¥¤¥¹ºÂÉ¸·Ï¡×¤Ç¤ÎÃÍ¤¬ÊÖ¤ë¡£
+‚½‚¾‚µA•Ô‚·‘O‚ÉV‚Ì¬•ª‚ðw‚ÅœŽZ‚·‚éB
+‚±‚ê‚É‚æ‚èAuƒNƒŠƒbƒvÀ•WŒnv(w‚ÅœŽZ‚·‚é‘O)‚Å‚Í‚È‚­
+u³‹K‰»ƒfƒoƒCƒXÀ•WŒnv‚Å‚Ì’l‚ª•Ô‚éB
  */
 static inline CES::Vec3<float>
 MxV_w(const CES::Mat4<float>& M, const CES::Vec3<float>& V) {

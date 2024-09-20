@@ -2620,22 +2620,21 @@ void vsnViewFrame::OnMenuHelp_UserGuide(wxCommandEvent& event) {
 #if defined(LINUX)
   wxString commPDF(wxT("xdg-open "));
 #elif defined(WINDOWS)
-  wxString commPDF(wxT("start ")); // may not be used
+  wxString commPDF(wxT("explorer "));
 #elif defined(MACOSX)
   wxString commPDF(wxT("open "));
 #else
   return;
 #endif
+
+#if defined(WINDOWS)
+  wxString pathPDF(wxT("\\..\\doc\\Visio_UG.pdf"));
+#else
   wxString pathPDF(wxT("/../doc/Visio_UG.pdf"));
-  pathPDF = vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF;
+#endif
+  pathPDF = wxT("\"") + vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF + wxT("\"");
 
   wxString command = commPDF + pathPDF;
-#if defined(WINDOWS)
-  wxFileType* fileType
-    = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
-  command = fileType->GetOpenCommand(pathPDF);
-#endif
-
   wxExecute(command);
 }
 
@@ -2643,22 +2642,28 @@ void vsnViewFrame::OnMenuHelp_FileFmt(wxCommandEvent& event) {
 #if defined(LINUX)
   wxString commPDF(wxT("xdg-open "));
 #elif defined(WINDOWS)
-  wxString commPDF(wxT("start ")); // may not be used
+  wxString commPDF(wxT("explorer "));
 #elif defined(MACOSX)
   wxString commPDF(wxT("open "));
 #else
   return;
 #endif
+
+#if defined(WINDOWS)
+  wxString pathPDF(wxT("\\..\\doc\\DFF_V-Tools.pdf"));
+#else
   wxString pathPDF(wxT("/../doc/DFF_V-Tools.pdf"));
-  pathPDF = vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF;
+#endif
+  pathPDF = wxT("\"") + vsnApp::ConvSysToWx(vsnApp::GetAppDir()) + pathPDF + wxT("\"");
 
   wxString command = commPDF + pathPDF;
+  /*
 #if defined(WINDOWS)
   wxFileType* fileType
     = wxTheMimeTypesManager->GetFileTypeFromExtension(wxT("pdf"));
   command = fileType->GetOpenCommand(pathPDF);
 #endif
-
+  */
   wxExecute(command);
 }
 

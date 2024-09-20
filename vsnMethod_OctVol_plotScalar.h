@@ -44,8 +44,8 @@ public:
 	       const Bool ssm=FALSE) : vfrMesh2D(msz, nm, ssm) {}
 
   /**
-   * 必要であればマスク情報をクリアする
-   * マスク情報が設定されていなければ必要ないので、クリアする
+   * �K�v�ł���΃}�X�N�����N���A����
+   * �}�X�N��񂪐ݒ肳��Ă��Ȃ���ΕK�v�Ȃ��̂ŁA�N���A����
    * @author MHIR
    * @date 2009-05-29
    */
@@ -57,18 +57,18 @@ public:
   }
 
   /**
-   * マスク情報の初期化
+   * �}�X�N���̏�����
    * @author MHIR
    * @date 2009-05-29
    */
   void InitMask(void) {
     m_mask.clear();
-    // 領域の確保, マスク無しで初期化
+    // �̈�̊m��, �}�X�N�����ŏ�����
     m_mask.resize(_meshSize.x * _meshSize.y, false);
   }
 
   /**
-   * マスク情報を設定する
+   * �}�X�N����ݒ肷��
    * @author MHIR
    * @date 2009-05-29
    */
@@ -76,8 +76,8 @@ public:
 
 protected:
   /**
-   * true の頂点は表示しない
-   * false の頂点は表示する
+   * true �̒��_�͕\�����Ȃ�
+   * false �̒��_�͕\������
    * @author MHIR
    * @date 2009-05-29
    */

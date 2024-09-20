@@ -619,7 +619,7 @@ vsnOctTree::GetNeighbor(vsnOctTree::Node* pn, const Vec3<int>& dir) {
 
     wpn = wpn->p_children[j];
     // 2009-05-27 MHIR begin
-    // ä¸¦åˆ—è¨ˆç®—çµæœã®éƒ¨åˆ†é ˜åŸŸã§ã¯å…¨ã¦ã®å­ä¾›ãŒã„ã‚‹ã¨ã¯é™ã‚‰ãªã„
+    // •À—ñŒvZŒ‹‰Ê‚Ì•”•ª—Ìˆæ‚Å‚Í‘S‚Ä‚Ìq‹Ÿ‚ª‚¢‚é‚Æ‚ÍŒÀ‚ç‚È‚¢
     //
     if (wpn == NULL) break;
     // 2009-05-27 MHIR end
@@ -645,7 +645,7 @@ bool vsnOctTree::InterpolateData(const Vec3<float>& pos, Node* p_node,
     p_node = FindByPos(pos);
     if ( ! p_node ) return false; // out of range ?
     // MHIR append begin
-    // å¯è¦–åŒ–å¯¾è±¡ã®ã‚»ãƒ«ã§ã¯ãªã„
+    // ‰Â‹‰»‘ÎÛ‚ÌƒZƒ‹‚Å‚Í‚È‚¢
     if (! p_node -> HasData()) return false;
     // MHIR append end
   }

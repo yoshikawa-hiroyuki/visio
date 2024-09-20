@@ -543,23 +543,19 @@ bool vsnApp::initTmpls() {
     t_it = m_tmplList.erase(t_it);
   } // end of for(t_it)
 
-  std::string default_tmpl_dir
-#if defined(LINUX)
-    = "/usr/local/Vtools/etc/tmpl";
-#elif defined(MacOSX)
-  = "/Applications/Vtools/etc/tmpl";
-#elif defined(WINDOWS)
-  = "/Program Files/Vtools/etc/tmpl";
+#if defined(WINDOWS)
+  std::string default_tmpl_dir = vsnApp::GetAppDir() + "\\..\\etc\\tmpl";
 #else
-  = "";
+  std::string default_tmpl_dir = vsnApp::GetAppDir() + "/../etc/tmpl";
 #endif
-
   std::string pTmplDir = default_tmpl_dir;
+  /*
 #if defined(WINDOWS)
   char* sysDrv = getenv("SYSTEMDRIVE");
   if ( sysDrv )
     pTmplDir = std::string(sysDrv) + default_tmpl_dir;
 #endif
+  */
 
   char* pEnvTmplDir = getenv("VSN_TMPL_DIR");
   if ( pEnvTmplDir ) pTmplDir = pEnvTmplDir;

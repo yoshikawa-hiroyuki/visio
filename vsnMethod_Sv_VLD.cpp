@@ -579,14 +579,14 @@ vsnMethod_Sv_VLD(const std::string& name)
     m_enableFastMethod(false), m_enableVisibilityTesting(false),
     m_selectedIsoValue(0), _needRemake(true), _updateVisibility(true) {
 
-  // ¥á¥ó¥ĞÊÑ¿ô¡ÊÇÛÎó¡Ë¤Î½é´ü²½
+  // ƒƒ“ƒo•Ï”i”z—ñj‚Ì‰Šú‰»
   for ( int iv = 0; iv < MaxIsoValues; ++iv ) {
     m_isoValue[iv]              = 0.f;
     m_showContour[iv]           = false;
     m_showSuggestiveContour[iv] = false;
     m_enableCuttingPlane[iv]    = false;
 
-    // ¥ì¥ó¥À¥é¡¼
+    // ƒŒƒ“ƒ_ƒ‰[
     m_contours[iv]              = NULL;
     m_suggestiveContours[iv]    = NULL;
     m_intersectPlane[iv]        = NULL;
@@ -786,7 +786,7 @@ bool vsnMethod_Sv_VLD::setLineWidth(const float lw) {
 
 bool vsnMethod_Sv_VLD::setEnableFastMethod(const bool efm) {
   if ( m_enableFastMethod == efm ) return true;
-  // fast method¤¬¥ª¥Õ¤«¤é¥ª¥ó¤Ë¤Ê¤Ã¤¿¾ì¹ç¤Ï¡¢Á´¤Æ¤Î¥»¥ë¤ò¸¡º÷¤·Ãê½Ğ¤ò¹Ô¤ï¤»¤ë
+  // fast method‚ªƒIƒt‚©‚çƒIƒ“‚É‚È‚Á‚½ê‡‚ÍA‘S‚Ä‚ÌƒZƒ‹‚ğŒŸõ‚µ’Šo‚ğs‚í‚¹‚é
   _needRemake        = ( ! efm && m_enableFastMethod ) ? true : false;
   m_enableFastMethod = efm;
 
@@ -798,7 +798,7 @@ bool vsnMethod_Sv_VLD::setSelectedIsoValue(const int siv) {
   if ( siv < 0 || siv >= MaxIsoValues ) return false;
   if ( siv == m_selectedIsoValue ) return true;
   m_selectedIsoValue = siv;
-  // visibility(±¢Àş¾Ãµî)¤¬ÁªÂò¤µ¤ì¤Æ¤¤¤ëiso value¤Ë°ÍÂ¸¤¹¤ë¤¿¤á
+  // visibility(‰AüÁ‹)‚ª‘I‘ğ‚³‚ê‚Ä‚¢‚éiso value‚ÉˆË‘¶‚·‚é‚½‚ß
   _updateVisibility  = true;
 
   updateUI();
@@ -813,7 +813,7 @@ bool vsnMethod_Sv_VLD::setIsoValue(const int iv, const float val) {
   _updateIsoValueContour[iv]           = true;
   _updateIsoValueSuggestiveContour[iv] = true;
   _updateIsoValueIntersectPlane[iv]    = true;
-  // iv °Ê³°¤Çshow¤¬¥ª¥ó¤Ë¤Ê¤Ã¤Æ¤¤¤ë¤â¤Î¤Î visibility(±¢Àş¾Ãµî)¤ò¹¹¿·¤µ¤»¤ë¤¿¤á
+  // iv ˆÈŠO‚Åshow‚ªƒIƒ“‚É‚È‚Á‚Ä‚¢‚é‚à‚Ì‚Ì visibility(‰AüÁ‹)‚ğXV‚³‚¹‚é‚½‚ß
   _updateVisibility                    = true;
 
   updateColor();
@@ -825,7 +825,7 @@ bool vsnMethod_Sv_VLD::setShowContour(const int iv, const bool sc) {
   if ( iv < 0 || iv >= MaxIsoValues ) return false;
   if ( m_showContour[iv] == sc ) return true;
   m_showContour[iv] = sc;
-  // (show¤¬¥ª¥Õ¤Ë¤Ê¤Ã¤Æ¤¤¤¿´Ö¤Î)cutting plane¤ÎÊÑ¹¹¤òÈ¿±Ç¤µ¤»¤ë¤¿¤á
+  // (show‚ªƒIƒt‚É‚È‚Á‚Ä‚¢‚½ŠÔ‚Ì)cutting plane‚Ì•ÏX‚ğ”½‰f‚³‚¹‚é‚½‚ß
   _updateVisibility = true;
 
   updateUI();
@@ -836,7 +836,7 @@ bool vsnMethod_Sv_VLD::setShowSuggestiveContour(const int iv, const bool ssc) {
   if ( iv < 0 || iv >= MaxIsoValues ) return false;
   if ( m_showSuggestiveContour[iv] == ssc ) return true;
   m_showSuggestiveContour[iv] = ssc;
-  // (show¤¬¥ª¥Õ¤Ë¤Ê¤Ã¤Æ¤¤¤¿´Ö¤Î)cutting plane¤ÎÊÑ¹¹¤òÈ¿±Ç¤µ¤»¤ë¤¿¤á
+  // (show‚ªƒIƒt‚É‚È‚Á‚Ä‚¢‚½ŠÔ‚Ì)cutting plane‚Ì•ÏX‚ğ”½‰f‚³‚¹‚é‚½‚ß
   _updateVisibility           = true;
   
   updateUI();
@@ -846,7 +846,7 @@ bool vsnMethod_Sv_VLD::setShowSuggestiveContour(const int iv, const bool ssc) {
 bool vsnMethod_Sv_VLD::setEnableVisibilityTesting(const bool evt) {
   if ( m_enableVisibilityTesting == evt ) return true;
   m_enableVisibilityTesting = evt;
-  // (show¤¬¥ª¥Õ¤Ë¤Ê¤Ã¤Æ¤¤¤¿´Ö¤Î)cutting plane¤ÎÊÑ¹¹¤òÈ¿±Ç¤µ¤»¤ë¤¿¤á
+  // (show‚ªƒIƒt‚É‚È‚Á‚Ä‚¢‚½ŠÔ‚Ì)cutting plane‚Ì•ÏX‚ğ”½‰f‚³‚¹‚é‚½‚ß
   _updateVisibility         = true;
 
   updateUI();
@@ -857,7 +857,7 @@ bool vsnMethod_Sv_VLD::setEnableCuttingPlane(const int iv, const bool ecp) {
   if ( iv < 0 || iv >= MaxIsoValues ) return false;
   if ( m_enableCuttingPlane[iv] == ecp ) return true;
   m_enableCuttingPlane[iv] = ecp;
-  // (show¤¬¥ª¥Õ¤Ë¤Ê¤Ã¤Æ¤¤¤¿´Ö¤Î)cutting plane¤ÎÊÑ¹¹¤òÈ¿±Ç¤µ¤»¤ë¤¿¤á
+  // (show‚ªƒIƒt‚É‚È‚Á‚Ä‚¢‚½ŠÔ‚Ì)cutting plane‚Ì•ÏX‚ğ”½‰f‚³‚¹‚é‚½‚ß
   _updateVisibility        = true;
   
   updateUI();
@@ -879,7 +879,7 @@ bool vsnMethod_Sv_VLD::updateStep(const int stp,
   if ( m_updatedStp == m_requestedStp ) return true;
   m_updatedStp = -1;
 
-  // ¥ì¥ó¥À¥é¡¼¤ò»Ò¡Ê¥³¥ó¥İ¡¼¥Í¥ó¥È¡Ë¤È¤·¤ÆÄÉ²Ã
+  // ƒŒƒ“ƒ_ƒ‰[‚ğqiƒRƒ“ƒ|[ƒlƒ“ƒgj‚Æ‚µ‚Ä’Ç‰Á
   // for contour
   if ( MaxIsoValues < 1 ) return false;
   if ( ! m_contours[0] ) {
@@ -896,7 +896,7 @@ bool vsnMethod_Sv_VLD::updateStep(const int stp,
     }
   }
 
-  // ¥ì¥ó¥À¥é¡¼¤ò»Ò¡Ê¥³¥ó¥İ¡¼¥Í¥ó¥È¡Ë¤È¤·¤ÆÄÉ²Ã
+  // ƒŒƒ“ƒ_ƒ‰[‚ğqiƒRƒ“ƒ|[ƒlƒ“ƒgj‚Æ‚µ‚Ä’Ç‰Á
   // for suggestive contour
   if ( ! m_suggestiveContours[0] ) {
     for ( int iv = 0; iv < MaxIsoValues; ++iv ) {
@@ -912,7 +912,7 @@ bool vsnMethod_Sv_VLD::updateStep(const int stp,
     }
   }
 
-  // ¥ì¥ó¥À¥é¡¼¤ò»Ò¡Ê¥³¥ó¥İ¡¼¥Í¥ó¥È¡Ë¤È¤·¤ÆÄÉ²Ã
+  // ƒŒƒ“ƒ_ƒ‰[‚ğqiƒRƒ“ƒ|[ƒlƒ“ƒgj‚Æ‚µ‚Ä’Ç‰Á
   // for intersect plane
   if ( ! m_intersectPlane[0] ) {
     for ( int iv = 0; iv < MaxIsoValues; ++iv ) {
@@ -1026,7 +1026,7 @@ bool vsnMethod_Sv_VLD::update(const bool force) {
 void vsnMethod_Sv_VLD::reloaded() {
   adjustRange(false);
 
-  // m_updateMinMax¤¬false¤Î¾ì¹ç¤Ç¤âºÆÅÙÃê½Ğ¤¹¤ë
+  // m_updateMinMax‚ªfalse‚Ìê‡‚Å‚àÄ“x’Šo‚·‚é
   for ( int iv = 0; iv < MaxIsoValues; ++iv ) {
     _updateIsoValueContour[iv]           = true;
     _updateIsoValueSuggestiveContour[iv] = true;
@@ -1779,7 +1779,7 @@ void vsnMethod_Sv_VLD::_updateContour(){
     const bool updateVisibility
       = _updateVisibility || ( _updateSampler[iv] && enableCuttingPlane ); 
 
-    // contour / suggestive contour / intersect plane ¤òÉ½¼¨¤¹¤ë¤«Èİ¤«¤ò·èÄê===
+    // contour / suggestive contour / intersect plane ‚ğ•\¦‚·‚é‚©”Û‚©‚ğŒˆ’è===
     if ( showContour )
       m_contours[iv]->getPrivateMaterial()->setRenderMode(RT_WIRE);
     if ( showSuggestiveContour )
@@ -1787,10 +1787,10 @@ void vsnMethod_Sv_VLD::_updateContour(){
     if ( enableCuttingPlane )
       m_intersectPlane[iv]->getPrivateMaterial()->setRenderMode(RT_WIRE);
 
-    // --------------- contour ¤Ë´Ø¤·¤Æ¹¹¿·¤¹¤ë¤«Èİ¤«¤ò·èÄê ---------------
+    // --------------- contour ‚ÉŠÖ‚µ‚ÄXV‚·‚é‚©”Û‚©‚ğŒˆ’è ---------------
     if ( showContour ) {
       if ( _updateIsoValueContour[iv] || _needRemake ) { 
-        // iso-value ¤¬ÊÑ²½¤·¤¿¤«¡¢¤â¤·¤¯¤Ï¶¯À©Åª¤Ë¥ê¥á¥¤¥¯¤¹¤ë¾ì¹ç
+        // iso-value ‚ª•Ï‰»‚µ‚½‚©A‚à‚µ‚­‚Í‹­§“I‚ÉƒŠƒƒCƒN‚·‚éê‡
         _updateContour(iv);
         _setLinesContour(iv, m_enableVisibilityTesting, enableCuttingPlane);
         _updateIsoValueContour[iv] = false;
@@ -1798,16 +1798,16 @@ void vsnMethod_Sv_VLD::_updateContour(){
       }
       else 
       if ( updateViewPosContour ) { 
-      // »ëÅÀ¤¬ÊÑ²½¤·¤¿¾ì¹ç
+      // ‹“_‚ª•Ï‰»‚µ‚½ê‡
         if ( ! m_enableFastMethod ) {
-          // fast method¤¬Í­¸ú¤Ç¤Ê¤¤¾ì¹ç
+          // fast method‚ª—LŒø‚Å‚È‚¢ê‡
           _updateContour(iv);
           _setLinesContour(iv, m_enableVisibilityTesting, enableCuttingPlane);
           _updateIsoValueContour[iv] = false;
           _viewPosContour[iv]        = viewPos;
         }
         else {
-          // fast method¤¬Í­¸ú¤Ê¾ì¹ç
+          // fast method‚ª—LŒø‚Èê‡
           _updateContourByFastMethod(iv);
           _setLinesContour(iv, m_enableVisibilityTesting, enableCuttingPlane);
           _updateIsoValueContour[iv] = false;
@@ -1820,10 +1820,10 @@ void vsnMethod_Sv_VLD::_updateContour(){
       }
     } // end of if ( showContour )
 
-    // ----------- suggestive contour ¤Ë´Ø¤·¤Æ¹¹¿·¤¹¤ë¤«Èİ¤«¤ò·èÄê -----------
+    // ----------- suggestive contour ‚ÉŠÖ‚µ‚ÄXV‚·‚é‚©”Û‚©‚ğŒˆ’è -----------
     if ( showSuggestiveContour ) {
       if ( _updateIsoValueSuggestiveContour[iv] || _needRemake ) { 
-        // iso-value ¤¬ÊÑ²½¤·¤¿¤«¡¢¤â¤·¤¯¤Ï¶¯À©Åª¤Ë¥ê¥á¥¤¥¯¤¹¤ë¾ì¹ç
+        // iso-value ‚ª•Ï‰»‚µ‚½‚©A‚à‚µ‚­‚Í‹­§“I‚ÉƒŠƒƒCƒN‚·‚éê‡
         _updateSuggestiveContour(iv);
         _setLinesSuggestiveContour(iv, m_enableVisibilityTesting,
 				   enableCuttingPlane);
@@ -1832,7 +1832,7 @@ void vsnMethod_Sv_VLD::_updateContour(){
       }
       else 
       if ( updateViewPosSuggestiveContour ) { 
-        // »ëÅÀ¤¬ÊÑ²½¤·¤¿¾ì¹ç
+        // ‹“_‚ª•Ï‰»‚µ‚½ê‡
         _updateSuggestiveContour(iv);
         _setLinesSuggestiveContour(iv, m_enableVisibilityTesting,
 				   enableCuttingPlane);
@@ -1846,10 +1846,10 @@ void vsnMethod_Sv_VLD::_updateContour(){
       }
     } // end of if ( showSuggestiveContour )
 
-    // ----------- intersect plane ¤Ë´Ø¤·¤Æ¹¹¿·¤¹¤ë¤«Èİ¤«¤ò·èÄê -------------
+    // ----------- intersect plane ‚ÉŠÖ‚µ‚ÄXV‚·‚é‚©”Û‚©‚ğŒˆ’è -------------
     if ( enableCuttingPlane ) {
       if ( _updateIsoValueIntersectPlane[iv] || _needRemake ) {
-        // iso-value¤¬ÊÑ²½¤·¤¿¾ì¹ç ¡¢¤â¤·¤¯¤Ï¶¯À©Åª¤Ë¥ê¥á¥¤¥¯¤¹¤ë¾ì¹ç
+        // iso-value‚ª•Ï‰»‚µ‚½ê‡ A‚à‚µ‚­‚Í‹­§“I‚ÉƒŠƒƒCƒN‚·‚éê‡
         _updateIntersectPlane(iv);
         _setLinesIntersectPlane(iv);
         _updateIsoValueIntersectPlane[iv] = false;
@@ -1857,7 +1857,7 @@ void vsnMethod_Sv_VLD::_updateContour(){
       }
       else
       if ( _updateSampler[iv] ) {
-        // iso-value¤¬ÊÑ²½¤·¤¿¾ì¹ç ¡¢¤â¤·¤¯¤Ï¶¯À©Åª¤Ë¥ê¥á¥¤¥¯¤¹¤ë¾ì¹ç
+        // iso-value‚ª•Ï‰»‚µ‚½ê‡ A‚à‚µ‚­‚Í‹­§“I‚ÉƒŠƒƒCƒN‚·‚éê‡
         _updateIntersectPlane(iv);
         _setLinesIntersectPlane(iv);
         _updateIsoValueIntersectPlane[iv] = false;
@@ -1910,9 +1910,9 @@ void vsnMethod_Sv_VLD::_updateContourByFastMethod(const int iv){
     return;
   }
 
-  // ¹âÂ®²½¼êË¡¤Ë¤è¤ê¸«¤Ä¤±¤¿¥³¥ó¥¿¤Î¿ô/Á°¥Õ¥ì¡¼¥à¤Î¥³¥ó¥¿¤ÎÈæ¤¬¤¢¤ëÃÍ
-  // (ACCEPTABLE_FOUND_RATE)¤è¤ê¤âÄã¤«¤Ã¤¿¾ì¹ç¡¢
-  // Á´¤Æ¤Î¥»¥ë¤ò¸¡º÷¤·¡¢¥³¥ó¥¿¤òÃê½Ğ¤¹¤ë
+  // ‚‘¬‰»è–@‚É‚æ‚èŒ©‚Â‚¯‚½ƒRƒ“ƒ^‚Ì”/‘OƒtƒŒ[ƒ€‚ÌƒRƒ“ƒ^‚Ì”ä‚ª‚ ‚é’l
+  // (ACCEPTABLE_FOUND_RATE)‚æ‚è‚à’á‚©‚Á‚½ê‡A
+  // ‘S‚Ä‚ÌƒZƒ‹‚ğŒŸõ‚µAƒRƒ“ƒ^‚ğ’Šo‚·‚é
   const int presentFound = (int)_linesContour[iv].size();
   const int rate         = (float)presentFound / previousFound * 100.f;
   if ( previousFound == 0 || presentFound == 0 || rate < ACCEPTABLE_FOUND_RATE )

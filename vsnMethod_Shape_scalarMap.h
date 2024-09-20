@@ -20,19 +20,19 @@ class vsnData_Sph;
 
 /**
  * @file
- * @brief ScalarMapã®ãƒ˜ãƒƒãƒ€ãƒ¼ãƒ•ã‚¡ã‚¤ãƒ«
+ * @brief ScalarMap‚Ìƒwƒbƒ_[ƒtƒ@ƒCƒ‹
  * @author MHIR
  * @since 2.2.0
  */
 
 /**
  * @namespace
- * @brief Visio ã®åå‰ç©ºé–“
+ * @brief Visio ‚Ì–¼‘O‹óŠÔ
  */
 namespace VSN {
   /**
    * @enum
-   * ScalarMap ã®GUIã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+   * ScalarMap ‚ÌGUIƒRƒ“ƒ|[ƒlƒ“ƒg
    */
   enum {
     MPP_Shape_scalarMap_SphLst = 33000,
@@ -46,7 +46,7 @@ namespace VSN {
     MPP_Shape_scalarMap_PhysParamArea,
     //    MPP_Shape_scalarMap_DivideChk,
 
-    // ç‰©ç†é‡ã§ã‚¹ã‚«ãƒ©ãƒ¼å€¤ãŒé¸ã°ã‚ŒãŸã¨ãã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+    // •¨——Ê‚ÅƒXƒJƒ‰[’l‚ª‘I‚Î‚ê‚½‚Æ‚«‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
     //
     MPP_Shape_scalarMap_Phys_scalar_ScalarCombo,
     MPP_Shape_scalarMap_Phys_scalar_NumLinesTxt,
@@ -59,12 +59,12 @@ namespace VSN {
     MPP_Shape_scalarMap_Phys_scalar_AntiAliasChk,
     MPP_Shape_scalarMap_Phys_scalar_DispContourLineCB,
 
-    // ç‰©ç†é‡ã§åœ§åŠ›æŠµæŠ—å¯„ä¸ç‡ãŒé¸ã°ãˆãŸæ™‚ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+    // •¨——Ê‚Åˆ³—Í’ïRŠñ—^—¦‚ª‘I‚Î‚¦‚½‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
     //
     MPP_Shape_scalarMap_Phys_pressDrag_PressCombo,
     MPP_Shape_scalarMap_Phys_pressDrag_DirRadio,
 
-    // ç‰©ç†é‡ã§å‰ªæ–­å¿œåŠ›ãŒé¸ã°ãˆãŸæ™‚ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
+    // •¨——Ê‚Å™’’f‰—Í‚ª‘I‚Î‚¦‚½‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
     //
     MPP_Shape_scalarMap_Phys_shearing_CoeffValTxt,
     MPP_Shape_scalarMap_Phys_shearing_StencilWidthTxt,
@@ -73,8 +73,8 @@ namespace VSN {
     MPP_Shape_scalarMap_Phys_shearing_SurfVelocZTxt,
     MPP_Shape_scalarMap_Phys_shearing_MapCompoRadio,
 
-    // å…¨æŠµæŠ—ã‚’æ±‚ã‚ã‚‹ã¨ãã«ä½¿ç”¨ã™ã‚‹
-    // åœ§åŠ›å€¤ã®ãƒ‡ãƒ¼ã‚¿ã®æŒ‡å®š
+    // ‘S’ïR‚ğ‹‚ß‚é‚Æ‚«‚Ég—p‚·‚é
+    // ˆ³—Í’l‚Ìƒf[ƒ^‚Ìw’è
     //
     MPP_Shape_scalarMap_Phys_shearing_PressSphCB,
     MPP_Shape_scalarMap_Phys_shearing_PressCompoCB,
@@ -87,16 +87,16 @@ namespace VSN {
 class vsnData_Shape;
 
 /**
- * é ‚ç‚¹ã‚¯ãƒ©ã‚¹
+ * ’¸“_ƒNƒ‰ƒX
  */
 class Vertex {
 public:
 
   /**
-   * ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-   * @param x Xåº§æ¨™å€¤
-   * @param y Yåº§æ¨™å€¤
-   * @param z Zåº§æ¨™å€¤
+   * ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+   * @param x XÀ•W’l
+   * @param y YÀ•W’l
+   * @param z ZÀ•W’l
    */
   Vertex(float x, float y, float z) {
     m_pRef = NULL;
@@ -114,7 +114,7 @@ public:
   }
 
   /**
-   * LESS ã®ã‚ªãƒšãƒ¬ãƒ¼ã‚¿
+   * LESS ‚ÌƒIƒyƒŒ[ƒ^
    */
   bool operator<(const Vertex& lhs) const {
     if (m_p[0] < lhs.m_p[0]) return true;
@@ -130,8 +130,8 @@ public:
   }
 
   /**
-   * æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã®åŠ ç®—
-   * @param normal æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+   * –@üƒxƒNƒgƒ‹‚Ì‰ÁZ
+   * @param normal –@üƒxƒNƒgƒ‹
    */
   void AppendNormal(const VFR::vector3& normal) {
     m_normal[0] += normal[0];
@@ -140,63 +140,63 @@ public:
   }
 
   /**
-   * é¢ç©ã®åŠ ç®—
-   * @param area åŠ ç®—ã™ã‚‹é¢ç©
+   * –ÊÏ‚Ì‰ÁZ
+   * @param area ‰ÁZ‚·‚é–ÊÏ
    */
   void AppendArea(double area) {
     m_area += area;
   }
 
   /**
-   * é¢ç©ã®å–å¾—
-   * @result é¢ç©
+   * –ÊÏ‚Ìæ“¾
+   * @result –ÊÏ
    */
   double GetArea(void) const {
     return m_area;
   }
 
   /**
-   * åº§æ¨™å€¤
+   * À•W’l
    */
   CES::Vec3<float> m_p;
 
   /**
-   * æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«
+   * –@üƒxƒNƒgƒ‹
    */
   VFR::vector3 m_normal;
 
   /**
-   * å®Ÿä½“ã®å‚ç…§å…ˆ
+   * À‘Ì‚ÌQÆæ
    */
   Vertex* m_pRef;
 
   /**
-   * é¢ç©
+   * –ÊÏ
    */
   float m_area;
 
   /**
-   * æ–¹å‘åˆ¥æŠ•å½±é¢ç©
+   * •ûŒü•Ê“Š‰e–ÊÏ
    */
   float m_projectionArea[3];
 };
 
 /**
- * é ‚ç‚¹ã®ç®¡ç†ã‚¯ãƒ©ã‚¹
+ * ’¸“_‚ÌŠÇ—ƒNƒ‰ƒX
  */
 class VertexManager {
 public:
   /**
-   * é ‚ç‚¹ã®è¿½åŠ 
-   * @param v é ‚ç‚¹
+   * ’¸“_‚Ì’Ç‰Á
+   * @param v ’¸“_
    */
   Vertex* Insert(const VFR::vector3& v) {
     return Insert(Vertex(v[0], v[1], v[2]));
   }
 
   /**
-   * é ‚ç‚¹ã®è¿½åŠ 
-   * @param vertex é ‚ç‚¹
+   * ’¸“_‚Ì’Ç‰Á
+   * @param vertex ’¸“_
    */
   Vertex* Insert(const Vertex& vertex) {
     Vertex* result = NULL;
@@ -213,38 +213,38 @@ public:
   }
 
   /**
-   * é ‚ç‚¹ã®æ¤œç´¢
-   * @param pos åº§æ¨™å€¤
-   * @return åº§æ¨™å€¤ãŒä¸€è‡´ã™ã‚‹é ‚ç‚¹
+   * ’¸“_‚ÌŒŸõ
+   * @param pos À•W’l
+   * @return À•W’l‚ªˆê’v‚·‚é’¸“_
    */
   Vertex* Find(const CES::Vec3<float>& pos) {
     return Find(pos[0], pos[1], pos[2]);
   }
 
   /**
-   * é ‚ç‚¹ã®æ¤œç´¢
-   * @param v åº§æ¨™å€¤
-   * @return åº§æ¨™å€¤ãŒä¸€è‡´ã™ã‚‹é ‚ç‚¹
+   * ’¸“_‚ÌŒŸõ
+   * @param v À•W’l
+   * @return À•W’l‚ªˆê’v‚·‚é’¸“_
    */
   Vertex* Find(const VFR::vector3& v) {
     return Find(v[0], v[1], v[2]);
   }
 
   /**
-   * é ‚ç‚¹ã®æ¤œç´¢
-   * @param x Xåº§æ¨™å€¤
-   * @param y Yåº§æ¨™å€¤
-   * @param z Zåº§æ¨™å€¤
-   * @return åº§æ¨™å€¤ãŒä¸€è‡´ã™ã‚‹é ‚ç‚¹
+   * ’¸“_‚ÌŒŸõ
+   * @param x XÀ•W’l
+   * @param y YÀ•W’l
+   * @param z ZÀ•W’l
+   * @return À•W’l‚ªˆê’v‚·‚é’¸“_
    */
   Vertex* Find(float x, float y, float z) {
     return Find(Vertex(x, y, z));
   }
 
   /**
-   * é ‚ç‚¹ã®æ¤œç´¢
-   * @param vertex åº§æ¨™å€¤
-   * @return åº§æ¨™å€¤ãŒä¸€è‡´ã™ã‚‹é ‚ç‚¹
+   * ’¸“_‚ÌŒŸõ
+   * @param vertex À•W’l
+   * @return À•W’l‚ªˆê’v‚·‚é’¸“_
    */
   Vertex* Find(const Vertex& vertex) {
     std::set<Vertex>::iterator it = m_s.find(vertex);
@@ -252,35 +252,35 @@ public:
   }
 
   /**
-   * æœ€åˆã®ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãƒ¼
+   * Å‰‚ÌƒCƒeƒŒ[ƒ^[
    */
   std::set<Vertex>::iterator Begin(void) {
     return m_s.begin();
   }
 
   /**
-   * æœ€å¾Œã®ã‚¤ãƒ†ãƒ¬ãƒ¼ã‚¿ãƒ¼
+   * ÅŒã‚ÌƒCƒeƒŒ[ƒ^[
    */
   std::set<Vertex>::iterator End(void) {
     return m_s.end();
   }
 
   /**
-   * ç®¡ç†ã—ã¦ã„ã‚‹é ‚ç‚¹æƒ…å ±ã®å‰Šé™¤
+   * ŠÇ—‚µ‚Ä‚¢‚é’¸“_î•ñ‚Ìíœ
    */
   void Clear(void) {
     m_s.clear();
   }
 
   /**
-   * é ‚ç‚¹ã®ã‚»ãƒƒãƒˆ
-   * åº§æ¨™å€¤ã§ã‚½ãƒ¼ãƒˆã•ã‚Œã¦ã„ã‚‹
+   * ’¸“_‚ÌƒZƒbƒg
+   * À•W’l‚Åƒ\[ƒg‚³‚ê‚Ä‚¢‚é
    */
   std::set<Vertex> m_s;
 };
 
 /**
- * è¡¨ç¤ºç‰©ç†é‡ã§ã€Œå‰ªæ–­å¿œåŠ›ã€åˆã¯ã€Œæ‘©æ“¦æŠµæŠ—ã€ãŒé¸ã°ã‚ŒãŸæ™‚ã®ãƒ‘ãƒãƒ«
+ * •\¦•¨——Ê‚Åu™’’f‰—Ív–”‚Íu–€C’ïRv‚ª‘I‚Î‚ê‚½‚Ìƒpƒlƒ‹
  */
 class vsnMPP_Shape_scalarMap_Phys_shearing : public vsnMethodPP {
 public:
@@ -319,7 +319,7 @@ private:
 };
 
 /**
- * ç‰©ç†é‡ã§ã‚¹ã‚«ãƒ©ãƒ¼ãŒé¸ã°ã‚ŒãŸã¨ãã®ãƒ‘ãƒãƒ«
+ * •¨——Ê‚ÅƒXƒJƒ‰[‚ª‘I‚Î‚ê‚½‚Æ‚«‚Ìƒpƒlƒ‹
  */
 class vsnMPP_Shape_scalarMap_Phys_scalar : public vsnMethodPP {
 public:
@@ -355,7 +355,7 @@ private:
 };
 
 /**
- * åœ§åŠ›å¯„ä¸ç‡
+ * ˆ³—ÍŠñ—^—¦
  */
 class vsnMPP_Shape_scalarMap_Phys_pressDrag : public vsnMethodPP {
 public:
@@ -377,7 +377,7 @@ private:
 };
 
 /**
- * ScalarMap ã®æ“ä½œãƒ‘ãƒãƒ«
+ * ScalarMap ‚Ì‘€ìƒpƒlƒ‹
  * @author MHIR
  * @since 2.2.0
  */
@@ -423,7 +423,7 @@ private:
 };
 
 /**
- * ScalarMap ã®ãƒ¡ã‚½ãƒƒãƒ‰
+ * ScalarMap ‚Ìƒƒ\ƒbƒh
  * @author MHIR
  * @since 2.2.0
  */
@@ -457,20 +457,20 @@ public:
   virtual bool commandXML(xmlNodePtr xnp);
 
   /**
-   * å€¤ã®è¨­å®š
-   * @exception std::runtime_error ã‚¨ãƒ©ãƒ¼
-   * @exception std::bad_alloc ãƒ¡ãƒ¢ãƒªä¸è¶³
+   * ’l‚Ìİ’è
+   * @exception std::runtime_error ƒGƒ‰[
+   * @exception std::bad_alloc ƒƒ‚ƒŠ•s‘«
    */
   bool setValue(void);
 
   /**
-   * ã‚¹ã‚«ãƒ©ãƒ¼å€¤ã®è¨­å®š
+   * ƒXƒJƒ‰[’l‚Ìİ’è
    */
   void setScalarValue(void);
   bool setContourRange(const float min, const float max);
   void getContourRange(float* min, float* max) const;
   /**
-   * ã‚³ãƒ³ã‚¿ãƒ¼ãƒ©ã‚¤ãƒ³ã®æ•°
+   * ƒRƒ“ƒ^[ƒ‰ƒCƒ“‚Ì”
    */
   size_t getNumContourLineChildren(void);
   bool setLineWidth(float val);
@@ -483,30 +483,30 @@ public:
   //  bool getAntiAliasMode(void) const { return m_antiAliasMode; }
 
   /**
-   * åœ§åŠ›æŠµæŠ—å¯„ä¸ç‡ã®è¨­å®š
+   * ˆ³—Í’ïRŠñ—^—¦‚Ìİ’è
    */
   void setPressDragValue(void);
   /**
-   * åœ§åŠ›æŠµæŠ—å¯„ä¸ç‡ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
-   * m_minmaxã¨m_allValuesãŒæ›´æ–°ã•ã‚Œã‚‹
+   * ˆ³—Í’ïRŠñ—^—¦ƒf[ƒ^‚Ìæ“¾
+   * m_minmax‚Æm_allValues‚ªXV‚³‚ê‚é
    */
   bool getPressDragValue(void);
 
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®è¨­å®š
-   * @param isShearingMode true ãªã‚‰ã°å‰ªæ–­å¿œåŠ›ãƒ¢ãƒ¼ãƒ‰
-   *                       false ãªã‚‰ã°æ‘©æ“¦æŠµæŠ—ãƒ¢ãƒ¼ãƒ‰
+   * ‚¹‚ñ’f‰—Í‚Ìİ’è
+   * @param isShearingMode true ‚È‚ç‚Î™’’f‰—Íƒ‚[ƒh
+   *                       false ‚È‚ç‚Î–€C’ïRƒ‚[ƒh
    */
   bool setShearingValue(bool isShearingMode);
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ãƒ‡ãƒ¼ã‚¿ã®å–å¾—
-   * m_minmax ã¨ m_allValues ãŒæ›´æ–°ã•ã‚Œã‚‹
+   * ‚¹‚ñ’f‰—Íƒf[ƒ^‚Ìæ“¾
+   * m_minmax ‚Æ m_allValues ‚ªXV‚³‚ê‚é
    */
   bool getShearingValue(bool isShearingMode);
 
   /**
-   * åœ§åŠ›æŠµæŠ—ã‚’æ±‚ã‚ã‚‹
-   * m_minmax ã¨ m_allValues ãŒæ›´æ–°ã•ã‚Œã‚‹
+   * ˆ³—Í’ïR‚ğ‹‚ß‚é
+   * m_minmax ‚Æ m_allValues ‚ªXV‚³‚ê‚é
    */
   bool getPressResistValue(void);
 
@@ -514,7 +514,7 @@ public:
 
 #ifdef OLD
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®è¨­å®š
+   * –€C’ïR‚Ìİ’è
    */
   void setFricResistValue(void);
 #endif // OLD
@@ -533,14 +533,14 @@ public:
   size_t sphSize(void) const { return m_sphList.size(); }
 
   /**
-   * é¸æŠã•ã‚Œã¦ã„ã‚‹SPHã‚’å–å¾—ã™ã‚‹
-   * @return SPHã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€‚å¤±æ•—ã™ã‚‹ã¨ NULL ã‚’è¿”ã™ã€‚
+   * ‘I‘ğ‚³‚ê‚Ä‚¢‚éSPH‚ğæ“¾‚·‚é
+   * @return SPH‚Ö‚Ìƒ|ƒCƒ“ƒ^B¸”s‚·‚é‚Æ NULL ‚ğ•Ô‚·B
    */
   vsnData_Sph* getSelectedSph(void);
 
   /**
-   * SPHã‚’å–å¾—ã™ã‚‹
-   * @return SPH ã¸ã®ãƒã‚¤ãƒ³ã‚¿ã€‚å¤±æ•—ã™ã‚‹ã¨ NULL ã‚’è¿”ã™ã€‚
+   * SPH‚ğæ“¾‚·‚é
+   * @return SPH ‚Ö‚Ìƒ|ƒCƒ“ƒ^B¸”s‚·‚é‚Æ NULL ‚ğ•Ô‚·B
    */
   vsnData_Sph* getSph(size_t idx);
 
@@ -572,32 +572,32 @@ public:
   bool setExUseTrilinear(const bool mode);
 
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ç²˜æ€§ä¿‚æ•°ã‚’è¨­å®šã™ã‚‹
+   * ‚¹‚ñ’f‰—Í‚Ì”S«ŒW”‚ğİ’è‚·‚é
    */
   bool setShearingCoeffVal(float val);
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ç²˜æ€§ä¿‚æ•°ã‚’å–å¾—ã™ã‚‹
+   * ‚¹‚ñ’f‰—Í‚Ì”S«ŒW”‚ğæ“¾‚·‚é
    */
   float getShearingCoeffVal(void) const { return m_shearingCoeffVal; }
 
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…ã‚’è¨­å®šã™ã‚‹
+   * ‚¹‚ñ’f‰—Í‚ÌƒXƒeƒ“ƒVƒ‹•‚ğİ’è‚·‚é
    */
   bool setShearingStencilWidth(float val);
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…ã‚’å–å¾—ã™ã‚‹
+   * ‚¹‚ñ’f‰—Í‚ÌƒXƒeƒ“ƒVƒ‹•‚ğæ“¾‚·‚é
    */
   float getShearingStencilWidth(void) const { return m_shearingStencil; }
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨­å®šã™ã‚‹
-   * @param val å€¤
+   * ‚¹‚ñ’f‰—Í‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğİ’è‚·‚é
+   * @param val ’l
    * @param idx =0(X), =1(Y), =2(Z)
    */
   bool setShearingSurfVeloc(float val, int idx);
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
+   * ‚¹‚ñ’f‰—Í‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
    * @param dir =0(X), =1(Y), =2(Z)
-   * @return æŒ‡å®šã•ã‚ŒãŸæ–¹å‘(dir)ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«æˆåˆ†
+   * @return w’è‚³‚ê‚½•ûŒü(dir)‚Ì‘¬“xƒxƒNƒgƒ‹¬•ª
    */
   float getShearingSurfVeloc(int dir) const {
     float val = 0.0;
@@ -605,17 +605,17 @@ public:
     return val;
   }
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
-   * @return é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«
+   * ‚¹‚ñ’f‰—Í‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+   * @return ‘¬“xƒxƒNƒgƒ‹
    */
   const CES::Vec3<float>& getShearingSurfVeloc(void) const { return m_shearingSurfVeloc; }
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®æ–¹å‘ã®è¨­å®š
+   * ‚¹‚ñ’f‰—Í‚Ì•ûŒü‚Ìİ’è
    * @param val =0(X), =1(Y), =2(Z)
    */
   bool setShearingMapCompo(int val);
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®æ–¹å‘ã®å–å¾—
+   * ‚¹‚ñ’f‰—Í‚Ì•ûŒü‚Ìæ“¾
    * @retval 0 X
    * @retval 1 Y
    * @retval 2 Z
@@ -625,11 +625,11 @@ public:
 
 
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ç²˜æ€§ä¿‚æ•°ã‚’è¨­å®šã™ã‚‹
+   * –€C’ïR‚Ì”S«ŒW”‚ğİ’è‚·‚é
    */
   bool setFricResistCoeffVal(float val) { return setShearingCoeffVal(val); }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ç²˜æ€§ä¿‚æ•°ã‚’å–å¾—ã™ã‚‹
+   * –€C’ïR‚Ì”S«ŒW”‚ğæ“¾‚·‚é
    */
   float getFricResistCoeffVal(void) const { 
     return getShearingCoeffVal();
@@ -637,27 +637,27 @@ public:
   }
 
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…ã‚’è¨­å®šã™ã‚‹
+   * –€C’ïR‚ÌƒXƒeƒ“ƒVƒ‹•‚ğİ’è‚·‚é
    */
   bool setFricResistStencilWidth(float val) { return setShearingStencilWidth(val); }
 
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…ã‚’å–å¾—ã™ã‚‹
+   * –€C’ïR‚ÌƒXƒeƒ“ƒVƒ‹•‚ğæ“¾‚·‚é
    */
   float getFricResistStencilWidth(void) const {
     return getShearingStencilWidth();
     //    return m_fricResistStencil;
   }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨­å®šã™ã‚‹
-   * @param val å€¤
+   * –€C’ïR‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğİ’è‚·‚é
+   * @param val ’l
    * @param idx =0(X), =1(Y), =2(Z)
    */
   bool setFricResistSurfVeloc(float val, int idx) { return setShearingSurfVeloc(val, idx); }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
+   * –€C’ïR‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
    * @param dir =0(X), =1(Y), =2(Z)
-   * @return æŒ‡å®šã•ã‚ŒãŸæ–¹å‘(dir)ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«æˆåˆ†
+   * @return w’è‚³‚ê‚½•ûŒü(dir)‚Ì‘¬“xƒxƒNƒgƒ‹¬•ª
    */
   float getFricResistSurfVeloc(int dir) const {
     return getShearingSurfVeloc(dir);
@@ -666,20 +666,20 @@ public:
 //     return val;
   }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®è¡¨é¢é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—ã™ã‚‹
-   * @return é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«
+   * –€C’ïR‚Ì•\–Ê‘¬“xƒxƒNƒgƒ‹‚ğæ“¾‚·‚é
+   * @return ‘¬“xƒxƒNƒgƒ‹
    */
   const CES::Vec3<float>& getFricResistSurfVeloc(void) const { 
     return getShearingSurfVeloc();
     //    return m_fricResistSurfVeloc;
   }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®æ–¹å‘ã®è¨­å®š
+   * –€C’ïR‚Ì•ûŒü‚Ìİ’è
    * @param val =0(X), =1(Y), =2(Z)
    */
   bool setFricResistMapCompo(int val) { return setShearingMapCompo(val); }
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®æ–¹å‘ã®å–å¾—
+   * –€C’ïR‚Ì•ûŒü‚Ìæ“¾
    * @retval 0 X
    * @retval 1 Y
    * @retval 2 Z
@@ -691,15 +691,15 @@ public:
   }
 
   /**
-   * å…¨æŠµæŠ—
-   * åœ§åŠ›ã®ãƒ‡ãƒ¼ã‚¿ã®SPHã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * ‘S’ïR
+   * ˆ³—Í‚Ìƒf[ƒ^‚ÌSPH‚ÌƒCƒ“ƒfƒbƒNƒX
    */
   int getPressSphIdx(void) const { return m_totalResistPressSphIdx; }
   bool setPressSphIdx(int idx);
 
   /**
-   * å…¨æŠµæŠ—
-   * åœ§åŠ›ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã®æŒ‡å®š
+   * ‘S’ïR
+   * ˆ³—Í‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg‚Ìw’è
    */
   int getPressCompoIdx(void) const { return m_totalResistPressCompoIdx; }
   bool setPressCompoIdx(int idx);
@@ -707,17 +707,17 @@ public:
 
 #ifdef OLD
   /**
-   * mode ãŒ AT_PER_FACE ã®æ™‚ã¯ã€é¢ã®é¢ç©ã‚’æ±‚ã‚ã‚‹ã€‚
-   * mode ãŒ AT_PER_VERTEX ã®æ™‚ã¯ã€é ‚ç‚¹ãŒå«ã¾ã‚Œã‚‹é¢ã‚’é‡å¿ƒã¨è¾ºã®ä¸­ç‚¹ã§åˆ†å‰²ã—ã€é ‚ç‚¹ãŒå«ã¾ã‚Œã‚‹éƒ¨åˆ†é¢ã®åˆè¨ˆé¢ç©ã‚’æ±‚ã‚ã‚‹
-   * @brief é¢ç©ã‚’æ±‚ã‚ã‚‹
-   * @param mode AT_PER_FACE ã¾ãŸã¯ AT_PER_VERTEX
-   * @return é¢ç©ã®é…åˆ—ã€é…åˆ—ã®å€‹æ•°ã¯ mode ã«ã‚ˆã‚Šç•°ãªã‚‹ã€‚ã‚¨ãƒ©ãƒ¼æ™‚ã¯ç©ºã®é…åˆ—ãŒè¿”ã‚‹ã€‚
+   * mode ‚ª AT_PER_FACE ‚Ì‚ÍA–Ê‚Ì–ÊÏ‚ğ‹‚ß‚éB
+   * mode ‚ª AT_PER_VERTEX ‚Ì‚ÍA’¸“_‚ªŠÜ‚Ü‚ê‚é–Ê‚ğdS‚Æ•Ó‚Ì’†“_‚Å•ªŠ„‚µA’¸“_‚ªŠÜ‚Ü‚ê‚é•”•ª–Ê‚Ì‡Œv–ÊÏ‚ğ‹‚ß‚é
+   * @brief –ÊÏ‚ğ‹‚ß‚é
+   * @param mode AT_PER_FACE ‚Ü‚½‚Í AT_PER_VERTEX
+   * @return –ÊÏ‚Ì”z—ñA”z—ñ‚ÌŒÂ”‚Í mode ‚É‚æ‚èˆÙ‚È‚éBƒGƒ‰[‚Í‹ó‚Ì”z—ñ‚ª•Ô‚éB
    */
   std::vector<float> getAreas(VFR::AppearType mode);
 #endif // OLD
 
   /**
-   * ç‰©ç†é‡ã®ãƒ‘ãƒãƒ«ã‚’å–å¾—ã™ã‚‹
+   * •¨——Ê‚Ìƒpƒlƒ‹‚ğæ“¾‚·‚é
    */
   vsnMethodPP* getPhysPanel(wxPanel* pp);
 
@@ -730,15 +730,15 @@ public:
   bool allocFaces(size_t numFaces);
 
   /**
-   * æœ€å°å€¤ã¨æœ€å¤§å€¤
-   * getPressDragValue, getShearngValue ã§è¨­å®šã•ã‚Œã‚‹
+   * Å¬’l‚ÆÅ‘å’l
+   * getPressDragValue, getShearngValue ‚Åİ’è‚³‚ê‚é
    * @see getPressDragValue
    * @see getShearingValue
    */
   float m_minmax[2];
   /**
-   * å…¨ã¦ã®å€¤
-   * getPressDragValue, getShearngValue, getPressResistValue ã§è¨­å®šã•ã‚Œã‚‹
+   * ‘S‚Ä‚Ì’l
+   * getPressDragValue, getShearngValue, getPressResistValue ‚Åİ’è‚³‚ê‚é
    * @see getPressDragValue
    * @see getShearngValue
    * @see getPressResistValue
@@ -746,8 +746,8 @@ public:
   std::vector<float> m_allValues;
 
   /**
-   * å…¨ã¦ã®å€¤æˆåˆ†ã”ã¨
-   * å…¨æŠµæŠ—ã®æˆåˆ†ã”ã¨ã®å€¤ã®ãŸã‚ã«ç”¨ã„ã‚‹
+   * ‘S‚Ä‚Ì’l¬•ª‚²‚Æ
+   * ‘S’ïR‚Ì¬•ª‚²‚Æ‚Ì’l‚Ì‚½‚ß‚É—p‚¢‚é
    */
   std::vector<CES::Vec3<float> > m_allValues3;
 
@@ -768,47 +768,47 @@ public:
 private:
 
   /**
-   * é ‚ç‚¹ã«ãƒãƒƒãƒ—ã™ã‚‹ã¨ãã«ä½¿ç”¨ã™ã‚‹
-   * é ‚ç‚¹æ¯ã®æ³•ç·šãƒ™ã‚¯ãƒˆãƒ«ã€é¢ç©ã€æŠ•å½±é¢ç©ã‚’ä¿æŒã™ã‚‹
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * ’¸“_‚Éƒ}ƒbƒv‚·‚é‚Æ‚«‚Ég—p‚·‚é
+   * ’¸“_–ˆ‚Ì–@üƒxƒNƒgƒ‹A–ÊÏA“Š‰e–ÊÏ‚ğ•Û‚·‚é
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   VertexManager m_vm;
 
   /**
-   * é¢ã®é‡å¿ƒåº§æ¨™
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * –Ê‚ÌdSÀ•W
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   VFR::vector3* m_faceGravity;
   /**
-   * é¢ã®æ•°
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * –Ê‚Ì”
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   size_t m_numFaces;
   /**
-   * é¢ã®é¢ç©
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * –Ê‚Ì–ÊÏ
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   double* m_faceArea;
   /**
-   * é¢ã®æŠ•å½±é¢ç©
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * –Ê‚Ì“Š‰e–ÊÏ
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   double** m_faceProjectionArea;
 
   /**
-   * SPHã®ãƒªã‚¹ãƒˆ
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * SPH‚ÌƒŠƒXƒg
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   std::vector<vsnData_Sph*> m_sphList;
 
   /**
-   * ä¸‰è§’å½¢ç¾¤
-   * ãƒ•ã‚¡ã‚¤ãƒ«ã«ã¯ä¿å­˜ã—ãªã„
+   * OŠpŒ`ŒQ
+   * ƒtƒ@ƒCƒ‹‚É‚Í•Û‘¶‚µ‚È‚¢
    */
   vfrTriangles*  m_trias;
 
   /**
-   * é¸æŠã•ã‚Œã¦ã„ã‚‹SPHã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * ‘I‘ğ‚³‚ê‚Ä‚¢‚éSPH‚ÌƒCƒ“ƒfƒbƒNƒX
    */
   int m_sphIdx;
 
@@ -818,151 +818,151 @@ private:
   int m_renderingMode;
 
   /**
-   * å†…æŒ¿ã®ãƒ¢ãƒ¼ãƒ‰
-   * (=0) ã‚¼ãƒ­æ¬¡
-   * (=1) ä¸‰é‡ç·šå½¢
-   * (=2) å¤–æŒ¿ï¼‘æ¬¡
-   * (=3) å¤–æŒ¿ï¼’æ¬¡
+   * “à‘}‚Ìƒ‚[ƒh
+   * (=0) ƒ[ƒŸ
+   * (=1) OdüŒ`
+   * (=2) ŠO‘}‚PŸ
+   * (=3) ŠO‘}‚QŸ
    */
   int m_interpolateMode;
 
   /**
-   * ç‰©ç†é‡ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-   * (=0) ã‚¹ã‚«ãƒ©ãƒ¼
-   * (=1) åœ§åŠ›æŠµæŠ—ã®å¯„ä¸ç‡
-   * (=2) ã›ã‚“æ–­å¿œåŠ›
-   * (=3) æ‘©æ“¦æŠµæŠ—
-   * (=4) å…¨æŠµæŠ—
+   * •¨——Ê‚ÌƒCƒ“ƒfƒbƒNƒX
+   * (=0) ƒXƒJƒ‰[
+   * (=1) ˆ³—Í’ïR‚ÌŠñ—^—¦
+   * (=2) ‚¹‚ñ’f‰—Í
+   * (=3) –€C’ïR
+   * (=4) ‘S’ïR
    */
   int m_physIdx;
 
   /**
-   * è¡¨ç¤ºæ™‚ã«ãƒ¬ãƒ³ã‚¸ã‚’æ›´æ–°ã™ã‚‹ã‹ã©ã†ã‹ã®ãƒ•ãƒ©ã‚°
-   * false ã§ã‚ã‚Œã°æ›´æ–°ã—ãªã„
-   * true ã§ã‚ãˆã°æ›´æ–°ã™ã‚‹
+   * •\¦‚ÉƒŒƒ“ƒW‚ğXV‚·‚é‚©‚Ç‚¤‚©‚Ìƒtƒ‰ƒO
+   * false ‚Å‚ ‚ê‚ÎXV‚µ‚È‚¢
+   * true ‚Å‚ ‚¦‚ÎXV‚·‚é
    */
   bool m_updateMinMax;
 
   /**
-   * æ³•ç·šã®æ–¹å‘
+   * –@ü‚Ì•ûŒü
    * (=0) Normal
    * (=1) Reverse
    */
   int m_normalDirection;
 
   /**
-   * STLã‚’ç´°åˆ†å‰²ã™ã‚‹ã‹
+   * STL‚ğ×•ªŠ„‚·‚é‚©
    */
   //  bool m_divideMode;
 
   /**
-   * å¤–æŒ¿ã§ä½¿ç”¨ã™ã‚‹ç‚¹ã®å€¤ã‚’æ±‚ã‚ã‚‹éš›ã«ã€ã‚¼ãƒ­æ¬¡è£œé–“ã‚’ã™ã‚‹ã‹ä¸‰é‡ç·šå½¢å†…æŒ¿ã‚’ã™ã‚‹ã‹
-   * true ã§ã‚ã‚Œã°ã€ä¸‰é‡ç·šå½¢å†…æŒ¿ã‚’è¡Œã†
+   * ŠO‘}‚Åg—p‚·‚é“_‚Ì’l‚ğ‹‚ß‚éÛ‚ÉAƒ[ƒŸ•âŠÔ‚ğ‚·‚é‚©OdüŒ`“à‘}‚ğ‚·‚é‚©
+   * true ‚Å‚ ‚ê‚ÎAOdüŒ`“à‘}‚ğs‚¤
    */
   bool m_exUseTrilinear;
 
-  // ã‚¹ã‚«ãƒ©ãƒ¼å€¤
+  // ƒXƒJƒ‰[’l
   //
   /**
-   * ã‚¹ã‚«ãƒ©ãƒ¼å€¤ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * ƒXƒJƒ‰[’l‚ÌƒCƒ“ƒfƒbƒNƒX
    */
   int m_scalarValIdx;
   /**
-   * ã‚³ãƒ³ã‚¿ãƒ¼ãƒ©ã‚¤ãƒ³ã®è¡¨ç¤ºã‚’ã™ã‚‹ã‹ã©ã†ã‹
+   * ƒRƒ“ƒ^[ƒ‰ƒCƒ“‚Ì•\¦‚ğ‚·‚é‚©‚Ç‚¤‚©
    */
   bool m_dispContourLine;
   /**
-   * ã‚³ãƒ³ã‚¿ãƒ¼ãƒ©ã‚¤ãƒ³ã®æœ¬æ•°
+   * ƒRƒ“ƒ^[ƒ‰ƒCƒ“‚Ì–{”
    */
   size_t m_numLines;
   /**
-   * æœªä½¿ç”¨
+   * –¢g—p
    */
   size_t m_numValidLines;
   /**
-   * ã‚³ãƒ³ã‚¿ãƒ¼ãƒ©ã‚¤ãƒ³ã®ç·šã®å¹…
+   * ƒRƒ“ƒ^[ƒ‰ƒCƒ“‚Ìü‚Ì•
    */
   float m_lineWidth;
   /**
-   * ã‚³ãƒ³ã‚¿ãƒ¼ãƒ©ã‚¤ãƒ³ã®è¡¨ç¤ºã®éš›ã«ã‚«ãƒ©ãƒ¼ãƒãƒƒãƒ—ã‚’ä½¿ç”¨ã™ã‚‹ã‹ã©ã†ã‹
+   * ƒRƒ“ƒ^[ƒ‰ƒCƒ“‚Ì•\¦‚ÌÛ‚ÉƒJƒ‰[ƒ}ƒbƒv‚ğg—p‚·‚é‚©‚Ç‚¤‚©
    */
   bool m_useCMap;
   /**
-   * AntiAlias ã®è¡¨ç¤ºã‚’ã™ã‚‹ã‹ã©ã†ã‹
+   * AntiAlias ‚Ì•\¦‚ğ‚·‚é‚©‚Ç‚¤‚©
    */
   bool m_antiAlias;
 
 
 
-  // åœ§åŠ›æŠµæŠ—ã®å¯„ä¸ç‡
+  // ˆ³—Í’ïR‚ÌŠñ—^—¦
   //
   /**
-   * åœ§åŠ›å€¤ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * ˆ³—Í’l‚ÌƒCƒ“ƒfƒbƒNƒX
    */
   int m_pressValIdx;
   /**
-   * å°„å½±ã™ã‚‹æ–¹å‘
+   * Ë‰e‚·‚é•ûŒü
    */
   int m_pressDir;
 
-  // ã›ã‚“æ–­å¿œåŠ›ã€æ‘©æ“¦æŠµæŠ—
+  // ‚¹‚ñ’f‰—ÍA–€C’ïR
   //
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ç²˜æ€§ä¿‚æ•°
+   * ‚¹‚ñ’f‰—Í‚Ì”S«ŒW”
    */
   float m_shearingCoeffVal;
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…
+   * ‚¹‚ñ’f‰—Í‚ÌƒXƒeƒ“ƒVƒ‹•
    */
   float m_shearingStencil;
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®è¡¨é¢ãƒ™ã‚¯ãƒˆãƒ«
+   * ‚¹‚ñ’f‰—Í‚Ì•\–ÊƒxƒNƒgƒ‹
    */
   CES::Vec3<float> m_shearingSurfVeloc;
   /**
-   * ã›ã‚“æ–­å¿œåŠ›ã®æ–¹å‘
+   * ‚¹‚ñ’f‰—Í‚Ì•ûŒü
    */
   int m_shearingMapCompo;
 
 #ifdef OLD
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ç²˜æ€§ä¿‚æ•°
+   * –€C’ïR‚Ì”S«ŒW”
    */
   float m_fricResistCoeffVal;
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®ã‚¹ãƒ†ãƒ³ã‚·ãƒ«å¹…
+   * –€C’ïR‚ÌƒXƒeƒ“ƒVƒ‹•
    */
   float m_fricResistStencil;
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®è¡¨é¢ãƒ™ã‚¯ãƒˆãƒ«
+   * –€C’ïR‚Ì•\–ÊƒxƒNƒgƒ‹
    */
   CES::Vec3<float> m_fricResistSurfVeloc;
   /**
-   * æ‘©æ“¦æŠµæŠ—ã®æ–¹å‘
+   * –€C’ïR‚Ì•ûŒü
    */
   int m_fricResistMapCompo;
 #endif // OLD
 
 
-  // å…¨æŠµæŠ—
+  // ‘S’ïR
   //
   /**
-   * åœ§åŠ›ã®SPHãƒ‡ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * ˆ³—Í‚ÌSPHƒf[ƒ^‚ÌƒCƒ“ƒfƒbƒNƒX
    */
   int m_totalResistPressSphIdx;
   /**
-   * åœ§åŠ›ãƒ‡ãƒ¼ã‚¿ã®æˆåˆ†
+   * ˆ³—Íƒf[ƒ^‚Ì¬•ª
    */
   int m_totalResistPressCompoIdx;
 
 
   /**
-   * å…¨æŠµæŠ—ã®æˆåˆ†
+   * ‘S’ïR‚Ì¬•ª
    */
   CES::Vec3<float> m_totalResistValue;
 
   /**
-   * ãƒ¬ãƒ³ã‚¸ã®è¨­å®š
+   * ƒŒƒ“ƒW‚Ìİ’è
    */
   void adjustRange(const bool updval=true);
 

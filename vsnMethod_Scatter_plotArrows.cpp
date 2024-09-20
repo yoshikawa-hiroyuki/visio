@@ -753,6 +753,12 @@ bool vsnMethod_Scatter_plotArrows::outputXML(std::ostream& os, const size_t ts)
     os << " name=\"" << _name << "\"";
   os << " >" << endl;
 
+  // output base method params
+  if (!vsnMethodObj::exportXMLNode(os, ts + 2)) {
+      ErrMsg(MsgERR, msgHdr + string("base MethodObj exportXMLNode failed"));
+      ret = false;
+  }
+
   // output original params
   // upd_minmax
   if ( ! m_updateMinMax ) {

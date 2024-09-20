@@ -39,9 +39,9 @@ public:
 
   // MHIR append begin
   /**
-   * idx ã®ä½ç½®ã®ãƒœã‚¯ã‚»ãƒ«ã®å€¤ã‚’å–å¾—ã™ã‚‹
-   * @param idx ãƒœã‚¯ã‚»ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-   * @param didx ãƒ‡ãƒ¼ã‚¿ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã€‚trueã®ãƒ‡ãƒ¼ã‚¿ã‚’è¿”ã™
+   * idx ‚ÌˆÊ’u‚Ìƒ{ƒNƒZƒ‹‚Ì’l‚ğæ“¾‚·‚é
+   * @param idx ƒ{ƒNƒZƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+   * @param didx ƒf[ƒ^‚ÌƒCƒ“ƒfƒbƒNƒXBtrue‚Ìƒf[ƒ^‚ğ•Ô‚·
    * @author MHIR
    * @since 2.2.0
    */
@@ -49,19 +49,19 @@ public:
 			    const std::vector<bool>& didx);
 
   /**
-   * idx ã®ä½ç½®ã®ãƒœã‚¯ã‚»ãƒ«ã®å€¤ã‚’å–å¾—ã™ã‚‹
-   * @param idx ãƒœã‚¯ã‚»ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-   * @param vecIdx ãƒ™ã‚¯ãƒˆãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+   * idx ‚ÌˆÊ’u‚Ìƒ{ƒNƒZƒ‹‚Ì’l‚ğæ“¾‚·‚é
+   * @param idx ƒ{ƒNƒZƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
+   * @param vecIdx ƒxƒNƒgƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX
    * @author MHIR
    * @since 2.2.0
    */
   float getValue(const CES::Vec3<int>& idx, int vecIdx);
 
   /**
-   * ä½ç½®(pos)ã‹ã‚‰ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(idx)ã¨ãƒœã‚¯ã‚»ãƒ«å†…ã®ç‡(rate)ã‚’å–å¾—ã™ã‚‹
-   * @param pos ä½ç½®(in)
-   * @param idx ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹(out)
-   * @param rate ãƒœã‚¯ã‚»ãƒ«å†…ã®ä½ç½®(out)
+   * ˆÊ’u(pos)‚©‚çƒCƒ“ƒfƒbƒNƒX(idx)‚Æƒ{ƒNƒZƒ‹“à‚Ì—¦(rate)‚ğæ“¾‚·‚é
+   * @param pos ˆÊ’u(in)
+   * @param idx ƒCƒ“ƒfƒbƒNƒX(out)
+   * @param rate ƒ{ƒNƒZƒ‹“à‚ÌˆÊ’u(out)
    * @author MHIR
    * @since 2.2.0
    */
@@ -70,15 +70,15 @@ public:
 		    CES::Vec3<float>* rate);
 
   /**
-   * ä½ç½®(pos)ã®å€¤ã‚’å–å¾—ã™ã‚‹
-   * @param pos ä½ç½®(in)
-   * @param ddx å–å¾—ã™ã‚‹å€¤ã®ã‚¤ãƒ³ãƒ‡ã‚¯ã‚¹
-   * @param interpolatMode å†…æŒ¿ã®ãƒ¢ãƒ¼ãƒ‰
-   *                       0 : ã‚¼ãƒ­æ¬¡
+   * ˆÊ’u(pos)‚Ì’l‚ğæ“¾‚·‚é
+   * @param pos ˆÊ’u(in)
+   * @param ddx æ“¾‚·‚é’l‚ÌƒCƒ“ƒfƒNƒX
+   * @param interpolatMode “à‘}‚Ìƒ‚[ƒh
+   *                       0 : ƒ[ƒŸ
    *                       1: trilinear
-   *                       2: å¤–æŒ¿1
-   *                       3: å¤–æŒ¿2
-   * @param exUserilinear å¤–æŒ¿ã§trilinearã‚’ä½¿ã†ã‹ã©ã†ã‹
+   *                       2: ŠO‘}1
+   *                       3: ŠO‘}2
+   * @param exUserilinear ŠO‘}‚Åtrilinear‚ğg‚¤‚©‚Ç‚¤‚©
    * @author MHIR
    * @since 2.2.0
    */

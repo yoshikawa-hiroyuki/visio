@@ -818,6 +818,12 @@ bool vsnMethod_Scatter_plotAsLineStrip::outputXML(std::ostream& os,
     os << " name=\"" << _name << "\"";
   os << " >" << endl;
 
+  // output base method params
+  if (!vsnMethodObj::exportXMLNode(os, ts + 2)) {
+      ErrMsg(MsgERR, msgHdr + string("base MethodObj exportXMLNode failed"));
+      ret = false;
+  }
+
   // output original params
   // line_type
   if ( m_lineType != ST_SOLID ) {

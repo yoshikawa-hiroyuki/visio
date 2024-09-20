@@ -1,16 +1,16 @@
 #pragma once
 /**
  * @mainpage
- * @section ã¯ã˜ã‚ã«
- * ã“ã®ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆã¯STLã®é¢æ¯ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹ã‚’èª¬æ˜ã—ã¾ã™ã€‚
- * å…¨ã¦ã®é¢ã§åŒã˜ç¨®é¡ã®å€¤ã‚’ä¿æŒã™ã‚‹ã“ã¨ã‚’å‰æã¨ã—ã¾ã™ã€‚
- * å€¤ã¯ã€int, float, double ã®å€¤ã‚’ä¿æŒã§ãã¾ã™ã€‚
- * ã‚¹ã‚«ãƒ©ãƒ¼ã€ãƒ™ã‚¯ãƒˆãƒ«ã€ãƒ†ãƒ³ã‚½ãƒ«ã®å½¢æ…‹ã§ä¿æŒã§ãã¾ã™ã€‚
+ * @section ‚Í‚¶‚ß‚É
+ * ‚±‚ÌƒhƒLƒ…ƒƒ“ƒg‚ÍSTL‚Ì–Ê–ˆ‚Ìƒf[ƒ^‚ğ•Û‚·‚éƒNƒ‰ƒX‚ğà–¾‚µ‚Ü‚·B
+ * ‘S‚Ä‚Ì–Ê‚Å“¯‚¶í—Ş‚Ì’l‚ğ•Û‚·‚é‚±‚Æ‚ğ‘O’ñ‚Æ‚µ‚Ü‚·B
+ * ’l‚ÍAint, float, double ‚Ì’l‚ğ•Û‚Å‚«‚Ü‚·B
+ * ƒXƒJƒ‰[AƒxƒNƒgƒ‹Aƒeƒ“ƒ\ƒ‹‚ÌŒ`‘Ô‚Å•Û‚Å‚«‚Ü‚·B
  */
 
 /**
  * @file
- * STLã®ãƒãƒªã‚´ãƒ³ãƒ‡ãƒ¼ã‚¿ã®ä¿æŒã‚¯ãƒ©ã‚¹ç¾¤ãƒ•ã‚¡ã‚¤ãƒ«
+ * STL‚Ìƒ|ƒŠƒSƒ“ƒf[ƒ^‚Ì•ÛƒNƒ‰ƒXŒQƒtƒ@ƒCƒ‹
  */
 
 #include <vector>
@@ -18,60 +18,60 @@
 #include <ostream>
 
 /**
- * @brief STLã®ãƒãƒªã‚´ãƒ³ãƒ‡ãƒ¼ã‚¿ã®ä¿æŒã‚¯ãƒ©ã‚¹ã®åå‰ç©ºé–“
+ * @brief STL‚Ìƒ|ƒŠƒSƒ“ƒf[ƒ^‚Ì•ÛƒNƒ‰ƒX‚Ì–¼‘O‹óŠÔ
  */
 namespace STLD {
 
   /**
-   * @brief ç‰©ç†é‡ã®æƒ…å ±ã‚¯ãƒ©ã‚¹
+   * @brief •¨——Ê‚Ìî•ñƒNƒ‰ƒX
    */
   class PhysInfo {
   public:
     /**
-     * @brief ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @brief ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     PhysInfo(void) : m_dataKind(0), m_vecLen(0) {}
 
     /**
-     * @brief ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
-     * @param dataKind ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡
-     * @param vecLen ãƒ™ã‚¯ãƒˆãƒ«é•·
+     * @brief ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+     * @param dataKind ƒf[ƒ^‚Ìí—Ş
+     * @param vecLen ƒxƒNƒgƒ‹’·
      */
     PhysInfo(unsigned char dataKind, unsigned char vecLen) :
       m_dataKind(dataKind), m_vecLen(vecLen) {}
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ã‚’å–å¾—ã™ã‚‹
-     * @result ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ã€‚0(æœªå®šç¾©) or 1(int) or 2(float) or 3(double)
+     * @brief ƒf[ƒ^‚Ìí—Ş‚ğæ“¾‚·‚é
+     * @result ƒf[ƒ^‚Ìí—ŞB0(–¢’è‹`) or 1(int) or 2(float) or 3(double)
      */
     unsigned char GetDataKind(void) const { return m_dataKind; }
 
     /**
-     * @brief ç‰©ç†é‡ãŒintã‹ã©ã†ã‹
-     * @retval true ç‰©ç†é‡ãŒintã§ã‚ã‚‹
-     * @retval false ç‰©ç†é‡ã¯intã§ãªã„
+     * @brief •¨——Ê‚ªint‚©‚Ç‚¤‚©
+     * @retval true •¨——Ê‚ªint‚Å‚ ‚é
+     * @retval false •¨——Ê‚Íint‚Å‚È‚¢
      */
     bool IsInt(void) const { return m_dataKind == 1; }
 
     /**
-     * @brief ç‰©ç†é‡ãŒfloatã‹ã©ã†ã‹
-     * @retval true ç‰©ç†é‡ãŒfloatã§ã‚ã‚‹
-     * @retval false ç‰©ç†é‡ã¯floatã§ãªã„
+     * @brief •¨——Ê‚ªfloat‚©‚Ç‚¤‚©
+     * @retval true •¨——Ê‚ªfloat‚Å‚ ‚é
+     * @retval false •¨——Ê‚Ífloat‚Å‚È‚¢
      */
     bool IsFloat(void) const { return m_dataKind == 2; }
 
     /**
-     * @brief ç‰©ç†é‡ãŒdoubleã‹ã©ã†ã‹
-     * @retval true ç‰©ç†é‡ãŒdoubleã§ã‚ã‚‹
-     * @retval false ç‰©ç†é‡ã¯doubleã§ãªã„
+     * @brief •¨——Ê‚ªdouble‚©‚Ç‚¤‚©
+     * @retval true •¨——Ê‚ªdouble‚Å‚ ‚é
+     * @retval false •¨——Ê‚Ídouble‚Å‚È‚¢
      */
     bool IsDouble(void) const { return m_dataKind == 3; }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ã‚’è¨­å®šã™ã‚‹
-     * @param val ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡
-     * @retval true è¨­å®šã«æˆåŠŸ
-     * @retval false è¨­å®šã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìí—Ş‚ğİ’è‚·‚é
+     * @param val ƒf[ƒ^‚Ìí—Ş
+     * @retval true İ’è‚É¬Œ÷
+     * @retval false İ’è‚É¸”s
      */  
     bool SetDataKind(unsigned char val) {
       bool result(false);
@@ -82,22 +82,22 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ™ã‚¯ãƒˆãƒ«é•·ã‚’å–å¾—ã™ã‚‹
-     * @result ãƒ™ã‚¯ãƒˆãƒ«é•·ã€‚0 ã‚¨ãƒ©ãƒ¼ã€‚
+     * @brief ƒxƒNƒgƒ‹’·‚ğæ“¾‚·‚é
+     * @result ƒxƒNƒgƒ‹’·B0 ƒGƒ‰[B
      */
     unsigned char GetVecLen(void) const { return m_vecLen; }
 
     /**
-     * @brief ãƒ™ã‚¯ãƒˆãƒ«é•·ã‚’è¨­å®šã™ã‚‹
-     * @param val ãƒ™ã‚¯ãƒˆãƒ«é•·
-     * @retval true è¨­å®šã«æˆåŠŸ
-     * @retval false è¨­å®šã«å¤±æ•—
+     * @brief ƒxƒNƒgƒ‹’·‚ğİ’è‚·‚é
+     * @param val ƒxƒNƒgƒ‹’·
+     * @retval true İ’è‚É¬Œ÷
+     * @retval false İ’è‚É¸”s
      */
     bool SetVecLen(unsigned char val) {
       bool result(false);
       /**
-       * val ãŒ1, 3, 9 ä»¥å¤–ã§ã‚ã‚Œã°ã€å€¤ã‚’è¨­å®šã—ãªã„ã€‚
-       * å¤±æ•—ã«ã™ã‚‹ã€‚
+       * val ‚ª1, 3, 9 ˆÈŠO‚Å‚ ‚ê‚ÎA’l‚ğİ’è‚µ‚È‚¢B
+       * ¸”s‚É‚·‚éB
        */
       if (val == 1 || val == 3 || val == 9) {
 	m_vecLen = val; result = true;
@@ -106,16 +106,16 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ç¨®åˆ¥ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
-     * @return ãƒ‡ãƒ¼ã‚¿ç¨®åˆ¥ã®æ–‡å­—åˆ—
+     * @brief ƒf[ƒ^í•Ê‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+     * @return ƒf[ƒ^í•Ê‚Ì•¶š—ñ
      */
     std::string GetDataKindStr(void) const {
       return (m_dataKind == 1) ? "int" : (m_dataKind == 2) ? "float" : (m_dataKind == 3) ? "double" : "unknown";
     }
 
     /**
-     * @brief ãƒ™ã‚¯ãƒˆãƒ«é•·ã®æ–‡å­—åˆ—ã‚’å–å¾—ã™ã‚‹
-     * @return ãƒ™ã‚¯ãƒˆãƒ«é•·ã®æ–‡å­—åˆ—
+     * @brief ƒxƒNƒgƒ‹’·‚Ì•¶š—ñ‚ğæ“¾‚·‚é
+     * @return ƒxƒNƒgƒ‹’·‚Ì•¶š—ñ
      */
     std::string GetVecLenStr(void) const {
       return (m_vecLen == 1) ? "scalar" : (m_vecLen == 3) ? "vector" : (m_vecLen == 9) ? "tensor" : "unknown";
@@ -123,72 +123,72 @@ namespace STLD {
 
   private:
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡
-     * 0(æœªå®šç¾©), 1(int), 2(float), 3(double)
+     * @brief ƒf[ƒ^‚Ìí—Ş
+     * 0(–¢’è‹`), 1(int), 2(float), 3(double)
      */
     unsigned char m_dataKind;
 
     /**
-     * @brief ãƒ™ã‚¯ãƒˆãƒ«é•·
-     * 0(æœªå®šç¾©), 1(ã‚¹ã‚«ãƒ©ãƒ¼), 3(ãƒ™ã‚¯ãƒˆãƒ«), 9(ãƒ†ãƒ³ã‚½ãƒ«)
+     * @brief ƒxƒNƒgƒ‹’·
+     * 0(–¢’è‹`), 1(ƒXƒJƒ‰[), 3(ƒxƒNƒgƒ‹), 9(ƒeƒ“ƒ\ƒ‹)
      */
     unsigned char m_vecLen;
   };
 
   /**
-   * @brief ãƒãƒªã‚´ãƒ³ã®æƒ…å ±
+   * @brief ƒ|ƒŠƒSƒ“‚Ìî•ñ
    *
-   * å€¤ã‚’ä¿æŒã™ã‚‹
+   * ’l‚ğ•Û‚·‚é
    */
   class FaceInfo {
   public:
     /**
-     * @brief int ã®å€¤ã‚’å–å¾—ã™ã‚‹
-     * @param idx ä½•ç•ªç›®
-     * @return å€¤
+     * @brief int ‚Ì’l‚ğæ“¾‚·‚é
+     * @param idx ‰½”Ô–Ú
+     * @return ’l
      */
     int GetIntVal(size_t idx) const { return m_intValues[idx]; }
     
     /**
-     * @brief float ã®å€¤ã‚’å–å¾—ã™ã‚‹
-     * @param idx ä½•ç•ªç›®
-     * @return å€¤
+     * @brief float ‚Ì’l‚ğæ“¾‚·‚é
+     * @param idx ‰½”Ô–Ú
+     * @return ’l
      */
     float GetFloatVal(size_t idx) const { return m_floatValues[idx]; }
 
     /**
-     * @brief double ã®å€¤ã‚’å–å¾—ã™ã‚‹
-     * @param idx ä½•ç•ªç›®
-     * @return å€¤
+     * @brief double ‚Ì’l‚ğæ“¾‚·‚é
+     * @param idx ‰½”Ô–Ú
+     * @return ’l
      */
     double GetDoubleVal(size_t idx) const { return m_doubleValues[idx]; }
 
     /**
-     * @brief å€¤ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+     * @brief ’l‚ğƒNƒŠƒA‚·‚é
      */
     void Clear(void) {
       /**
-       * int ã®é…åˆ—ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+       * int ‚Ì”z—ñ‚ğƒNƒŠƒA‚·‚é
        */
       m_intValues.clear();
       /**
-       * float ã®é…åˆ—ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+       * float ‚Ì”z—ñ‚ğƒNƒŠƒA‚·‚é
        */
       m_floatValues.clear();
       /**
-       * double ã®é…åˆ—ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+       * double ‚Ì”z—ñ‚ğƒNƒŠƒA‚·‚é
        */
       m_doubleValues.clear();
     }
 
     /**
-     * @brief idx ç•ªç›®ã« int ã®å€¤ã‚’è¨­å®šã™ã‚‹
-     * @param idx ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param val å€¤
+     * @brief idx ”Ô–Ú‚É int ‚Ì’l‚ğİ’è‚·‚é
+     * @param idx ƒCƒ“ƒfƒbƒNƒX
+     * @param val ’l
      */
     void SetVal(size_t idx, int val) {
       /**
-       * é…åˆ—ã®å¤§ãã•ãŒå°ã•ã‘ã‚Œã°ã€é…åˆ—ã‚’å¤§ããã—ã€ï¼ã§åŸ‹ã‚ã‚‹
+       * ”z—ñ‚Ì‘å‚«‚³‚ª¬‚³‚¯‚ê‚ÎA”z—ñ‚ğ‘å‚«‚­‚µA‚O‚Å–„‚ß‚é
        */
       for (size_t i = m_intValues.size(); i < idx + 1; ++i) {
 	m_intValues.push_back(0);
@@ -197,13 +197,13 @@ namespace STLD {
     }
 
     /**
-     * @brief idx ç•ªç›®ã« float ã®å€¤ã‚’è¨­å®šã™ã‚‹
-     * @param idx ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param val å€¤
+     * @brief idx ”Ô–Ú‚É float ‚Ì’l‚ğİ’è‚·‚é
+     * @param idx ƒCƒ“ƒfƒbƒNƒX
+     * @param val ’l
      */
     void SetVal(size_t idx, float val) {
       /**
-       * é…åˆ—ã®å¤§ãã•ãŒå°ã•ã‘ã‚Œã°ã€é…åˆ—ã‚’å¤§ããã—ã€ï¼ã§åŸ‹ã‚ã‚‹
+       * ”z—ñ‚Ì‘å‚«‚³‚ª¬‚³‚¯‚ê‚ÎA”z—ñ‚ğ‘å‚«‚­‚µA‚O‚Å–„‚ß‚é
        */
       for (size_t i = m_floatValues.size(); i < idx + 1; ++i) {
 	m_floatValues.push_back(0);
@@ -212,13 +212,13 @@ namespace STLD {
     }
 
     /**
-     * @brief idx ç•ªç›®ã« double ã®å€¤ã‚’è¨­å®šã™ã‚‹
-     * @param idx ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
-     * @param val å€¤
+     * @brief idx ”Ô–Ú‚É double ‚Ì’l‚ğİ’è‚·‚é
+     * @param idx ƒCƒ“ƒfƒbƒNƒX
+     * @param val ’l
      */
     void SetVal(size_t idx, double val) {
       /**
-       * é…åˆ—ã®å¤§ãã•ãŒå°ã•ã‘ã‚Œã°ã€é…åˆ—ã‚’å¤§ããã—ã€ï¼ã§åŸ‹ã‚ã‚‹
+       * ”z—ñ‚Ì‘å‚«‚³‚ª¬‚³‚¯‚ê‚ÎA”z—ñ‚ğ‘å‚«‚­‚µA‚O‚Å–„‚ß‚é
        */
       for (size_t i = m_doubleValues.size(); i < idx + 1; ++i) {
 	m_doubleValues.push_back(0);
@@ -228,21 +228,21 @@ namespace STLD {
 
   private:
     /**
-     * @brief intã®é…åˆ—
+     * @brief int‚Ì”z—ñ
      */
     std::vector<int> m_intValues;
     /**
-     * @brief floatã®é…åˆ—
+     * @brief float‚Ì”z—ñ
      */
     std::vector<float> m_floatValues;
     /**
-     * @brief doubleã®é…åˆ—
+     * @brief double‚Ì”z—ñ
      */
     std::vector<double> m_doubleValues;
   };
 
   /**
-   * @brief STLã®ãƒãƒªã‚´ãƒ³æ¯ã®ãƒ‡ãƒ¼ã‚¿ã‚’ä¿æŒã™ã‚‹ã‚¯ãƒ©ã‚¹
+   * @brief STL‚Ìƒ|ƒŠƒSƒ“–ˆ‚Ìƒf[ƒ^‚ğ•Û‚·‚éƒNƒ‰ƒX
    */
   class STLext {
 
@@ -254,34 +254,34 @@ namespace STLD {
 
   public:
     /**
-     * @brief ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
+     * @brief ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
      */
     STLext(void) : m_ID(0xFFFF), m_version(1), m_mode(STLD_MODE_UNKNOWN) {}
 
     /**
-     * @brief å®šç¾©ç‚¹ã®ãƒ¢ãƒ¼ãƒ‰ã‚’é¢ã«ã™ã‚‹
+     * @brief ’è‹`“_‚Ìƒ‚[ƒh‚ğ–Ê‚É‚·‚é
      */
     void SetFaceMode(void) { m_mode = STLD_MODE_FACE; }
 
     /**
-     * @brief å®šç¾©ç‚¹ã®ãƒ¢ãƒ¼ãƒ‰ã‚’é ‚ç‚¹ã«ã™ã‚‹
+     * @brief ’è‹`“_‚Ìƒ‚[ƒh‚ğ’¸“_‚É‚·‚é
      */
     void SetVertexMode(void) { m_mode = STLD_MODE_VERTEX; }
 
     /**
-     * @brief å®šç¾©ç‚¹ã®ãƒ¢ãƒ¼ãƒ‰ãŒé¢ã‹ã©ã†ã‹
+     * @brief ’è‹`“_‚Ìƒ‚[ƒh‚ª–Ê‚©‚Ç‚¤‚©
      */
     bool IsFaceMode(void) const { return m_mode == STLD_MODE_FACE; }
 
     /**
-     * @brief å®šç¾©ç‚¹ã®ãƒ¢ãƒ¼ãƒ‰ãŒé ‚ç‚¹ã‹ã©ã†ã‹
+     * @brief ’è‹`“_‚Ìƒ‚[ƒh‚ª’¸“_‚©‚Ç‚¤‚©
      */
     bool IsVertexMode(void) const { return m_mode == STLD_MODE_VERTEX; }
 
     /**
-     * @brief ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
-     * @param filePath ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-     * @return èª­ã¿è¾¼ã¿å¤±æ•—
+     * @brief ƒtƒ@ƒCƒ‹‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚Ş
+     * @param filePath ƒtƒ@ƒCƒ‹ƒpƒX
+     * @return “Ç‚İ‚İ¸”s
      */
     bool Load(const std::string& filePath) {
       bool result(false);
@@ -290,7 +290,7 @@ namespace STLD {
       if (! fp) return result;
 
       /**
-       * ãƒ•ã‚¡ã‚¤ãƒ«ã®è­˜åˆ¥å­ã®èª­ã¿è¾¼ã¿
+       * ƒtƒ@ƒCƒ‹‚Ì¯•Êq‚Ì“Ç‚İ‚İ
        */
       unsigned short id;
       if (fread(&id, sizeof(unsigned short), 1, fp) != 1) {
@@ -299,7 +299,7 @@ namespace STLD {
       if (id != m_ID) { if (fp) fclose(fp); return result; }
 
       /**
-       * ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã®èª­ã¿è¾¼ã¿
+       * ƒo[ƒWƒ‡ƒ“î•ñ‚Ì“Ç‚İ‚İ
        */
       unsigned short version;
       if (fread(&version, sizeof(unsigned short), 1, fp) != 1) {
@@ -307,14 +307,14 @@ namespace STLD {
       }
 
       /**
-       * ãƒ¢ãƒ¼ãƒ‰ã®èª­ã¿è¾¼ã¿
+       * ƒ‚[ƒh‚Ì“Ç‚İ‚İ
        */
       if (fread(&m_mode, sizeof(unsigned char), 1, fp) != 1) {
 	if (fp) fclose(fp); return result;
       }
 
       /**
-       * ç‰©ç†é‡ã®èª­ã¿è¾¼ã¿
+       * •¨——Ê‚Ì“Ç‚İ‚İ
        */
       unsigned short physNum = 0;
       if (fread(&physNum, sizeof(unsigned short), 1, fp) != 1) {
@@ -322,7 +322,7 @@ namespace STLD {
       }
 
       /**
-       * ãƒ‡ãƒ¼ã‚¿ã®ç¨®åˆ¥ã¨ãƒ™ã‚¯ãƒˆãƒ«é•·ã®èª­ã¿è¾¼ã¿
+       * ƒf[ƒ^‚Ìí•Ê‚ÆƒxƒNƒgƒ‹’·‚Ì“Ç‚İ‚İ
        */
       for (size_t i = 0; i < physNum; ++i) {
 	unsigned char data[2];
@@ -333,7 +333,7 @@ namespace STLD {
       }
 
       /**
-       * ãƒãƒªã‚´ãƒ³æ•°ã®èª­ã¿è¾¼ã¿
+       * ƒ|ƒŠƒSƒ“”‚Ì“Ç‚İ‚İ
        */
       unsigned int faceNum = 0;
       if (fread(&faceNum, sizeof(unsigned int), 1, fp) != 1) {
@@ -389,9 +389,9 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ•ã‚¡ã‚¤ãƒ«ã«ãƒ‡ãƒ¼ã‚¿ã‚’ä¿å­˜ã™ã‚‹
-     * @param filePath ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
-     * @return æ›¸ãè¾¼ã¿å¤±æ•—
+     * @brief ƒtƒ@ƒCƒ‹‚Éƒf[ƒ^‚ğ•Û‘¶‚·‚é
+     * @param filePath ƒtƒ@ƒCƒ‹ƒpƒX
+     * @return ‘‚«‚İ¸”s
      */
     bool Save(const std::string& filePath) const {
       bool result(false);
@@ -400,28 +400,28 @@ namespace STLD {
       if (! fp) return result;
 
       /**
-       * è­˜åˆ¥å­ã®å‡ºåŠ›
+       * ¯•Êq‚Ìo—Í
        */
       if (fwrite(&m_ID, sizeof(unsigned short), 1, fp) != 1) {
 	if (fp) fclose(fp); return result;
       }
 
       /**
-       * ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·ã®å‡ºåŠ›
+       * ƒo[ƒWƒ‡ƒ“”Ô†‚Ìo—Í
        */
       if (fwrite(&m_version, sizeof(unsigned short), 1, fp) != 1) {
 	if (fp) fclose(fp); return result;
       }
 
       /**
-       * ãƒ¢ãƒ¼ãƒ‰ã®å‡ºåŠ›
+       * ƒ‚[ƒh‚Ìo—Í
        */
       if (fwrite(&m_mode, sizeof(unsigned char), 1, fp) != 1) {
 	if (fp) fclose(fp); return result;
       }
 
       /**
-       * ç‰©ç†é‡ã®å‡ºåŠ›
+       * •¨——Ê‚Ìo—Í
        */
       unsigned short physNum = m_physInfoV.size();
       if (fwrite(&physNum, sizeof(unsigned short), 1, fp) != 1) {
@@ -429,7 +429,7 @@ namespace STLD {
       }
 
       /**
-       * ãƒ‡ãƒ¼ã‚¿ã®ç¨®åˆ¥ã¨ãƒ™ã‚¯ãƒˆãƒ«é•·ã®å‡ºåŠ›
+       * ƒf[ƒ^‚Ìí•Ê‚ÆƒxƒNƒgƒ‹’·‚Ìo—Í
        */
       for (size_t i = 0; i < physNum; ++i) {
 	unsigned char data[2];
@@ -441,7 +441,7 @@ namespace STLD {
       }
 
       /**
-       * ãƒãƒªã‚´ãƒ³æ•°ã®å‡ºåŠ›
+       * ƒ|ƒŠƒSƒ“”‚Ìo—Í
        */
       unsigned int faceNum = m_faceInfoV.size();
       if (fwrite(&faceNum, sizeof(unsigned int), 1, fp) != 1) {
@@ -449,7 +449,7 @@ namespace STLD {
       }
 
       /**
-       *ãƒãƒªã‚´ãƒ³æ¯ã®ç‰©ç†é‡ã®å‡ºåŠ›
+       *ƒ|ƒŠƒSƒ“–ˆ‚Ì•¨——Ê‚Ìo—Í
        */
       for (size_t i = 0; i < faceNum; ++i) {
 	for (size_t j = 0; j < physNum; ++j) {
@@ -500,56 +500,56 @@ namespace STLD {
     }
 
     /**
-     * @brief ç‰©ç†é‡æ•°ã®å–å¾—
-     * @return ç‰©ç†é‡æ•°
+     * @brief •¨——Ê”‚Ìæ“¾
+     * @return •¨——Ê”
      */
     size_t GetPhysNum(void) const { return m_physInfoV.size(); }
 
     /**
-     * @brief physNum ç•ªç›®ã®ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ã‚’å–å¾—ã™ã‚‹
-     * @param physNum ç‰©ç†é‡ç•ªå·ã€‚0ã‹ã‚‰å§‹ã‚ã‚‹
-     * @return ãƒ‡ãƒ¼ã‚¿ã®ç¨®é¡ã€‚0(å¤±æ•—), 1(int), 2(float), 3(double)ã€‚
+     * @brief physNum ”Ô–Ú‚Ìƒf[ƒ^‚Ìí—Ş‚ğæ“¾‚·‚é
+     * @param physNum •¨——Ê”Ô†B0‚©‚çn‚ß‚é
+     * @return ƒf[ƒ^‚Ìí—ŞB0(¸”s), 1(int), 2(float), 3(double)B
      */
     unsigned char GetDataKind(size_t physNum) const {
       /**
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[
        */
       return (m_physInfoV.size() > physNum) ? \
 	m_physInfoV[physNum].GetDataKind() : 0;
     }
 
     /**
-     * @brief physNum ç•ªç›®ã®ãƒ‡ãƒ¼ã‚¿ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ã‚’å–å¾—ã™ã‚‹
-     * @param physNum ç‰©ç†é‡ç•ªå·ã€‚0ã‹ã‚‰å§‹ã‚ã‚‹
-     * @return ãƒ‡ãƒ¼ã‚¿ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ã€‚0(å¤±æ•—)ã€‚
+     * @brief physNum ”Ô–Ú‚Ìƒf[ƒ^‚ÌƒxƒNƒgƒ‹’·‚ğæ“¾‚·‚é
+     * @param physNum •¨——Ê”Ô†B0‚©‚çn‚ß‚é
+     * @return ƒf[ƒ^‚ÌƒxƒNƒgƒ‹’·B0(¸”s)B
      */
     unsigned char GetVecLen(size_t physNum) const {
       /**
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[
        */
       return (m_physInfoV.size() > physNum) ? \
 	m_physInfoV[physNum].GetVecLen() : 0;
     }
 
     /**
-     * @brief ãƒãƒªã‚´ãƒ³ã®æ•°ã‚’å–å¾—ã™ã‚‹
-     * @return ãƒãƒªã‚´ãƒ³ã®æ•°
+     * @brief ƒ|ƒŠƒSƒ“‚Ì”‚ğæ“¾‚·‚é
+     * @return ƒ|ƒŠƒSƒ“‚Ì”
      */
     size_t GetFaceNum(void) const { return m_faceInfoV.size(); }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®å–å¾—(int)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param physNum ç‰©ç†é‡ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param val ãƒ‡ãƒ¼ã‚¿
-     * @retval true å–å¾—ã«æˆåŠŸ
-     * @retval false å–å¾—ã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìæ“¾(int)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†A‚O‚©‚çn‚ß‚é
+     * @param physNum •¨——Ê”Ô†A‚O‚©‚çn‚ß‚é
+     * @param val ƒf[ƒ^
+     * @retval true æ“¾‚É¬Œ÷
+     * @retval false æ“¾‚É¸”s
      */
     bool GetData(size_t faceNum, size_t physNum, std::vector<int>* val) const {
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒintã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªint‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       bool result(false);
       if (m_faceInfoV.size() > faceNum &&
@@ -569,7 +569,7 @@ namespace STLD {
 	}
 
 	/**
-	 * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·åˆ†ã®ãƒ‡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚Œã‚‹
+	 * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·•ª‚Ìƒf[ƒ^‚ªİ’è‚³‚ê‚é
 	 */
 	unsigned int len = physInfo.GetVecLen();
 	val -> clear();
@@ -583,19 +583,19 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®å–å¾—(float)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param physNum ç‰©ç†é‡ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param val ãƒ‡ãƒ¼ã‚¿
-     * @retval true å–å¾—ã«æˆåŠŸ
-     * @retval false å–å¾—ã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìæ“¾(float)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†A‚O‚©‚çn‚ß‚é
+     * @param physNum •¨——Ê”Ô†A‚O‚©‚çn‚ß‚é
+     * @param val ƒf[ƒ^
+     * @retval true æ“¾‚É¬Œ÷
+     * @retval false æ“¾‚É¸”s
      */
     bool GetData(size_t faceNum, size_t physNum, std::vector<float>* val) const
     {
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒfloatã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªfloat‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       bool result(false);
       if (m_faceInfoV.size() > faceNum &&
@@ -615,7 +615,7 @@ namespace STLD {
 	}
 
 	/**
-	 * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·åˆ†ã®ãƒ‡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚Œã‚‹
+	 * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·•ª‚Ìƒf[ƒ^‚ªİ’è‚³‚ê‚é
 	 */
 	unsigned int len = physInfo.GetVecLen();
 	val -> clear();
@@ -628,19 +628,19 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®å–å¾—(double)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param physNum ç‰©ç†é‡ç•ªå·ã€ï¼ã‹ã‚‰å§‹ã‚ã‚‹
-     * @param val ãƒ‡ãƒ¼ã‚¿
-     * @retval true å–å¾—ã«æˆåŠŸ
-     * @retval false å–å¾—ã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìæ“¾(double)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†A‚O‚©‚çn‚ß‚é
+     * @param physNum •¨——Ê”Ô†A‚O‚©‚çn‚ß‚é
+     * @param val ƒf[ƒ^
+     * @retval true æ“¾‚É¬Œ÷
+     * @retval false æ“¾‚É¸”s
      */
     bool GetData(size_t faceNum, size_t physNum, std::vector<double>* val) const
     {
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒintã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªint‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       bool result(false);
       if (m_faceInfoV.size() > faceNum &&
@@ -660,7 +660,7 @@ namespace STLD {
 	}
 
 	/**
-	 * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·åˆ†ã®ãƒ‡ãƒ¼ã‚¿ãŒè¨­å®šã•ã‚Œã‚‹
+	 * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·•ª‚Ìƒf[ƒ^‚ªİ’è‚³‚ê‚é
 	 */
 	unsigned int len = physInfo.GetVecLen();
 	val -> clear();
@@ -674,23 +674,23 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®ã‚¯ãƒªã‚¢
+     * @brief ƒf[ƒ^‚ÌƒNƒŠƒA
      */
     void Clear(void) {
       /**
-       * ç‰©ç†é‡æƒ…å ±ã®ã‚¯ãƒªã‚¢
+       * •¨——Êî•ñ‚ÌƒNƒŠƒA
        */
       m_physInfoV.clear();
       /**
-       * ãƒãƒªã‚´ãƒ³æƒ…å ±ã®ã‚¯ãƒªã‚¢
+       * ƒ|ƒŠƒSƒ“î•ñ‚ÌƒNƒŠƒA
        */
       m_faceInfoV.clear();
     }
 
     /**
-     * @brief ç‰©ç†é‡æƒ…å ±ã®è¿½åŠ 
-     * @param physInfo ç‰©ç†é‡æƒ…å ±
-     * @return ç‰©ç†é‡ç•ªå·
+     * @brief •¨——Êî•ñ‚Ì’Ç‰Á
+     * @param physInfo •¨——Êî•ñ
+     * @return •¨——Ê”Ô†
      */
     size_t AppendPhysInfo(const PhysInfo& physInfo) {
       m_physInfoV.push_back(physInfo);
@@ -698,8 +698,8 @@ namespace STLD {
     }
     
     /**
-     * @brief ãƒãƒªã‚´ãƒ³ã®æ•°ã®è¨­å®š
-     * @param faceNum ãƒãƒªã‚´ãƒ³ã®æ•°
+     * @brief ƒ|ƒŠƒSƒ“‚Ì”‚Ìİ’è
+     * @param faceNum ƒ|ƒŠƒSƒ“‚Ì”
      */
     void SetFaceNum(size_t faceNum) {
       m_faceInfoV.clear();
@@ -707,20 +707,20 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®è¨­å®š(int)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·
-     * @param physNum ç‰©ç†é‡ç•ªå·
-     * @param val è¨­å®šã™ã‚‹å€¤
-     * @retval true è¨­å®šã«æˆåŠŸ
-     * @retval false è¨­å®šã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìİ’è(int)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†
+     * @param physNum •¨——Ê”Ô†
+     * @param val İ’è‚·‚é’l
+     * @retval true İ’è‚É¬Œ÷
+     * @retval false İ’è‚É¸”s
      */
     bool SetData(size_t faceNum, size_t physNum, const std::vector<int>& val) {
       bool result(false);
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒintã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ã¨å€¤ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ãŒä¸€è‡´ã—ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªint‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
+       * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·‚Æ’l‚ÌƒxƒNƒgƒ‹’·‚ªˆê’v‚µ‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       if (m_faceInfoV.size() > faceNum &&
 	  m_physInfoV.size() > physNum &&
@@ -744,20 +744,20 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®è¨­å®š(float)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·
-     * @param physNum ç‰©ç†é‡ç•ªå·
-     * @param val è¨­å®šã™ã‚‹å€¤
-     * @retval true è¨­å®šã«æˆåŠŸ
-     * @retval false è¨­å®šã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìİ’è(float)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†
+     * @param physNum •¨——Ê”Ô†
+     * @param val İ’è‚·‚é’l
+     * @retval true İ’è‚É¬Œ÷
+     * @retval false İ’è‚É¸”s
      */
     bool SetData(size_t faceNum, size_t physNum, const std::vector<float>& val)
     {
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒfloatã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ã¨å€¤ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ãŒä¸€è‡´ã—ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªfloat‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
+       * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·‚Æ’l‚ÌƒxƒNƒgƒ‹’·‚ªˆê’v‚µ‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       bool result(false);
       if (m_faceInfoV.size() > faceNum &&
@@ -782,20 +782,20 @@ namespace STLD {
     }
 
     /**
-     * @brief ãƒ‡ãƒ¼ã‚¿ã®è¨­å®š(double)
-     * @param faceNum ãƒãƒªã‚´ãƒ³ç•ªå·
-     * @param physNum ç‰©ç†é‡ç•ªå·
-     * @param val è¨­å®šã™ã‚‹å€¤
-     * @retval true è¨­å®šã«æˆåŠŸ
-     * @retval false è¨­å®šã«å¤±æ•—
+     * @brief ƒf[ƒ^‚Ìİ’è(double)
+     * @param faceNum ƒ|ƒŠƒSƒ“”Ô†
+     * @param physNum •¨——Ê”Ô†
+     * @param val İ’è‚·‚é’l
+     * @retval true İ’è‚É¬Œ÷
+     * @retval false İ’è‚É¸”s
      */
     bool SetData(size_t faceNum, size_t physNum, const std::vector<double>& val)
     {
       /**
-       * ãƒãƒªã‚´ãƒ³ç•ªå·ãŒãƒãƒªã‚´ãƒ³æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒç‰©ç†é‡æ•°ã‚’è¶…ãˆã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ãŒdoubleã§ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
-       * ç‰©ç†é‡ç•ªå·ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ã¨å€¤ã®ãƒ™ã‚¯ãƒˆãƒ«é•·ãŒä¸€è‡´ã—ãªã‘ã‚Œã°ã‚¨ãƒ©ãƒ¼ã€‚
+       * ƒ|ƒŠƒSƒ“”Ô†‚ªƒ|ƒŠƒSƒ“”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ª•¨——Ê”‚ğ’´‚¦‚Ä‚¢‚½‚çƒGƒ‰[B
+       * •¨——Ê”Ô†‚ªdouble‚Å‚È‚¯‚ê‚ÎƒGƒ‰[B
+       * •¨——Ê”Ô†‚ÌƒxƒNƒgƒ‹’·‚Æ’l‚ÌƒxƒNƒgƒ‹’·‚ªˆê’v‚µ‚È‚¯‚ê‚ÎƒGƒ‰[B
        */
       bool result(false);
       if (m_faceInfoV.size() > faceNum &&
@@ -822,9 +822,9 @@ namespace STLD {
     }
 
     /**
-     * @brief æƒ…å ±å‡ºåŠ›
+     * @brief î•ño—Í
      *
-     * ä¸»ã«ãƒ‡ãƒãƒƒã‚°ç”¨
+     * å‚ÉƒfƒoƒbƒO—p
      */
     void PrettyPrint(std::ostream& os) const {
       os << "ID = " << m_ID << std::endl;
@@ -905,31 +905,31 @@ namespace STLD {
 
   private:
     /**
-     * @brief ãƒ•ã‚¡ã‚¤ãƒ«ã®è­˜åˆ¥å­
+     * @brief ƒtƒ@ƒCƒ‹‚Ì¯•Êq
      */
     unsigned short m_ID;
 
     /**
-     * @brief ãƒãƒ¼ã‚¸ãƒ§ãƒ³ç•ªå·
+     * @brief ƒo[ƒWƒ‡ƒ“”Ô†
      */
     unsigned short m_version;
 
     /**
-     * @brief å€¤ã®å®šç¾©ç‚¹ãŒé¢ã®é ‚ç‚¹ã‹ã®ãƒ•ãƒ©ã‚°
-     * 1 ã¯å®šç¾©ç‚¹ãŒé¢
-     * 2 ã¯å®šç¾©ç‚¹ãŒé ‚ç‚¹
+     * @brief ’l‚Ì’è‹`“_‚ª–Ê‚Ì’¸“_‚©‚Ìƒtƒ‰ƒO
+     * 1 ‚Í’è‹`“_‚ª–Ê
+     * 2 ‚Í’è‹`“_‚ª’¸“_
      */
     unsigned char m_mode;
 
     /**
-     * @brief ç‰©ç†é‡ã®æƒ…å ±ã®é…åˆ—
+     * @brief •¨——Ê‚Ìî•ñ‚Ì”z—ñ
      *
-     * ãƒãƒªã‚´ãƒ³æ¯ã«ã€ã“ã®ä¸¦ã³ã§ç‰©ç†é‡ãŒæ ¼ç´ã•ã‚Œã‚‹
+     * ƒ|ƒŠƒSƒ“–ˆ‚ÉA‚±‚Ì•À‚Ñ‚Å•¨——Ê‚ªŠi”[‚³‚ê‚é
      */
     std::vector<PhysInfo> m_physInfoV;
 
     /**
-     * @brief ãƒãƒªã‚´ãƒ³ã®ç‰©ç†é‡ã®é…åˆ—
+     * @brief ƒ|ƒŠƒSƒ“‚Ì•¨——Ê‚Ì”z—ñ
      */
     std::vector<FaceInfo> m_faceInfoV;
   };

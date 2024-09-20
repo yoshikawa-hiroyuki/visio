@@ -53,16 +53,16 @@ public:
 
     // MHIR append begin
     /**
-     * ãƒ‡ãƒ¼ã‚¿é ˜åŸŸã‚’ç¢ºä¿ã™ã‚‹
-     * @param dataLen é ˜åŸŸã®é•·ã•ï¼ˆãƒ‡ãƒ¼ã‚¿ã®å€‹æ•°ï¼‰
+     * ƒf[ƒ^—Ìˆæ‚ğŠm•Û‚·‚é
+     * @param dataLen —Ìˆæ‚Ì’·‚³iƒf[ƒ^‚ÌŒÂ”j
      * @author MHIR
      */
     void AllocDataArea(size_t dataLen);
 
     /**
-     * ãƒ‡ãƒ¼ã‚¿ã‚’æŒã£ã¦ã„ã‚‹ã‹
-     * @retval true ãƒ‡ãƒ¼ã‚¿ã‚’æŒã£ã¦ã„ã‚‹ï¼ˆm_pData ãŒ NULL ã§ãªã„ï¼‰
-     * @retval false ãƒ‡ãƒ¼ã‚¿ã‚’æŒã£ã¦ã„ãªã„ï¼ˆm_pData ãŒ NULL ã§ã‚ã‚‹ï¼‰
+     * ƒf[ƒ^‚ğ‚Á‚Ä‚¢‚é‚©
+     * @retval true ƒf[ƒ^‚ğ‚Á‚Ä‚¢‚éim_pData ‚ª NULL ‚Å‚È‚¢j
+     * @retval false ƒf[ƒ^‚ğ‚Á‚Ä‚¢‚È‚¢im_pData ‚ª NULL ‚Å‚ ‚éj
      * @author MHIR
      */
     bool HasData(void) const;
@@ -135,9 +135,9 @@ public:
   std::set<Node*>    m_pLeafLst;
 
   /**
-   * ãƒšãƒ‡ã‚£ã‚°ãƒªãƒ¼ã‹ã‚‰ãƒãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹
-   * @param pedig ãƒšãƒ‡ã‚£ã‚°ãƒªãƒ¼
-   * @return ãƒãƒ¼ãƒ‰ï¼ˆç„¡ã‘ã‚Œã°NULLï¼‰
+   * ƒyƒfƒBƒOƒŠ[‚©‚çƒm[ƒh‚ğæ“¾‚·‚é
+   * @param pedig ƒyƒfƒBƒOƒŠ[
+   * @return ƒm[ƒhi–³‚¯‚ê‚ÎNULLj
    * @author MHIR
    */
   const Node* GetNode(VSN::PedigType  pedig) const;

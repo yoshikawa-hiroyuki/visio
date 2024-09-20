@@ -83,22 +83,22 @@ bool vsnNvrVolumeRender::SetVolume(const float* pd, const float minmax[2],
   }
 
   memset(m_pData, 0, m_wrapDims.Size());
-  register float facA, facB;
+  float facA, facB;
   if ( fabs(minmax[1] - minmax[0]) < 1e-8 ) {facA = facB = 0.f;}
   else {
     facA = 254.f / (minmax[1] - minmax[0]);
     facB = facA * minmax[0];
   }
-  register size_t i, j, k, oidx, widx;
+  size_t i, j, k, oidx, widx;
   for ( k = 0; k < m_origDims.size[2]; k++ )
     for ( j = 0; j < m_origDims.size[1]; j++ )
       for ( i = 0; i < m_origDims.size[0]; i++ ) {
-	oidx = k*m_origDims.size[0]*m_origDims.size[1]+j*m_origDims.size[0]+i;
-	widx = k*m_wrapDims.size[0]*m_wrapDims.size[1]+j*m_wrapDims.size[0]+i;
-	if ( pmask && pmask[oidx] ) {m_pData[widx] = 0; continue;}
-	if ( pd[oidx] < minmax[0] ) {m_pData[widx] = minmax[0]; continue;}
-	if ( pd[oidx] > minmax[1] ) {m_pData[widx] = minmax[1]; continue;}
-	m_pData[widx] = (unsigned char)(pd[oidx] * facA - facB) + 1;
+	    oidx = k*m_origDims.size[0]*m_origDims.size[1]+j*m_origDims.size[0]+i;
+	    widx = k*m_wrapDims.size[0]*m_wrapDims.size[1]+j*m_wrapDims.size[0]+i;
+	    if ( pmask && pmask[oidx] ) {m_pData[widx] = 0; continue;}
+	    if ( pd[oidx] < minmax[0] ) m_pData[widx] = minmax[0];
+	    else if ( pd[oidx] > minmax[1] ) m_pData[widx] = minmax[1];
+	    m_pData[widx] = (unsigned char)(pd[oidx] * facA - facB) + 1;
       } // end of for(i)
 
   if ( ! m_render.UpdateData((void*)m_pData, bb) )

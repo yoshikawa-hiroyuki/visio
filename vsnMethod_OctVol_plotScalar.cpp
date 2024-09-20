@@ -158,7 +158,7 @@ bool vsnMethod_OctVol_plotScalar::updateStep(const int stp,
   } // end of if(DATA_None)
 
   // MHIR append begin
-  // å¿…è¦ãªã‘ã‚Œã°ãƒžã‚¹ã‚¯æƒ…å ±ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
+  // •K—v‚È‚¯‚ê‚Îƒ}ƒXƒNî•ñ‚ðƒNƒŠƒA‚·‚é
   pMeshEX -> ClearMaskIfNotNeed();
   // MHIR append end
 
@@ -205,7 +205,7 @@ vsnMesh2D_EX::renderSolid() {
     for ( register int i = 0; i < _meshSize.x -1; i++ ) {
 
       // MHIR append begin
-      // é ‚ç‚¹ã®ã†ã¡ä¸€ã¤ã§ã‚‚éžè¡¨ç¤ºã®é ‚ç‚¹ãŒã‚ã‚Œã°ã€è¡¨ç¤ºã—ãªã„
+      // ’¸“_‚Ì‚¤‚¿ˆê‚Â‚Å‚à”ñ•\Ž¦‚Ì’¸“_‚ª‚ ‚ê‚ÎA•\Ž¦‚µ‚È‚¢
       //
       if (_colorMode == AT_PER_VERTEX && ! m_mask.empty()) {
 	index = j       * _meshSize.x + i;	if (m_mask[index]) continue;

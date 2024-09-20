@@ -13,36 +13,36 @@
 //----------------------------------------------------------------
 // class vsnAnimFrame
 //----------------------------------------------------------------
-//! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ‡ãƒ¼ã‚¿
+//! ƒL[ƒtƒŒ[ƒ€ƒAƒjƒ[ƒVƒ‡ƒ“—pƒtƒŒ[ƒ€ƒf[ƒ^
 struct vsnAnimFrame {
-  //! å›è»¢ã‚¯ã‚©ãƒ¼ã‚¿ãƒ‹ã‚ªãƒ³
+  //! ‰ñ“]ƒNƒH[ƒ^ƒjƒIƒ“
   CES::Quat4<float> rotQuat;
-  //! ç§»å‹•é‡ãƒ™ã‚¯ãƒˆãƒ«
+  //! ˆÚ“®—ÊƒxƒNƒgƒ‹
   CES::Vec3<float>  transVec;
-  //! ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ãƒ•ã‚¡ã‚¯ã‚¿ãƒ¼
+  //! ƒXƒP[ƒŠƒ“ƒOƒtƒ@ƒNƒ^[
   CES::Vec3<float>  scaleVec;
-  //! å›è»¢ãƒ»ã‚¹ã‚±ãƒ¼ãƒªãƒ³ã‚°ä¸­å¿ƒ
+  //! ‰ñ“]EƒXƒP[ƒŠƒ“ƒO’†S
   CES::Vec3<float>  centerVec;
-  //! ã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—
+  //! ƒ^ƒCƒ€ƒXƒeƒbƒv
   int               step;
 
   vsnAnimFrame() : step(0) {}
   ~vsnAnimFrame() {}
 
-  //! å›è»¢ãƒãƒˆãƒªãƒƒã‚¯ã‚¹ã®è¨­å®š
+  //! ‰ñ“]ƒ}ƒgƒŠƒbƒNƒX‚Ìİ’è
   bool setRotMat(const CES::Mat4<float>& m);
-  //! XMLãƒãƒ¼ãƒ‰ã®ãƒ‘ãƒ¼ã‚¹
+  //! XMLƒm[ƒh‚Ìƒp[ƒX
   bool parseXML(xmlNodePtr node, double& tm);
-  //! XMLãƒãƒ¼ãƒ‰ã®å‡ºåŠ›
+  //! XMLƒm[ƒh‚Ìo—Í
   bool outputXML(std::ostream& os, const double tm, const size_t ts =0);
 
-  //! XMLãƒ‘ãƒ¼ã‚¹ãƒ¦ãƒ¼ãƒ†ã‚£ãƒªãƒ†ã‚£
+  //! XMLƒp[ƒXƒ†[ƒeƒBƒŠƒeƒB
   bool ParseRotMat(xmlNodePtr node, CES::Mat4<float>& M);
   bool ParsePosture(xmlNodePtr node, CES::Mat4<float>& M);
   bool ParseVector(xmlNodePtr node, CES::Vec3<float>& V);
 };
 
-//! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ 
+//! ƒL[ƒtƒŒ[ƒ€ƒAƒjƒ[ƒVƒ‡ƒ“—pƒL[ƒtƒŒ[ƒ€
 typedef std::pair<double, vsnAnimFrame> vsnKeyframe;
 
 
@@ -50,7 +50,7 @@ typedef std::pair<double, vsnAnimFrame> vsnKeyframe;
 // class vsnKeyFrameAnim
 //----------------------------------------------------------------
 
-//! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãƒ‡ãƒ¼ã‚¿
+//! ƒL[ƒtƒŒ[ƒ€ƒAƒjƒ[ƒVƒ‡ƒ“ƒf[ƒ^
 class vsnKeyFrameAnim {
   double m_totalTime;
   double m_initialTime;
@@ -63,57 +63,57 @@ public:
     m_fps(30), m_stepMode(false), m_loopMode(false) {}
   virtual ~vsnKeyFrameAnim() {m_keyFrames.clear();}
 
-  //! ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ãƒˆãƒ¼ã‚¿ãƒ«æ™‚é–“ã‚’è¿”ã™
+  //! ƒAƒjƒ[ƒVƒ‡ƒ“‚Ìƒg[ƒ^ƒ‹ŠÔ‚ğ•Ô‚·
   double getTotalTime() const {return m_totalTime;}
-  //! ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ç·ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¿”ã™
+  //! ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘ƒtƒŒ[ƒ€”‚ğ•Ô‚·
   size_t getTotalFrames() const;
-  //! ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é–‹å§‹æ™‚é–“ã‚’è¿”ã™
+  //! ƒAƒjƒ[ƒVƒ‡ƒ“‚ÌŠJnŠÔ‚ğ•Ô‚·
   double getInitialTime() const {return m_initialTime;}
 
-  //! ä¸€å˜ä½æ™‚é–“ã‚ãŸã‚Šã®ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¿”ã™
+  //! ˆê’PˆÊŠÔ‚ ‚½‚è‚ÌƒtƒŒ[ƒ€”‚ğ•Ô‚·
   unsigned int getFps() const {return m_fps;}
-  //! ä¸€å˜ä½æ™‚é–“ã‚ãŸã‚Šã®ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¨­å®šã™ã‚‹
+  //! ˆê’PˆÊŠÔ‚ ‚½‚è‚ÌƒtƒŒ[ƒ€”‚ğİ’è‚·‚é
   bool setFps(const unsigned int n) {
     if ( n < 1 ) return false;
     m_fps = n; return true;
   }
 
-  //! ã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—è£œé–“ãƒ¢ãƒ¼ãƒ‰ã‚’è¿”ã™
+  //! ƒ^ƒCƒ€ƒXƒeƒbƒv•âŠÔƒ‚[ƒh‚ğ•Ô‚·
   bool getStepMode() const {return m_stepMode;}
-  //! ã‚¿ã‚¤ãƒ ã‚¹ãƒ†ãƒƒãƒ—è£œé–“ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹
+  //! ƒ^ƒCƒ€ƒXƒeƒbƒv•âŠÔƒ‚[ƒh‚ğİ’è‚·‚é
   void setStepMode(const bool smd) {m_stepMode = smd;}
 
-  //! ãƒ«ãƒ¼ãƒ—ãƒ¢ãƒ¼ãƒ‰ã‚’è¿”ã™
+  //! ƒ‹[ƒvƒ‚[ƒh‚ğ•Ô‚·
   bool getLoopMode() const {return m_loopMode;}
-  //! ãƒ«ãƒ¼ãƒ—ãƒ¢ãƒ¼ãƒ‰ã‚’è¨­å®šã™ã‚‹
+  //! ƒ‹[ƒvƒ‚[ƒh‚ğİ’è‚·‚é
   void setLoopMode(const bool lmd) {m_loopMode = lmd;}
 
-  //! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ãƒªã‚¹ãƒˆã®å–å¾—
+  //! ƒL[ƒtƒŒ[ƒ€ƒŠƒXƒg‚Ìæ“¾
   const std::map<double, vsnAnimFrame>& getFrameList() const {
     return m_keyFrames;
   }
-  //! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’è¿”ã™
+  //! ƒL[ƒtƒŒ[ƒ€”‚ğ•Ô‚·
   size_t getNumKeyframes() const {return m_keyFrames.size();}
-  //! idxç•ªç›®ã®ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã®å–å¾—
+  //! idx”Ô–Ú‚ÌƒL[ƒtƒŒ[ƒ€‚Ìæ“¾
   bool getKeyframe(const size_t idx, double& tm, vsnAnimFrame& frame) const;
 
-  //! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã®è¿½åŠ 
+  //! ƒL[ƒtƒŒ[ƒ€‚Ì’Ç‰Á
   bool addKeyframe(const double tm, const vsnAnimFrame& frame);
-  //! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã®å‰Šé™¤
+  //! ƒL[ƒtƒŒ[ƒ€‚Ìíœ
   bool delKeyframe(const size_t idx);
   bool delKeyframe(const double tm);
-  //! ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ ã®ç½®ãæ›ãˆ
+  //! ƒL[ƒtƒŒ[ƒ€‚Ì’u‚«Š·‚¦
   bool replaceKeyframe(const size_t idx, const vsnAnimFrame& frame);
 
-  //! æŒ‡å®šæ™‚åˆ»ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã®å–å¾—
+  //! w’è‚ÌƒtƒŒ[ƒ€‚Ìæ“¾
   bool getFrame(const double tm, vsnAnimFrame& frame) const;
 
-  //! XMLãƒãƒ¼ãƒ‰ã®ãƒ‘ãƒ¼ã‚¹
+  //! XMLƒm[ƒh‚Ìƒp[ƒX
   bool parseXML(xmlNodePtr node);
-  //! XMLãƒãƒ¼ãƒ‰ã®å‡ºåŠ›
+  //! XMLƒm[ƒh‚Ìo—Í
   bool outputXML(std::ostream& os, const size_t ts =0);
 
-  //! åˆæœŸåŒ–
+  //! ‰Šú‰»
   void Reset() {
     m_totalTime = 0; m_initialTime = 0.; m_fps = 30;
     m_stepMode = false; m_loopMode = false;

@@ -66,9 +66,9 @@ void vsnData_Dfi::reset() {
 }
 
 Vec3<float> vsnData_Dfi::getPitch() const {
-  /* DFIのGlobalRegionは、仮想セルを除いた計算範囲で、セル数×ピッチなので、
-     SPHの場合のピッチ計算(bboxLen / (dims-1))と異なり、GlobalRegion/GlobalDims
-     となる
+  /* DFI��GlobalRegion�́A���z�Z�����������v�Z�͈͂ŁA�Z�����~�s�b�`�Ȃ̂ŁA
+     SPH�̏ꍇ�̃s�b�`�v�Z(bboxLen / (dims-1))�ƈقȂ�AGlobalRegion/GlobalDims
+     �ƂȂ�
    */
   Vec3<float> pit;
   if ( m_globalDims[0] > 0 )
@@ -573,9 +573,9 @@ bool vsnData_Dfi::checkMinMax(const bool wholeStp, const bool progress) {
 // from vfrGroup
 
 void vsnData_Dfi::generateBbox() {
-  /* DFIに記述されたGlobalOriginは、ガイドセルを除いた計算領域に対して、
-     SPHのデータ定義点(格子点)をセル中心とした場合の、セルの左下隅の座標値
-     (_bboxはSPHのデータ定義点を基点に考えるため、半セルサイズずれる)
+  /* DFI�ɋL�q���ꂽGlobalOrigin�́A�K�C�h�Z�����������v�Z�̈�ɑ΂��āA
+     SPH�̃f�[�^��`�_(�i�q�_)���Z�����S�Ƃ����ꍇ�́A�Z���̍������̍��W�l
+     (_bbox��SPH�̃f�[�^��`�_����_�ɍl���邽�߁A���Z���T�C�Y�����)
    */
   Vec3<float> pit = getPitch();
   Vec3<float> half_pit = pit * 0.5f;

@@ -11,7 +11,7 @@
 #include <sstream>
 
 namespace VSN {
-  //! ¿§À®Ê¬¤Î³ÊÇ¼¿ô¤ÎºÇÂçÃÍ
+  //! F¬•ª‚ÌŠi”[”‚ÌÅ‘å’l
   enum {LUT_MAX_ENTRY =256};
 };
 
@@ -19,21 +19,21 @@ using namespace std;
 using namespace VSN;
 
 
-//! LookUp Table¹½Â¤ÂÎ
+//! LookUp Table\‘¢‘Ì
 struct vsnLut {
-  //! ¿§À®Ê¬¤Î³ÊÇ¼¿ô
+  //! F¬•ª‚ÌŠi”[”
   unsigned  numEntry;
-  //! ¿§À®Ê¬
-  /*! R,G,B,A¤Î¿§À®Ê¬¡£ÃÍ°è¤Ï[0.0¡Á1.0]¡¢
-      ³ÊÇ¼½ç½ø¤Ï(R0, G0, B0, A0, R1, G1, B1, ...)
+  //! F¬•ª
+  /*! R,G,B,A‚ÌF¬•ªB’lˆæ‚Í[0.0`1.0]A
+      Ši”[‡˜‚Í(R0, G0, B0, A0, R1, G1, B1, ...)
   */
   float lutEntry[LUT_MAX_ENTRY * 4];
-  //! ¥Ç¡¼¥¿ÃÍ°è
+  //! ƒf[ƒ^’lˆæ
   float minVal, maxVal;
-  //! ÊÑ¹¹¥Õ¥é¥°
+  //! •ÏXƒtƒ‰ƒO
   mutable Bool isStdLut;
 
-  //! ¥Ç¥Õ¥©¥ë¥È¥³¥ó¥¹¥È¥é¥¯¥¿
+  //! ƒfƒtƒHƒ‹ƒgƒRƒ“ƒXƒgƒ‰ƒNƒ^
   vsnLut()
     : numEntry(LUT_MAX_ENTRY),minVal(0.0f),maxVal(1.0f),isStdLut(TRUE) {
     vfrDatamap dmap(0.0f, 255.0f); dmap.setAlp(0, 0.0f);
@@ -43,7 +43,7 @@ struct vsnLut {
       lutEntry[i*4+2] = ev[2]; lutEntry[i*4+3] = ev[3];
     }
   }
-  //! vfrDatamap¥ª¥Ö¥¸¥§¥¯¥È¤«¤é¤Î¥³¥ó¥¹¥È¥é¥¯¥¿
+  //! vfrDatamapƒIƒuƒWƒFƒNƒg‚©‚ç‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^
   vsnLut(const vfrDatamap& ref) : numEntry(LUT_MAX_ENTRY),isStdLut(FALSE) {
     vfrDatamap dmap(ref); dmap.setMinMax(0.0f, 255.0f);
     for ( register int i = 0; i < LUT_MAX_ENTRY; i++ ) {
@@ -53,12 +53,12 @@ struct vsnLut {
     }
     minVal = ref.getMin(); maxVal = ref.getMax();
   }
-  //! ¥³¥Ô¡¼¥³¥ó¥¹¥È¥é¥¯¥¿
+  //! ƒRƒs[ƒRƒ“ƒXƒgƒ‰ƒNƒ^
   vsnLut(const vsnLut& org) {*this = org;}
-  //! ¥Ç¥¹¥È¥é¥¯¥¿
+  //! ƒfƒXƒgƒ‰ƒNƒ^
   virtual ~vsnLut() {}
 
-  //! Ê¸»úÎó¥¹¥È¥ê¡¼¥à¤«¤é¤ÎÆşÎÏ
+  //! •¶š—ñƒXƒgƒŠ[ƒ€‚©‚ç‚Ì“ü—Í
   Bool ImportStream(istream& iss) {
     isStdLut = FALSE;
     numEntry = 0;
@@ -85,7 +85,7 @@ struct vsnLut {
     return TRUE;
   }
 
-  //! Ê¸»úÎó¥¹¥È¥ê¡¼¥à¤Ø¤Î½ĞÎÏ
+  //! •¶š—ñƒXƒgƒŠ[ƒ€‚Ö‚Ìo—Í
   Bool ExportStream(ostream& oss, const size_t ts =0) const {
     if ( numEntry < 1 ) return FALSE;
     std::string idts; register size_t i;
@@ -100,7 +100,7 @@ struct vsnLut {
     return TRUE;
   }
 
-  //! ÂåÆş¥ª¥Ú¥ì¡¼¥¿
+  //! ‘ã“üƒIƒyƒŒ[ƒ^
   void operator=(const vsnLut& org) {
     numEntry = org.numEntry;
     memcpy(lutEntry, org.lutEntry, sizeof(float)*numEntry*4);
@@ -108,8 +108,8 @@ struct vsnLut {
     isStdLut = org.isStdLut;
   }
 
-  //! Àµµ¬²½
-  /*! ¿§À®Ê¬¤Î³ÊÇ¼¿ô¤ò256¸Ä¤ËÀµµ¬²½¤¹¤ë */
+  //! ³‹K‰»
+  /*! F¬•ª‚ÌŠi”[”‚ğ256ŒÂ‚É³‹K‰»‚·‚é */
   Bool normalize() {
     if ( numEntry == 0 ) return FALSE;
     if ( numEntry == LUT_MAX_ENTRY ) return TRUE;
@@ -125,7 +125,7 @@ struct vsnLut {
     return TRUE;
   }
 
-  //! ÃÍ¤ËÂĞ¤¹¤ë¥¤¥ó¥Ç¥Ã¥¯¥¹¼èÆÀ
+  //! ’l‚É‘Î‚·‚éƒCƒ“ƒfƒbƒNƒXæ“¾
   int getValIdx(const float val) {
     if ( val >= maxVal ) return (numEntry-1);
     if ( val <= minVal ) return 0;

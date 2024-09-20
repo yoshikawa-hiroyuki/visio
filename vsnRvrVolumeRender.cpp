@@ -22,8 +22,8 @@ namespace VSN {
     CES::Vec3<size_t> orgDimX = orgDim - CES::Vec3<size_t>(1,1,1);
     CES::Vec3<size_t> dimX = dim - CES::Vec3<size_t>(1,1,1);
 
-    register size_t i, x, y, z, sx, sy, sz, s0 = orgDim[0]*orgDim[1];
-    register float fx, fy, fz, u, v, w;
+    size_t i, x, y, z, sx, sy, sz, s0 = orgDim[0]*orgDim[1];
+    float fx, fy, fz, u, v, w;
     float sval[8];
     for ( i = 0, z = 0; z < dim[2]; z++ ) {
       fz = (float)orgDimX[2] * z / dimX[2];
@@ -49,7 +49,7 @@ namespace VSN {
             data[i] = (T)VSN::trilinearITP(u, v, w, sval);
           }
           else {
-            register int ssx, ssy, ssz;
+            int ssx, ssy, ssz;
             ssx = (u>0.5f) ? sx+1 : sx;
             ssy = (v>0.5f) ? sy+1 : sy;
             ssz = (w>0.5f) ? sz+1 : sz;
@@ -77,7 +77,7 @@ namespace VSN {
 CES::Vec3<size_t>
 vsnRvrVolumeRender::GetMax3DTexSize(const CES::Vec3<size_t>& startSz) {
   CES::Vec3<size_t> rDims;
-  register int i;
+  int i;
 
   if ( ! m_render ) return rDims;
 
@@ -199,17 +199,19 @@ bool vsnRvrVolumeRender::SetData(const size_t dims[3],
   float d = drange[1] - drange[0];
   if ( fabs(d) < 1e-8 ) d = 1e-8f;
 
-  register size_t i, j, k, idx;
-  register float x, a, b;
+  size_t i, j, k, idx;
+  float x, a, b;
   a = 255.f / d;
   b = -255.f * drange[0] / d;
   for ( k = 0; k < dims[2]; k++ )
     for ( j = 0; j < dims[1]; j++ )
       for ( i = 0; i < dims[0]; i++ ) {
-	idx = dims[0]*dims[1]*k + dims[0]*j + i;
-	if ( pmask && pmask[idx] ) x = drange[0];
-	else x = *(pdata + dlen*idx + tgt);
-	data[idx] = (unsigned char)(a * x + b);
+	    idx = dims[0]*dims[1]*k + dims[0]*j + i;
+	    if ( pmask && pmask[idx] ) x = drange[0];
+	    else x = *(pdata + dlen*idx + tgt);
+        if ( x < drange[0] ) x = drange[0];
+        else if ( x > drange[1] ) x = drange[1];
+	    data[idx] = (unsigned char)(a * x + b);
       } // end of for(i)
 
   m_data_updated = true;
@@ -233,7 +235,7 @@ bool vsnRvrVolumeRender::SetData(vsnOctTree* poct, const size_t tgt,
 				 const CES::Vec3<int>& didx,
 				 const float drange[2],
 				 const bool doInterp) {
-  register int i, j, k, idx;
+  int i, j, k, idx;
 
   if ( ! poct ) return false;
   if ( poct->m_rootDims[0]*poct->m_rootDims[1]*poct->m_rootDims[2] < 1 )
@@ -276,23 +278,25 @@ bool vsnRvrVolumeRender::SetData(vsnOctTree* poct, const size_t tgt,
     for ( k = 0; k < dims[2]; k++, pos[2] += pitch[2] ) {
       pos[1] = _bbox[0][1] + pitch[1]*0.5f;
       for ( j = 0; j < dims[1]; j++, pos[1] += pitch[1] ) {
-	pos[0] = _bbox[0][0] + pitch[0]*0.5f;
-	for ( i = 0; i < dims[0]; i++, pos[0] += pitch[0] ) {
-	  idx = dims[0]*dims[1]*k + dims[0]*j + i;
-	  vsnOctTree::Node* pnode = poct->FindByPos(pos);
-	  if ( ! pnode )
-	    x = 0.f;
-	  else if ( doInterp ) {
-	    poct->InterpolateData(pos, pnode, didx, dval);
-	    x = dval.Length();
-	  } else {
-	    dval.m_v[0] = (didx[0] < 0) ? 0.f : pnode->m_pData[didx[0]];
-	    dval.m_v[1] = (didx[1] < 0) ? 0.f : pnode->m_pData[didx[1]];
-	    dval.m_v[2] = (didx[2] < 0) ? 0.f : pnode->m_pData[didx[2]];
-	    x = dval.Length();
-	  }
-	  m_data[idx] = (unsigned char)(a * x + b);
-	} // end of for(i)
+	    pos[0] = _bbox[0][0] + pitch[0]*0.5f;
+	    for ( i = 0; i < dims[0]; i++, pos[0] += pitch[0] ) {
+	      idx = dims[0]*dims[1]*k + dims[0]*j + i;
+	      vsnOctTree::Node* pnode = poct->FindByPos(pos);
+	      if ( ! pnode )
+	        x = 0.f;
+	      else if ( doInterp ) {
+	        poct->InterpolateData(pos, pnode, didx, dval);
+	        x = dval.Length();
+	      } else {
+	        dval.m_v[0] = (didx[0] < 0) ? 0.f : pnode->m_pData[didx[0]];
+	        dval.m_v[1] = (didx[1] < 0) ? 0.f : pnode->m_pData[didx[1]];
+	        dval.m_v[2] = (didx[2] < 0) ? 0.f : pnode->m_pData[didx[2]];
+	        x = dval.Length();
+	      }
+          if (x < drange[0]) x = drange[0];
+          else if (x > drange[1]) x = drange[1];
+          m_data[idx] = (unsigned char)(a * x + b);
+	    } // end of for(i)
       } // end of for(j)
     } // end of for(k)
   } // end of DATA_Veclen
@@ -301,18 +305,18 @@ bool vsnRvrVolumeRender::SetData(vsnOctTree* poct, const size_t tgt,
     for ( k = 0; k < dims[2]; k++, pos[2] += pitch[2] ) {
       pos[1] = _bbox[0][1] + pitch[1]*0.5f;
       for ( j = 0; j < dims[1]; j++, pos[1] += pitch[1] ) {
-	pos[0] = _bbox[0][0] + pitch[0]*0.5f;
-	for ( i = 0; i < dims[0]; i++, pos[0] += pitch[0] ) {
-	  idx = dims[0]*dims[1]*k + dims[0]*j + i;
-	  vsnOctTree::Node* pnode = poct->FindByPos(pos);
-	  if ( ! pnode )
-	    x = drange[0];
-	  else if ( doInterp )
-	    poct->InterpolateData(pos, pnode, tgt -1, x);
-	  else
-	    x = pnode->m_pData[tgt -1];
-	  m_data[idx] = (unsigned char)(a * x + b);
-	} // end of for(i)
+	    pos[0] = _bbox[0][0] + pitch[0]*0.5f;
+	    for ( i = 0; i < dims[0]; i++, pos[0] += pitch[0] ) {
+	      idx = dims[0]*dims[1]*k + dims[0]*j + i;
+	      vsnOctTree::Node* pnode = poct->FindByPos(pos);
+	      if ( ! pnode )
+	        x = drange[0];
+	      else if ( doInterp )
+	        poct->InterpolateData(pos, pnode, tgt -1, x);
+	      else
+	        x = pnode->m_pData[tgt -1];
+	      m_data[idx] = (unsigned char)(a * x + b);
+	    } // end of for(i)
       } // end of for(j)
     } // end of for(k)
   }
@@ -320,6 +324,7 @@ bool vsnRvrVolumeRender::SetData(vsnOctTree* poct, const size_t tgt,
   notice();
   return true;
 }
+
 
 bool vsnRvrVolumeRender::SetSliceNum(const size_t nsl) {
   if ( m_nslices == nsl ) return true;

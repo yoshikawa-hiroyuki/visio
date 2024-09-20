@@ -828,6 +828,12 @@ bool vsnMethod_Scatter_plotAsTubeStrip::outputXML(std::ostream& os,
     os << " name=\"" << _name << "\"";
   os << " >" << endl;
 
+  // output base method params
+  if (!vsnMethodObj::exportXMLNode(os, ts + 2)) {
+      ErrMsg(MsgERR, msgHdr + string("base MethodObj exportXMLNode failed"));
+      ret = false;
+  }
+
   // output original params
   // use_color_data
   if ( m_selectedColData != DATA_None ) {

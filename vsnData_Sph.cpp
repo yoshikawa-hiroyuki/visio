@@ -818,12 +818,12 @@ vsnData_Sph::getCellIndex(const CES::Vec3<float>& point,
 			  CES::Vec3<int>* idx,
 			  CES::Vec3<float>* rate)
 {
-  // ãƒ”ãƒƒãƒã®å–å¾—
+  // ƒsƒbƒ`‚Ìæ“¾
   //
   CES::Vec3<float> pitch;
   getPitch(pitch);
 
-  // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+  // ƒCƒ“ƒfƒbƒNƒX
   //
   const int newi = (point[0] - _bbox[0][0]) / pitch[0];
   const int newj = (point[1] - _bbox[0][1]) / pitch[1];
@@ -832,13 +832,13 @@ vsnData_Sph::getCellIndex(const CES::Vec3<float>& point,
   (*idx)[1] = newj;
   (*idx)[2] = newk;
 
-  // pointãŒå«ã¾ã‚Œã‚‹ãƒœã‚¯ã‚»ãƒ«ã®åŸç‚¹ã®ä½ç½®
+  // point‚ªŠÜ‚Ü‚ê‚éƒ{ƒNƒZƒ‹‚ÌŒ´“_‚ÌˆÊ’u
   //
   const float x = _bbox[0][0] + pitch[0] * (float)(newi);
   const float y = _bbox[0][1] + pitch[1] * (float)(newj);
   const float z = _bbox[0][2] + pitch[2] * (float)(newk);
 
-  // ä½ç½®ã®å‰²åˆ
+  // ˆÊ’u‚ÌŠ„‡
   //
   const float u = (point[0] - x) / pitch[0];
   const float v = (point[1] - y) / pitch[1];
@@ -991,10 +991,10 @@ TriLinear_Interp(const Vec3<float>& x0,
 }
 
 /**
- * @param interpolateMode (=0) ã‚¼ãƒ­æ¬¡
+ * @param interpolateMode (=0) ƒ[ƒŸ
  *                        (=1) TriLinear
- *                        (=2) å¤–æŒ¿ï¼‘æ¬¡
- *                        (=3) å¤–æŒ¿ï¼’æ¬¡
+ *                        (=2) ŠO‘}‚PŸ
+ *                        (=3) ŠO‘}‚QŸ
  */
 std::vector<float>
 vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
@@ -1004,35 +1004,35 @@ vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
 {
   std::vector<float> result;
 
-  // ãƒ‡ãƒ¼ã‚¿ã®é•·ã•ã‚’è¶…ãˆã¦ã„ãªã„ã“ã¨
+  // ƒf[ƒ^‚Ì’·‚³‚ğ’´‚¦‚Ä‚¢‚È‚¢‚±‚Æ
   //
   if (didx.size() > m_dataLen) {
     std::cout << "datalen invalid" << std::endl;
     return result;
   }
 
-  // ãƒ‡ãƒ¼ã‚¿ã®é ˜åŸŸã‚’è¶…ãˆãªã„ã“ã¨
+  // ƒf[ƒ^‚Ì—Ìˆæ‚ğ’´‚¦‚È‚¢‚±‚Æ
   //
   if (!((_bbox[0][0] <= pos[0] && pos[0] <= _bbox[1][0]) && 
 	(_bbox[0][1] <= pos[1] && pos[1] <= _bbox[1][1]) &&
 	(_bbox[0][2] <= pos[2] && pos[2] <= _bbox[1][2]))) {
-    // å…¨ã¦0ã‚’è¿”ã™
+    // ‘S‚Ä0‚ğ•Ô‚·
     //
     //    std::cout << "range over" << std::endl;
     for (int i = 0; i < didx.size(); ++i) result.push_back(0.f);
     return result;
   }
   
-  // æŒ‡å®šã—ãŸåº§æ¨™å€¤ã®ãƒœã‚¯ã‚»ãƒ«ã®ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã¨ãƒœã‚¯ã‚»ãƒ«å†…ã®ä½ç½®ã‚’æ±‚ã‚ã‚‹
+  // w’è‚µ‚½À•W’l‚Ìƒ{ƒNƒZƒ‹‚ÌƒCƒ“ƒfƒbƒNƒX‚Æƒ{ƒNƒZƒ‹“à‚ÌˆÊ’u‚ğ‹‚ß‚é
   //
   CES::Vec3<int> newIdx;
   CES::Vec3<float> rate;
   getCellIndex(pos, &newIdx, &rate);
 
   if (interpolateMode == 0) {
-    // ã‚¼ãƒ­æ¬¡è£œé–“
+    // ƒ[ƒŸ•âŠÔ
     //
-    // ãƒœã‚¯ã‚»ãƒ«ã®ä¸­å¿ƒã®åº§æ¨™å€¤
+    // ƒ{ƒNƒZƒ‹‚Ì’†S‚ÌÀ•W’l
     //
     CES::Vec3<float> dval = getValue(newIdx, didx);
     if (didx.size() == 1) {
@@ -1044,14 +1044,14 @@ vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
     }
     return result;
   } else if (interpolateMode == 2) {
-    // å¤–æŒ¿ï¼‘æ¬¡
+    // ŠO‘}‚PŸ
     //
     const CES::Vec3<float>* bbox = getBbox();
     const CES::Vec3<size_t>& dims = getDims();
     CES::Vec3<float> pitch;
     getPitch(pitch);
 
-    // ãƒ™ã‚¯ãƒˆãƒ«æ–¹å‘ã«ãƒ”ãƒƒãƒç›¸å½“é›¢ã‚ŒãŸä½ç½®
+    // ƒxƒNƒgƒ‹•ûŒü‚Éƒsƒbƒ`‘Š“–—£‚ê‚½ˆÊ’u
     //
     CES::Vec3<float> newPos;
     for (size_t i = 0; i < 3; ++i) newPos[i] = pos[i] + n[i] * pitch[i];
@@ -1060,15 +1060,15 @@ vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
     return interpolateData(newPos, didx, (exUseTrilinear) ? 1 : 0, n, false);
 
   } else if (interpolateMode == 3) {
-    // å¤–æŒ¿ï¼’æ¬¡
+    // ŠO‘}‚QŸ
     //
     const CES::Vec3<float>* bbox = getBbox();
     const CES::Vec3<size_t>& dims = getDims();
     CES::Vec3<float> pitch;
     getPitch(pitch);
 
-    // ãƒ™ã‚¯ãƒˆãƒ«æ–¹å‘ã«ãƒ”ãƒƒãƒç›¸å½“é›¢ã‚ŒãŸä½ç½®
-    // ãƒ™ã‚¯ãƒˆãƒ«æ–¹å‘ã«ãƒ”ãƒƒãƒç›¸å½“ã®ï¼’å€é›¢ã‚ŒãŸä½ç½®    
+    // ƒxƒNƒgƒ‹•ûŒü‚Éƒsƒbƒ`‘Š“–—£‚ê‚½ˆÊ’u
+    // ƒxƒNƒgƒ‹•ûŒü‚Éƒsƒbƒ`‘Š“–‚Ì‚Q”{—£‚ê‚½ˆÊ’u    
     //
     CES::Vec3<float> newPos1, newPos2;
     for (size_t i = 0; i < 3; ++i) {
@@ -1091,7 +1091,7 @@ vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
   }
 
   if (rate[0] == 0.5 && rate[1] == 0.5 && rate[2] == 0.5) {
-    // ãƒœã‚¯ã‚»ãƒ«ã®ä¸­å¿ƒã®åº§æ¨™å€¤
+    // ƒ{ƒNƒZƒ‹‚Ì’†S‚ÌÀ•W’l
     //
     CES::Vec3<float> dval = getValue(newIdx, didx);
     if (didx.size() == 1) {
@@ -1104,13 +1104,13 @@ vsnData_Sph::interpolateData(const CES::Vec3<float>& pos,
     return result;
   }
 
-  // rate < 0.5 ã®æ™‚ã¯æ‰‹å‰ã®ãƒœã‚¯ã‚»ãƒ«ã‹ã‚‰å¯¾è±¡ã«ã™ã‚‹
+  // rate < 0.5 ‚Ì‚Íè‘O‚Ìƒ{ƒNƒZƒ‹‚©‚ç‘ÎÛ‚É‚·‚é
   //
   if (rate[0] < 0.5) newIdx[0] -= 1; if (newIdx[0] < 0) newIdx[0] = 0;
   if (rate[1] < 0.5) newIdx[1] -= 1; if (newIdx[1] < 0) newIdx[1] = 0;
   if (rate[2] < 0.5) newIdx[2] -= 1; if (newIdx[2] < 0) newIdx[2] = 0;
 
-  // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®æœ€å¤§å€¤
+  // ƒCƒ“ƒfƒbƒNƒX‚ÌÅ‘å’l
   //
   CES::Vec3<float> pitch;
   getPitch(pitch);

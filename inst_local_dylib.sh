@@ -29,7 +29,7 @@ for l in $targLibs; do
 	\cp -f $l $progDir
 	chmod +w $progDir/$lbase
     fi
-    rpath="@rpath/$lbase"
+    rpath="@executable_path/$lbase"
     install_name_tool -id $rpath $progDir/$lbase
     for ll in `otool -L $progDir/$lbase | grep $targ | awk '{print $1}'`; do
 	llbase=`basename $ll`
@@ -37,7 +37,7 @@ for l in $targLibs; do
 	    \cp -f $ll $progDir
 	    chmod +w $progDir/$llbase
 	fi
-	rrpath="@rpath/$llbase"
+	rrpath="@executable_path/$llbase"
 	install_name_tool -change "$ll" $rrpath $progDir/$lbase
     done
     epath="@executable_path/$lbase"

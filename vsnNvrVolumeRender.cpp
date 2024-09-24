@@ -96,8 +96,8 @@ bool vsnNvrVolumeRender::SetVolume(const float* pd, const float minmax[2],
 	    oidx = k*m_origDims.size[0]*m_origDims.size[1]+j*m_origDims.size[0]+i;
 	    widx = k*m_wrapDims.size[0]*m_wrapDims.size[1]+j*m_wrapDims.size[0]+i;
 	    if ( pmask && pmask[oidx] ) {m_pData[widx] = 0; continue;}
-	    if ( pd[oidx] < minmax[0] ) m_pData[widx] = minmax[0];
-	    else if ( pd[oidx] > minmax[1] ) m_pData[widx] = minmax[1];
+	    if ( pd[oidx] < minmax[0] ) {m_pData[widx] = 1; continue;}
+	    else if ( pd[oidx] > minmax[1] ) {m_pData[widx] = 255; continue;}
 	    m_pData[widx] = (unsigned char)(pd[oidx] * facA - facB) + 1;
       } // end of for(i)
 

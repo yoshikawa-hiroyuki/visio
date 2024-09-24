@@ -37,7 +37,8 @@ LDLIBS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --libs` \
 	`xml2-config --libs` $(GLE_LIB) \
 	-lTP -lNVR -lRVR -lglew -lz -liconv
 LDFLAGS = `$(VFRDIR)/config/vfr-config --prefix=$(VFRDIR) --Wx --ldflags` \
-	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib
+	-L$(TP_DIR)/lib -L$(NVR_DIR)/lib -L$(RVR_DIR)/lib -L$(GLEW_DIR)/lib \
+#	-R/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib
 
 INSTALL = /usr/bin/install -c
 
@@ -78,7 +79,8 @@ bundle: $(BUNDLE)/MacOS/$(PROGRAM) \
 	$(BUNDLE)/doc/Visio_UG.pdf \
 	$(BUNDLE)/doc/DFF_V-Tools.pdf \
 	$(BUNDLE)/Resources/$(PROGRAM).rsrc \
-	$(BUNDLE)/Resources/$(PROGRAM).icns
+	$(BUNDLE)/Resources/$(PROGRAM).icns \
+	codesign
 
 $(BUNDLE)/Info.plist: $(TMPLDIR)/Info.plist.in 
 	@$(INSTALL) -d `dirname $@`
@@ -110,6 +112,8 @@ else
 	./inst_local_dylib.sh $@
 endif
 	./inst_local_dylib.sh $@ /opt/GLE
+	@$(INSTALL) -d $(BUNDLE)/etc
+	cp -rf tmpl $(BUNDLE)/etc/
 
 $(BUNDLE)/Resources/$(PROGRAM).rsrc: $(TMPLDIR)/tmpl.rsrc
 	@$(INSTALL) -d `dirname $@`

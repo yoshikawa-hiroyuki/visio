@@ -29,7 +29,7 @@ namespace VSN {
   static const char vsn_progname[] = "Visio";
 
   // version code of the program
-  static const char vsn_version[] = "2.4.10"
+  static const char vsn_version[] = "2.4.10a"
 #ifdef PGSQL
     " (pgsql implements)"
 #endif // PGSQL

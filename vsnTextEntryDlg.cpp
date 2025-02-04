@@ -122,7 +122,10 @@ void vsnTextEntryDlg::OnCancelBtn(wxCommandEvent& event) {
 }
 
 void vsnTextEntryDlg::OnClose(wxCloseEvent& event) {
-  this->Hide();
+  if ( IsModal() )
+    EndModal(vsn_wxIDCANCEL);
+  else
+    this->Hide();
 }
 
 
@@ -253,5 +256,8 @@ void vsnTextEntryBrowsDlg::OnCancelBtn(wxCommandEvent& event) {
 }
 
 void vsnTextEntryBrowsDlg::OnClose(wxCloseEvent& event) {
-  this->Hide();
+  if ( IsModal() )
+    EndModal(vsn_wxIDCANCEL);
+  else
+    this->Hide();
 }

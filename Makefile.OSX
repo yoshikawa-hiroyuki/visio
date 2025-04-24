@@ -65,7 +65,7 @@ endif
 
 
 BUNDLE = $(PROGRAM).app/Contents
-COPYRIGHT = 2005-2010 RIKEN
+COPYRIGHT = 2005-2025 RIKEN
 VERSION = `grep vsn_version vsnApp.h | awk '{print $$NF}' | sed -e 's/;//' -e 's/"//g'`
 
 all : bundle
@@ -84,7 +84,7 @@ bundle: $(BUNDLE)/MacOS/$(PROGRAM) \
 
 $(BUNDLE)/Info.plist: $(TMPLDIR)/Info.plist.in 
 	@$(INSTALL) -d `dirname $@`
-	sed -e "s/IDENTIFIER/`echo $(program_dir) | sed 's,/,.,g'`/" \
+	sed -e "s/IDENTIFIER/jp.riken.visio/" \
 	    -e "s/EXECUTABLE/$(PROGRAM)/" \
 	    -e "s/ICONFILE/$(PROGRAM)\.icns/" \
 	    -e "s/COPYRIGHT/$(COPYRIGHT)/" \

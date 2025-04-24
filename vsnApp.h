@@ -29,14 +29,14 @@ namespace VSN {
   static const char vsn_progname[] = "Visio";
 
   // version code of the program
-  static const char vsn_version[] = "2.4.10a"
+  static const char vsn_version[] = "2.4.10b"
 #ifdef PGSQL
     " (pgsql implements)"
 #endif // PGSQL
     ;
 
   // copyright of the program
-  static const char vsn_copyright[] = "(c) 2005-2015 RIKEN, 2018-2023 Fujitsu Ltd";
+  static const char vsn_copyright[] = "(c) 2005-2015 RIKEN, 2018-2025 Fujitsu Ltd";
 
 
   // symbols for wxMessageDialog

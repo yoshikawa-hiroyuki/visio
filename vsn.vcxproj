@@ -27,22 +27,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>NotSet</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -117,22 +117,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../boost_1_53_0;../VLD;../Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser-1.5.7/include;C:/wxWidgets-3.0.3/include;C:/wxWidgets-3.0.3/lib/vc_x64_lib/mswu;../libxml2-2.9.1/include;../libiconv-1.9.1/include;../glew-1.9.0/include;../vfr/dist/include;../zlib-1.2.8/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WINDOWS;_WINDOWS;wxUSE_GUI=1;WIN32;_WIN32;WIN64;_WIN64;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;UNICODE;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./VLD;./Gears/include;$(VISIO_BOOST_TOP);../rvr/include;../nvr/include;../RikenLib/TextParser/eoe/include;$(VISIO_WX_TOP)/include;$(VISIO_WX_TOP)/lib/vc_x64_lib/mswu;$(VISIO_LIBXML2_TOP)/include;$(VISIO_ICONV_TOP)/include;$(VISIO_GLEW_TOP)/include;../vfr/dist/include;$(VISIO_ZLIB_TOP)/include;$(VISIO_GLE_TOP)/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;WIN64;_WINDOWS;WINDOWS;_UNICODE;UNICODE;wxUSE_GUI=1;_USE_GLE=1;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;OPENGL_10=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TP.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv.lib;charset.lib;glew32.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
+      <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TextParser.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv_a.lib;glew32.lib;gle.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)Visio.exe</OutputFile>
-      <AdditionalLibraryDirectories>../RikenLib/TextParser-1.5.7/lib;../rvr/lib;../nvr/lib;c:/wxWidgets-3.0.3/lib/vc_x64_lib;../libxml2-2.9.1/lib;../libiconv-1.9.1/lib;../glew-1.9.0/lib;../vfr/dist/lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser/eoe/lib;../rvr/lib;../nvr/lib;$(VISIO_WX_TOP)/lib/vc_x64_lib;$(VISIO_LIBXML2_TOP)/lib;$(VISIO_ICONV_TOP)/lib;$(VISIO_GLEW_TOP)/lib/Release/x64;../vfr/dist/lib;$(VISIO_GLE_TOP)/src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -142,6 +141,9 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(VISIO_GLEW_TOP)\bin\Release\x64\glew32.dll $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -177,7 +179,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../Boost/boost_1_84_0;./VLD;./Gears/include;../rvr/include;../nvr/include;../RikenLib/TextParser/eoe/include;../../wxWidgets-3.0.5/include;../../wxWidgets-3.0.5/lib/vc_x64_lib/mswu;../../LXML/libxml2-2.9.5.win64/include;../../LXML/iconv-1.14.win64/include;../../GLEW/glew-1.11.0/include;../vfr/dist/include;../../LXML/zlib-1.2.11.win64/include;../../GLE/glextrusion/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./VLD;./Gears/include;$(VISIO_BOOST_TOP);../rvr/include;../nvr/include;../RikenLib/TextParser/eoe/include;$(VISIO_WX_TOP)/include;$(VISIO_WX_TOP)/lib/vc_x64_lib/mswu;$(VISIO_LIBXML2_TOP)/include;$(VISIO_ICONV_TOP)/include;$(VISIO_GLEW_TOP)/include;../vfr/dist/include;$(VISIO_ZLIB_TOP)/include;$(VISIO_GLE_TOP)/src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)Visio.exe</OutputFile>
@@ -188,12 +190,15 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
-      <AdditionalLibraryDirectories>../RikenLib/TextParser/eoe/lib;../rvr/lib;../nvr/lib;../../wxWidgets-3.0.5/lib/vc_x64_lib;../../LXML/libxml2-2.9.5.win64/lib;../../LXML/iconv-1.14.win64/lib;../../GLEW/glew-1.11.0/lib/Release/x64;../vfr/dist/lib;../../GLE/glextrusion/src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../RikenLib/TextParser/eoe/lib;../rvr/lib;../nvr/lib;$(VISIO_WX_TOP)/lib/vc_x64_lib;$(VISIO_LIBXML2_TOP)/lib;$(VISIO_ICONV_TOP)/lib;$(VISIO_GLEW_TOP)/lib/Release/x64;../vfr/dist/lib;$(VISIO_GLE_TOP)/src;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>vfr.lib;vfru.lib;vfrWx.lib;nvr.lib;rvr.lib;TextParser.lib;wxbase30u.lib;wxbase30u_net.lib;wxmsw30u_core.lib;wxmsw30u_gl.lib;wxexpat.lib;wxjpeg.lib;wxpng.lib;wxregexu.lib;wxtiff.lib;wxzlib.lib;libxml2_a.lib;iconv_a.lib;glew32.lib;gle.lib;glu32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;comctl32.lib;rpcrt4.lib;wsock32.lib</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <EmbedManagedResourceFile>%(EmbedManagedResourceFile)</EmbedManagedResourceFile>
       <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
     </Link>
+    <PostBuildEvent>
+      <Command>copy $(VISIO_GLEW_TOP)\bin\Release\x64\glew32.dll $(OutDir)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="vsnAnchor.cpp" />
